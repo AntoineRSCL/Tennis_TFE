@@ -1,0 +1,148 @@
+{# templates/registration/register.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Inscription</h1>
+    
+    {{ form_start(form) }}
+
+    <div id="form-container">
+        <!-- Étape 1: Information de Connexion -->
+        <div class="form-step active">
+            <h2>Information de Connexion</h2>
+            <div class="form-group">
+                {{ form_row(form.username) }}
+            </div>
+            <div class="form-group">
+                {{ form_row(form.password) }}
+            </div>
+            <div class="form-group" id="password-confirm-group" style="display:none;">
+                {{ form_row(form.confirm_password, { 'label': 'Confirmer le mot de passe' }) }}
+                <span id="password-error" class="text-danger" style="display:none;">Les mots de passe ne correspondent pas.</span>
+            </div>
+
+        </div>
+
+        <!-- Étape 2: Informations Personnelles -->
+        <div class="form-step">
+            <h2>Informations Personnelles</h2>
+            <div class="form-group">
+                {{ form_row(form.firstname) }}
+            </div>
+            <div class="form-group">
+                {{ form_row(form.lastname) }}
+            </div>
+            <div class="form-group">
+                {{ form_row(form.birth_date) }}
+            </div>
+        </div>
+
+        <!-- Étape 3: Information de Contact -->
+        <div class="form-step">
+            <h2>Information de Contact</h2>
+            <div class="form-group">
+                {{ form_row(form.email) }}
+            </div>
+            <div class="form-group">
+                {{ form_row(form.phone) }}
+            </div>
+            <div class="form-group">
+                {{ form_row(form.private, {
+                    label: "Voulez-vous apparaître dans le carnet d'adresse des membres ?"
+                }) }}
+            </div>
+        </div>
+
+        <!-- Étape 4: Autres Informations -->
+        <div class="form-step">
+            <h2>Autres Informations</h2>
+            <div class="form-group">
+                {{ form_row(form.ranking) }}
+            </div>
+            <div class="form-group">
+                {{ form_row(form.picture, {
+                    label: "Image de profil"
+                }) }}
+            </div>
+        </div>
+    </div>
+
+    <!-- Boutons de navigation -->
+    <div class="form-navigation">
+        <button type="button" id="prevBtn" class="btn btn-secondary" onclick="nextPrev(-1)" style="display:none;">Étape Précédente</button>
+        <button type="button" id="nextBtn" class="btn btn-primary" onclick="nextPrev(1)">Étape Suivante</button>
+    </div>
+
+    {{ form_end(form) }}
+
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    let currentStep = 0; // Initialiser l'étape actuelle
+    showStep(currentStep); // Afficher la première étape
+
+    function showStep(n) {
+        let steps = document.getElementsByClassName("form-step");
+
+        // Vérifie que l'index est valide
+        if (n < 0 || n >= steps.length) {
+            return; // Sortir de la fonction si l'index est hors limites
+        }
+
+        // Masquer toutes les étapes
+        for (let i = 0; i < steps.length; i++) {
+            steps[i].style.display = "none";
+        }
+
+        // Afficher l'étape actuelle
+        steps[n].style.display = "block";
+
+        // Afficher ou masquer les boutons "Suivant" et "Précédent"
+        if (n == 0) {
+            document.getElementById("prevBtn").style.display = "none";
+            document.getElementById("password-confirm-group").style.display = "block"; // Afficher le champ de confirmation
+        } else {
+            document.getElementById("prevBtn").style.display = "inline";
+            document.getElementById("password-confirm-group").style.display = "none"; // Masquer le champ de confirmation
+        }
+
+        if (n == (steps.length - 1)) {
+            document.getElementById("nextBtn").innerHTML = "Soumettre";
+        } else {
+            document.getElementById("nextBtn").innerHTML = "Étape Suivante";
+        }
+    }
+
+    window.nextPrev = function(n) {
+    let steps = document.getElementsByClassName("form-step");
+
+    // Vérifier la confirmation du mot de passe lors de l'étape 1
+    if (currentStep === 0 && n === 1) {
+        let password = document.getElementById("{{ form.password.vars.id }}").value;
+        let confirmPassword = document.getElementById("{{ form.confirm_password.vars.id }}").value; // Accéder à la valeur du champ Symfony
+
+        if (password !== confirmPassword) {
+            document.getElementById("password-error").style.display = "block";
+            return; // Ne pas avancer si les mots de passe ne correspondent pas
+        } else {
+            document.getElementById("password-error").style.display = "none";
+        }
+    }
+
+    steps[currentStep].style.display = "none"; // Masquer l'étape actuelle
+    currentStep += n; // Avancer ou reculer dans les étapes
+
+    if (currentStep >= steps.length) {
+        document.querySelector('form').submit(); // Soumettre le formulaire si toutes les étapes sont complétées
+    } else {
+        showStep(currentStep); // Afficher l'étape suivante
+    }
+}
+});
+</script>
+{% endblock %}

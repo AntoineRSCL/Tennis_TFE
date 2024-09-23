@@ -5,10 +5,12 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -61,6 +63,41 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private ?bool $address_verified = null;
+
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function calculDoubleRanking(): void
+    {
+        if(empty($this->double_ranking)) {
+            $rankings = ['C30.6', 'C30.5', 'C30.4', 'C30.3', 'C30.2', 'C30.1', 'C30', 'C15.5', 'C15.4', 'C15.3', 'C15.2', 'C15.1', 'C15', 'B+4/6', 'B+2/6', 'B0', 'B-2/6', 'B-4/6', 'B-15', 'B-15.1', 'B-15.2', 'B-15.4', 'A.Nat', 'A.Int'];    
+            $doubleRankings = [3, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115];
+
+            $index = array_search($this->ranking, $rankings);
+            if ($index !== false) {
+                $this->double_ranking = (string) $doubleRankings[$index]; // Convertir en chaîne
+            } else {
+                $this->double_ranking = 3; // Ou une valeur par défaut
+            }
+        }
+    }
+
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function setStatusVerified(): void 
+    {
+        if(empty($this->address_verified)) {
+            $this->address_verified = false;
+        }
+    }
+
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function setRolesUser(): void 
+    {
+        if(empty($this->roles)) {
+            $this->roles[] = 'ROLE_USER';
+        }
+    }
 
     public function getId(): ?int
     {
