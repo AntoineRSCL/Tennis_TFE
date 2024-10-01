@@ -1,0 +1,124 @@
+@import '../variables/variable.scss';
+.containerComponent{
+    width: 100%;
+    min-height: calc(100vh - 125px);
+    background-color: $white;
+    margin-top: 125px;
+    @include flex(row);
+    .loginContainer{
+        width: 100%;
+        max-width: 1200px;
+        min-height: 600px;
+        @include flex(row);
+        border-radius: 15px;
+        @media all and (max-width:1200px) {
+            max-width: 900px;
+        }
+        @media all and (max-width:900px) {
+            flex-direction: column;
+            max-width: 700px;
+            margin: 50px 0;
+        }
+        @media all and (max-width:700px) {
+            max-width: 500px;
+        }
+        @media all and (max-width:500px) {
+            max-width: 350px;
+        }
+
+        .formLogin{
+            border-radius: 15px 0 0 15px;
+            background-color: white;
+            width: 50%;
+            height: 600px;
+            @include flex(row);
+            .formLoginContainer{
+                width: 80%;
+                height: 500px;
+                @include flex(column);
+                align-items: start;
+                color: $black;
+
+                h1{
+                    margin: 0;
+                }
+                h4{
+                    margin-bottom: 20px;
+                    font-size: 16px;
+                    color: $yellow;
+                }
+
+                .errorLogin{
+                    width: 100%;
+                    height: 50px;
+                    background-color: red;
+                    @include flex(row);
+                    font-weight: bold;
+                }
+
+                form{
+                    width: 100%;
+                    @include flex(column);
+                    align-items: start;
+                    gap: 20px;
+                }
+            }
+        }
+
+        .imgLogin{
+            border-radius: 0 15px 15px 0;
+            background-color: $black;
+            width: 50%;
+            height: 600px;
+            @include flex(row);
+            .imgLoginContainer{
+                width: 60%;
+                height: 500px;
+                background-color: rgba(255, 255, 255, 0.3);
+                border-radius: 20px;
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                position: relative;
+
+                .textImgLogin{
+                    position: absolute;
+                    top: 20px;
+                    left: 20px;
+                    width: 80%;
+                    min-height: 200px;
+                    font-family: $roboto;
+                    @include flex(column);
+                    align-items: start;
+                    justify-content: start;
+                    span{
+                        font-size: 24px;
+                        color: $yellow;
+                    }
+                }
+                .containerImgLogin{
+                    position: absolute;
+                    bottom: 0;
+                    right: -50px;
+                    height: 350px;
+                    width: 250px;
+                    img{
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+            }
+        }
+
+        @media all and (max-width:900px) {
+            .imgLogin{
+                width: 80%;
+            }
+            .formLogin{
+                width: 80%;
+            }
+        }
+        
+        
+    }
+}

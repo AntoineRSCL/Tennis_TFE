@@ -7,6 +7,9 @@
     position: fixed;
     box-sizing: border-box;
     background-color: $yellow;
+    z-index: 1000;
+    top: 0; // ajouter pour fixer en haut de la page
+    left: 0; // ajouter pour fixer sur le côté gauche
 
     .containerHeader{
         position: fixed;
@@ -19,6 +22,9 @@
             height: 25px;
             background-color: $black;
             @include flex(column);
+            @media all and (max-width:500px) {
+                height: 50px;
+            }
             .infoConnexionContainer{
                 width: 100%;
                 max-width: 1200px;
@@ -33,6 +39,11 @@
                 }
                 @media all and (max-width:700px) {
                     max-width: 500px;
+                }
+                @media all and (max-width:500px) {
+                    max-width: 350px;
+                    height: 50px;
+                    flex-direction: column;
                 }
 
                 .infoHeader, .loginHeader{
@@ -73,7 +84,7 @@
         .navHeader{
             width: 100%;
             height: 100px;
-            background-color: $white;
+            background-color: white;
             color: $black;
             font-family: $bebas;
             @include flex(row);
@@ -92,7 +103,7 @@
                 @media all and (max-width:700px) {
                     max-width: 500px;
                 }
-
+                
                 .logoContainer{
                     width: 150px;
                     height: 100px;
@@ -101,11 +112,11 @@
 
                     .logo{
                         width: 100%;
-                        height: 85px;
+                        height: 75px;
                         @include flex(column);
                         img{
                             margin-top: 5px;
-                            width: 85px;
+                            width: 75px;
                             height: 100%;
                         }
                     }
@@ -113,6 +124,206 @@
                         position: absolute;
                         width: 100%;
                         height: 100%;
+                    }
+                }
+
+                .containerBurger{
+                    @include flex(row);
+                    display: none;
+                    #nav-icon1 {
+                        display: none;
+                        width: 60px;
+                        height: 45px;
+                        position: relative;
+                        margin: 0px auto;
+                        margin-right: 0;
+                        -webkit-transform: rotate(0deg);
+                        -moz-transform: rotate(0deg);
+                        -o-transform: rotate(0deg);
+                        transform: rotate(0deg);
+                        -webkit-transition: .5s ease-in-out;
+                        -moz-transition: .5s ease-in-out;
+                        -o-transition: .5s ease-in-out;
+                        transition: .5s ease-in-out;
+                        cursor: pointer;
+        
+                        span {
+                            display: block;
+                            position: absolute;
+                            height: 9px;
+                            width: 50%;
+                            background: $yellow;
+                            opacity: 1;
+                            -webkit-transform: rotate(0deg);
+                            -moz-transform: rotate(0deg);
+                            -o-transform: rotate(0deg);
+                            transform: rotate(0deg);
+                            -webkit-transition: .25s ease-in-out;
+                            -moz-transition: .25s ease-in-out;
+                            -o-transition: .25s ease-in-out;
+                            transition: .25s ease-in-out;
+                        
+                            &:nth-child(even) {
+                                left: 50%;
+                                border-radius: 0 9px 9px 0;
+                            }
+                        
+                            &:nth-child(odd) {
+                                left: 0;
+                                border-radius: 9px 0 0 9px;
+                            }
+                        
+                            &:nth-child(1),
+                            &:nth-child(2) {
+                                top: 0;
+                            }
+                        
+                            &:nth-child(3),
+                            &:nth-child(4) {
+                                top: 18px;
+                            }
+                        
+                            &:nth-child(5),
+                            &:nth-child(6) {
+                                top: 36px;
+                            }
+                        }
+                        &.open {
+                            span {
+                                &:nth-child(1),
+                                &:nth-child(6) {
+                                transform: rotate(45deg);
+                                left: 5px;
+                                top: 7px;
+                                }
+                        
+                                &:nth-child(2),
+                                &:nth-child(5) {
+                                transform: rotate(-45deg);
+                                left: calc(50% - 5px);
+                                top: 7px;
+                                }
+                        
+                                &:nth-child(3) {
+                                left: -50%;
+                                opacity: 0;
+                                }
+                        
+                                &:nth-child(4) {
+                                left: 100%;
+                                opacity: 0;
+                                }
+                        
+                                &:nth-child(5) {
+                                left: 5px;
+                                top: 29px;
+                                }
+                        
+                                &:nth-child(6) {
+                                left: calc(50% - 5px);
+                                top: 29px;
+                                }
+                            }
+                        } 
+                    }
+                    @media all and (max-width:800px) {
+                        display: block;
+                        @media all and (max-width:500px) {
+                            width: 200px;
+                        }
+                        
+                        #nav-icon1 {
+                            display: block;
+                        }
+                    }
+                }
+                @media all and (max-width:500px) {
+                    max-width: 350px;
+                    height: 75px;
+
+                    .logoContainer{
+                        height: 75px;
+
+                        .logo{
+                            height: 60px;
+                            img{
+                                width: 60px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.menuBurger{
+    width: 100%;
+    min-height: calc(100vh - 125px);
+    @include flex(row);
+    align-items: start;
+    position: fixed;
+    top: 125px;
+    left: -100%;
+    z-index: 100;
+    transition: all 0.5s;
+    font-family: $roboto;
+    background-color: $yellow;
+    &.open{
+        left: -0%;
+    }
+
+    .containerMenuBurger{
+        width: 80%;
+        min-height: 0vh;
+        padding: 10px;
+        @include flex(column);
+        align-items: start;
+        color: $black;
+        .ulPrincipal{
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            @include flex(column);
+            justify-content: start;
+            align-items: start;
+            gap: 10px;
+            li{
+                list-style: none;
+                width: 100%;
+                @include flex(row);
+                justify-content: start;
+                gap: 15px;
+                a{
+                    text-decoration: none;
+                    color: $white;
+                    font-size: 18px;
+                }
+                svg{
+                    width: 20px;
+                    height: 20px;
+                    fill: $white;
+                }
+            }
+            
+            span{
+                color: $black;
+                font-size: 18px;
+            }
+            .sousUl{
+                overflow: hidden;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                @include flex(column);
+                justify-content: start;
+                align-items: start;
+                gap: 10px;
+                li{
+                    width: 100%;
+                    a{
+                        
+                        margin-left: 50px;
                     }
                 }
             }

@@ -7,8 +7,11 @@ import './bootstrap.js';
  */
 import './styles/app.css';
 import './styles/bootstrap.min.css';
+
+import './styles/pages/login.scss';
 import './styles/pages/register.scss';
 
 import './styles/partials/header.scss';
 
-console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
+import './js/burger.js'
+
