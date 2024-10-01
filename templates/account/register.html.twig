@@ -2,7 +2,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<div class="container mt-4">
+<div class="container inscription">
     <h1>Inscription</h1>
     
     {{ form_start(form) }}
@@ -66,6 +66,14 @@
                 }) }}
             </div>
         </div>
+
+        <!-- Étape 5: Récapitulatif -->
+        <div class="form-step">
+            <h2>Récapitulatif des informations</h2>
+            <ul id="recap-container">
+                <!-- Les informations seront insérées ici via JavaScript -->
+            </ul>
+        </div>
     </div>
 
     <!-- Boutons de navigation -->
@@ -82,67 +90,84 @@
 
 {% block javascripts %}
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    let currentStep = 0; // Initialiser l'étape actuelle
-    showStep(currentStep); // Afficher la première étape
+    document.addEventListener("DOMContentLoaded", function() {
+        let currentStep = 0; // Initialiser l'étape actuelle
+        showStep(currentStep); // Afficher la première étape
 
-    function showStep(n) {
-        let steps = document.getElementsByClassName("form-step");
+        function showStep(n) {
+            let steps = document.getElementsByClassName("form-step");
 
-        // Vérifie que l'index est valide
-        if (n < 0 || n >= steps.length) {
-            return; // Sortir de la fonction si l'index est hors limites
+            // Vérifie que l'index est valide
+            if (n < 0 || n >= steps.length) {
+                return; // Sortir de la fonction si l'index est hors limites
+            }
+
+            // Masquer toutes les étapes
+            for (let i = 0; i < steps.length; i++) {
+                steps[i].style.display = "none";
+            }
+
+            // Afficher l'étape actuelle
+            steps[n].style.display = "block";
+
+            // Afficher ou masquer les boutons "Suivant" et "Précédent"
+            if (n == 0) {
+                document.getElementById("prevBtn").style.display = "none";
+                document.getElementById("password-confirm-group").style.display = "block"; // Afficher le champ de confirmation
+            } else {
+                document.getElementById("prevBtn").style.display = "inline";
+                document.getElementById("password-confirm-group").style.display = "none"; // Masquer le champ de confirmation
+            }
+
+            if (n == (steps.length - 1)) {
+                document.getElementById("nextBtn").innerHTML = "Soumettre";
+                generateRecap(); // Générer le récapitulatif des informations
+            } else {
+                document.getElementById("nextBtn").innerHTML = "Étape Suivante";
+            }
         }
 
-        // Masquer toutes les étapes
-        for (let i = 0; i < steps.length; i++) {
-            steps[i].style.display = "none";
+        window.nextPrev = function(n) {
+            let steps = document.getElementsByClassName("form-step");
+
+            // Vérifier la confirmation du mot de passe lors de l'étape 1
+            if (currentStep === 0 && n === 1) {
+                let password = document.getElementById("{{ form.password.vars.id }}").value;
+                let confirmPassword = document.getElementById("{{ form.confirm_password.vars.id }}").value;
+
+                if (password !== confirmPassword) {
+                    document.getElementById("password-error").style.display = "block";
+                    return; // Ne pas avancer si les mots de passe ne correspondent pas
+                } else {
+                    document.getElementById("password-error").style.display = "none";
+                }
+            }
+
+            steps[currentStep].style.display = "none"; // Masquer l'étape actuelle
+            currentStep += n; // Avancer ou reculer dans les étapes
+
+            if (currentStep >= steps.length) {
+                document.querySelector('form').submit(); // Soumettre le formulaire si toutes les étapes sont complétées
+            } else {
+                showStep(currentStep); // Afficher l'étape suivante
+            }
+        };
+
+        function generateRecap() {
+            let recapContainer = document.getElementById('recap-container');
+            recapContainer.innerHTML = ''; // Réinitialiser le contenu
+
+            // Ajouter les informations à récapituler
+            recapContainer.innerHTML += `<li><strong>Nom d'utilisateur:</strong> ${document.getElementById("{{ form.username.vars.id }}").value}</li>`;
+            recapContainer.innerHTML += `<li><strong>Prénom:</strong> ${document.getElementById("{{ form.firstname.vars.id }}").value}</li>`;
+            recapContainer.innerHTML += `<li><strong>Nom:</strong> ${document.getElementById("{{ form.lastname.vars.id }}").value}</li>`;
+            recapContainer.innerHTML += `<li><strong>Date de naissance:</strong> ${document.getElementById("{{ form.birth_date.vars.id }}").value}</li>`;
+            recapContainer.innerHTML += `<li><strong>Email:</strong> ${document.getElementById("{{ form.email.vars.id }}").value}</li>`;
+            recapContainer.innerHTML += `<li><strong>Téléphone:</strong> ${document.getElementById("{{ form.phone.vars.id }}").value}</li>`;
+            recapContainer.innerHTML += `<li><strong>Apparaître dans le carnet d'adresse:</strong> ${document.getElementById("{{ form.private.vars.id }}").checked ? "Oui" : "Non"}</li>`;
+            recapContainer.innerHTML += `<li><strong>Classement:</strong> ${document.getElementById("{{ form.ranking.vars.id }}").value}</li>`;
+            recapContainer.innerHTML += `<li><strong>Image de profil:</strong> ${document.getElementById("{{ form.picture.vars.id }}").value}</li>`;
         }
-
-        // Afficher l'étape actuelle
-        steps[n].style.display = "block";
-
-        // Afficher ou masquer les boutons "Suivant" et "Précédent"
-        if (n == 0) {
-            document.getElementById("prevBtn").style.display = "none";
-            document.getElementById("password-confirm-group").style.display = "block"; // Afficher le champ de confirmation
-        } else {
-            document.getElementById("prevBtn").style.display = "inline";
-            document.getElementById("password-confirm-group").style.display = "none"; // Masquer le champ de confirmation
-        }
-
-        if (n == (steps.length - 1)) {
-            document.getElementById("nextBtn").innerHTML = "Soumettre";
-        } else {
-            document.getElementById("nextBtn").innerHTML = "Étape Suivante";
-        }
-    }
-
-    window.nextPrev = function(n) {
-    let steps = document.getElementsByClassName("form-step");
-
-    // Vérifier la confirmation du mot de passe lors de l'étape 1
-    if (currentStep === 0 && n === 1) {
-        let password = document.getElementById("{{ form.password.vars.id }}").value;
-        let confirmPassword = document.getElementById("{{ form.confirm_password.vars.id }}").value; // Accéder à la valeur du champ Symfony
-
-        if (password !== confirmPassword) {
-            document.getElementById("password-error").style.display = "block";
-            return; // Ne pas avancer si les mots de passe ne correspondent pas
-        } else {
-            document.getElementById("password-error").style.display = "none";
-        }
-    }
-
-    steps[currentStep].style.display = "none"; // Masquer l'étape actuelle
-    currentStep += n; // Avancer ou reculer dans les étapes
-
-    if (currentStep >= steps.length) {
-        document.querySelector('form').submit(); // Soumettre le formulaire si toutes les étapes sont complétées
-    } else {
-        showStep(currentStep); // Afficher l'étape suivante
-    }
-}
-});
+    });
 </script>
 {% endblock %}

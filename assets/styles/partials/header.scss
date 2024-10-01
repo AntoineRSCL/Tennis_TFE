@@ -1,0 +1,121 @@
+@import '../variables/variable.scss';
+.header{
+    width: 100%;
+    height: 125px;
+    @include flex(row);
+    font-family: $roboto;
+    position: fixed;
+    box-sizing: border-box;
+    background-color: $yellow;
+
+    .containerHeader{
+        position: fixed;
+        width: 100%;
+        height: 125px;
+        @include flex(column);
+
+        .infoConnexion{
+            width: 100%;
+            height: 25px;
+            background-color: $black;
+            @include flex(column);
+            .infoConnexionContainer{
+                width: 100%;
+                max-width: 1200px;
+                height: 25px;
+                @include flex(row);
+                justify-content: space-between;
+                @media all and (max-width:1250px) {
+                    max-width: 900px;
+                }
+                @media all and (max-width:925px) {
+                    max-width: 700px;
+                }
+                @media all and (max-width:700px) {
+                    max-width: 500px;
+                }
+
+                .infoHeader, .loginHeader{
+                    @include flex(row);
+                    justify-content: start;
+                    height: 25px;
+                    color: $white;
+                    gap: 5px;
+
+                    svg{
+                        width: 12px;
+                        height: 12px;
+                        fill: $white;
+                    }
+                    span{
+                        margin-right: 10px;
+                        font-size: 12px;
+                    }
+                }
+                .loginHeader{
+                    span{
+                        margin: 0;
+                    }
+                    position: relative;
+                    a{
+                        position: absolute;
+                        height: 100%;
+                        width: 100%;
+                    }
+                    &:hover{
+                        span{
+                            text-decoration: underline;
+                        }
+                    }
+                }
+            }
+        }
+        .navHeader{
+            width: 100%;
+            height: 100px;
+            background-color: $white;
+            color: $black;
+            font-family: $bebas;
+            @include flex(row);
+            .navHeaderContainer{
+                width: 100%;
+                max-width: 1200px;
+                height: 100px;
+                @include flex(row);
+                justify-content: space-between;
+                @media all and (max-width:1250px) {
+                    max-width: 900px;
+                }
+                @media all and (max-width:925px) {
+                    max-width: 700px;
+                }
+                @media all and (max-width:700px) {
+                    max-width: 500px;
+                }
+
+                .logoContainer{
+                    width: 150px;
+                    height: 100px;
+                    @include flex(column);
+                    position: relative;
+
+                    .logo{
+                        width: 100%;
+                        height: 85px;
+                        @include flex(column);
+                        img{
+                            margin-top: 5px;
+                            width: 85px;
+                            height: 100%;
+                        }
+                    }
+                    a{
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+            }
+        }
+    }
+}
