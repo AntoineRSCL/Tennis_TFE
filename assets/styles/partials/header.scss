@@ -1,5 +1,8 @@
+// Import des variables (si non déjà fait)
 @import '../variables/variable.scss';
-.header{
+
+// Styles pour le header
+.header {
     width: 100%;
     height: 125px;
     @include flex(row);
@@ -8,103 +11,207 @@
     box-sizing: border-box;
     background-color: $yellow;
     z-index: 1000;
-    top: 0; // ajouter pour fixer en haut de la page
-    left: 0; // ajouter pour fixer sur le côté gauche
+    top: 0;
+    left: 0;
 
-    .containerHeader{
+    .containerHeader {
         position: fixed;
         width: 100%;
         height: 125px;
         @include flex(column);
 
-        .infoConnexion{
+        .infoConnexion {
             width: 100%;
             height: 25px;
             background-color: $black;
             @include flex(column);
-            @media all and (max-width:500px) {
+            @media all and (max-width: 500px) {
                 height: 50px;
             }
-            .infoConnexionContainer{
+
+            .infoConnexionContainer {
                 width: 100%;
                 max-width: 1200px;
                 height: 25px;
                 @include flex(row);
                 justify-content: space-between;
-                @media all and (max-width:1250px) {
+                @media all and (max-width: 1250px) {
                     max-width: 900px;
                 }
-                @media all and (max-width:925px) {
+                @media all and (max-width: 925px) {
                     max-width: 700px;
                 }
-                @media all and (max-width:700px) {
+                @media all and (max-width: 700px) {
                     max-width: 500px;
                 }
-                @media all and (max-width:500px) {
+                @media all and (max-width: 500px) {
                     max-width: 350px;
                     height: 50px;
                     flex-direction: column;
                 }
 
-                .infoHeader, .loginHeader{
+                .infoHeader,
+                .loginHeader {
                     @include flex(row);
                     justify-content: start;
                     height: 25px;
                     color: $white;
                     gap: 5px;
 
-                    svg{
+                    svg {
                         width: 12px;
                         height: 12px;
                         fill: $white;
                     }
-                    span{
+
+                    span {
                         margin-right: 10px;
                         font-size: 12px;
                     }
                 }
-                .loginHeader{
-                    span{
+
+                .loginHeader {
+                    span {
                         margin: 0;
                     }
                     position: relative;
-                    a{
+
+
+                    a {
                         position: absolute;
                         height: 100%;
                         width: 100%;
                     }
-                    &:hover{
-                        span{
+
+                    &:hover {
+                        span {
                             text-decoration: underline;
+                        }
+                    }
+                }
+
+                .menuUserHeader{
+                    position: relative;
+                    z-index: 10000;
+                    width: 250px;
+                    height: 25px;
+                    transition: height 0.5s;
+                    cursor: pointer;
+                    color: $white;
+                    border-radius: 5px;
+                    transition: all 0.5s;
+                    &:hover{
+                        background-color: $white;
+                        color: $black;
+                        border-radius:  5px 5px 0 0;
+                        .infoUserHeader .logoMUH svg{
+                            fill: $black;
+                        }
+                    }
+                    .infoUserHeader{
+                        position: absolute;
+                        width: 100%;
+                        height: 25px;
+                        @include flex(row);
+                        gap: 10px;
+                        .containerPicture{
+                            width: 20px;
+                            border-radius: 5px;
+                            img{
+                                width: 100%;
+                                height: 100%;
+                                object-fit: cover;
+                                border-radius: 5px;
+                            }
+                        }
+                        .logoMUH{
+                            width: 20px;
+                            svg{
+                                width: 15px;
+                                height: 15px;
+                                fill: $white;
+                            }
+                        }
+                    }
+                    .linkMUH{
+                        display: none;
+                    }
+
+                    &.active{
+                        background-color: $white;
+                        color: $black;
+                        border-radius: 5px 5px 0 0;
+                        .linkMUH{
+                            display: block;
+                            position: absolute;
+                            width: 100%;
+                            min-height: 150px;
+                            border-radius: 0 0 5px 5px;
+                            top: 25px;
+                            gap: 5px;
+                            @include flex(column);
+                            background-color: $black;
+                            .alinkMUH{
+                                width: 100%;
+                                height: 25px;
+                                @include flex(column);
+                                position: relative;
+                                a{
+                                    width: 100%;
+                                    height: 100%;
+                                    text-align: center;
+                                    color: $white;
+                                    text-decoration: none;
+
+                                    &:hover{
+                                        background-color: $yellow;
+                                        color: $black;
+                                    }
+                                }
+                            }
+                            .underlineMUH{
+                                width: 100%;
+                                height: 1px;
+                                background-color: $white;
+
+                            }
+                        }
+                        .infoUserHeader .logoMUH svg{
+                            fill: $black;
                         }
                     }
                 }
             }
         }
-        .navHeader{
+
+        .navHeader {
             width: 100%;
             height: 100px;
             background-color: white;
             color: $black;
             font-family: $bebas;
             @include flex(row);
-            .navHeaderContainer{
+
+            .navHeaderContainer {
                 width: 100%;
                 max-width: 1200px;
                 height: 100px;
                 @include flex(row);
                 justify-content: space-between;
-                @media all and (max-width:1250px) {
+
+                @media all and (max-width: 1250px) {
                     max-width: 900px;
                 }
-                @media all and (max-width:925px) {
+
+                @media all and (max-width: 925px) {
                     max-width: 700px;
                 }
-                @media all and (max-width:700px) {
+
+                @media all and (max-width: 700px) {
                     max-width: 500px;
                 }
-                
-                .logoContainer{
+
+                .logoContainer {
                     width: 115px;
                     height: 100px;
                     @include flex(column);
@@ -112,27 +219,30 @@
                     align-items: start;
                     position: relative;
 
-                    .logo{
+                    .logo {
                         width: 100%;
                         height: 75px;
                         @include flex(column);
-                        img{
+
+                        img {
                             margin-top: 5px;
                             width: 75px;
                             height: 100%;
                             object-fit: cover;
                         }
                     }
-                    a{
+
+                    a {
                         position: absolute;
                         width: 100%;
                         height: 100%;
                     }
                 }
 
-                .containerBurger{
+                .containerBurger {
                     @include flex(row);
                     display: none;
+
                     #nav-icon1 {
                         display: none;
                         width: 60px;
@@ -140,16 +250,10 @@
                         position: relative;
                         margin: 0px auto;
                         margin-right: 0;
-                        -webkit-transform: rotate(0deg);
-                        -moz-transform: rotate(0deg);
-                        -o-transform: rotate(0deg);
                         transform: rotate(0deg);
-                        -webkit-transition: .5s ease-in-out;
-                        -moz-transition: .5s ease-in-out;
-                        -o-transition: .5s ease-in-out;
                         transition: .5s ease-in-out;
                         cursor: pointer;
-        
+
                         span {
                             display: block;
                             position: absolute;
@@ -157,100 +261,95 @@
                             width: 50%;
                             background: $yellow;
                             opacity: 1;
-                            -webkit-transform: rotate(0deg);
-                            -moz-transform: rotate(0deg);
-                            -o-transform: rotate(0deg);
                             transform: rotate(0deg);
-                            -webkit-transition: .25s ease-in-out;
-                            -moz-transition: .25s ease-in-out;
-                            -o-transition: .25s ease-in-out;
                             transition: .25s ease-in-out;
-                        
+
                             &:nth-child(even) {
                                 left: 50%;
                                 border-radius: 0 9px 9px 0;
                             }
-                        
+
                             &:nth-child(odd) {
                                 left: 0;
                                 border-radius: 9px 0 0 9px;
                             }
-                        
+
                             &:nth-child(1),
                             &:nth-child(2) {
                                 top: 0;
                             }
-                        
+
                             &:nth-child(3),
                             &:nth-child(4) {
                                 top: 18px;
                             }
-                        
+
                             &:nth-child(5),
                             &:nth-child(6) {
                                 top: 36px;
                             }
                         }
+
                         &.open {
                             span {
                                 &:nth-child(1),
                                 &:nth-child(6) {
-                                transform: rotate(45deg);
-                                left: 5px;
-                                top: 7px;
+                                    transform: rotate(45deg);
+                                    left: 5px;
+                                    top: 7px;
                                 }
-                        
+
                                 &:nth-child(2),
                                 &:nth-child(5) {
-                                transform: rotate(-45deg);
-                                left: calc(50% - 5px);
-                                top: 7px;
+                                    transform: rotate(-45deg);
+                                    left: calc(50% - 5px);
+                                    top: 7px;
                                 }
-                        
+
                                 &:nth-child(3) {
-                                left: -50%;
-                                opacity: 0;
+                                    left: -50%;
+                                    opacity: 0;
                                 }
-                        
+
                                 &:nth-child(4) {
-                                left: 100%;
-                                opacity: 0;
+                                    left: 100%;
+                                    opacity: 0;
                                 }
-                        
+
                                 &:nth-child(5) {
-                                left: 5px;
-                                top: 29px;
+                                    left: 5px;
+                                    top: 29px;
                                 }
-                        
+
                                 &:nth-child(6) {
-                                left: calc(50% - 5px);
-                                top: 29px;
+                                    left: calc(50% - 5px);
+                                    top: 29px;
                                 }
                             }
-                        } 
-                    }
-                    @media all and (max-width:800px) {
-                        display: block;
-                        @media all and (max-width:500px) {
-                            width: 200px;
                         }
-                        
+                    }
+
+                    @media all and (max-width: 800px) {
+                        display: block;
+
                         #nav-icon1 {
                             display: block;
                         }
                     }
                 }
-                @media all and (max-width:500px) {
+
+                @media all and (max-width: 500px) {
                     max-width: 350px;
                     height: 75px;
 
-                    .logoContainer{
+                    .logoContainer {
                         height: 75px;
 
-                        .logo{
-                            height: 60px;
-                            img{
-                                width: 60px;
+                        .logo {
+                            height: 50px;
+
+                            img {
+                                width: 50px;
                             }
                         }
                     }
@@ -260,7 +359,8 @@
     }
 }
 
-.menuBurger{
+// Styles pour le menu burger
+.menuBurger {
     width: 100%;
     min-height: calc(100vh - 125px);
     @include flex(row);
@@ -272,18 +372,20 @@
     transition: all 0.5s;
     font-family: $roboto;
     background-color: $yellow;
-    &.open{
-        left: -0%;
+
+    &.open {
+        left: 0;
     }
 
-    .containerMenuBurger{
+    .containerMenuBurger {
         width: 80%;
-        min-height: 0vh;
+        min-height: 100vh;
         padding: 10px;
         @include flex(column);
         align-items: start;
         color: $black;
-        .ulPrincipal{
+
+        .ulPrincipal {
             width: 100%;
             margin: 0;
             padding: 0;
@@ -291,29 +393,33 @@
             justify-content: start;
             align-items: start;
             gap: 10px;
-            li{
+
+            li {
                 list-style: none;
                 width: 100%;
                 @include flex(row);
                 justify-content: start;
                 gap: 15px;
-                a{
+
+                a {
                     text-decoration: none;
                     color: $white;
                     font-size: 18px;
                 }
-                svg{
+
+                svg {
                     width: 20px;
                     height: 20px;
                     fill: $white;
                 }
             }
-            
-            span{
+
+            span {
                 color: $black;
                 font-size: 18px;
             }
-            .sousUl{
+
+            .sousUl {
                 overflow: hidden;
                 width: 100%;
                 margin: 0;
@@ -322,10 +428,11 @@
                 justify-content: start;
                 align-items: start;
                 gap: 10px;
-                li{
+
+                li {
                     width: 100%;
-                    a{
-                        
+
+                    a {
                         margin-left: 50px;
                     }
                 }
