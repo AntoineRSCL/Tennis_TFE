@@ -1,6 +1,117 @@
+@import '../variables/variable.scss';
 .form-step {
     display: none; /* Masquer toutes les étapes par défaut */
+    width: 100%;
+    margin-bottom: 20px;
 }
-.inscription{
-    padding-top: 200px;
+.formRegister{
+    border-radius: 15px 0 0 15px;
+    background-color: $black;
+    width: 50%;
+    height: 600px;
+    @include flex(column);
+    font-family: $roboto;
+    justify-content: start;
+    padding-top: 50px;
+    .formRegisterContainer{
+        width: 80%;
+        min-height: 200px;
+        @include flex(column);
+        justify-content: start;
+        align-items: start;
+        color: $white;
+
+        h1{
+            margin: 0;
+            color: $yellow;
+        }
+        h2{
+            margin-bottom: 20px;
+            font-size:1.8em;
+        }
+
+        .stepper {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        
+            .step {
+                flex: 1;
+                text-align: center;
+                width: 20px;
+                background-color: red;
+                border-radius: 50%;
+                position: relative;
+                cursor: pointer;
+        
+                &.active {
+                    background-color: blue;
+                    color: white;
+                }
+        
+                &.completed {
+                    background-color: green;
+                    color: white;
+                }
+        
+                &::after {
+                    content: '';
+                    position: absolute;
+                    width: 100%;
+                    height: 5px;
+                    background: purple;
+                    left: 0;
+                    top: 100%;
+                    z-index: -1;
+                }
+        
+                &:last-child::after {
+                    display: none; // Ne pas afficher la ligne après le dernier step
+                }
+            }
+        }
+
+        .formgroupRegister{
+            width: 100%;
+            height: 80px;
+            background-color: red;
+            @include flex(column);
+            div{
+                @include flex(column);
+                width: 100%;
+                height: 100%;
+                label{
+                    width: 100%;
+                }
+                input{
+                    width: 100%;
+                    height: 40px;
+                    border-radius: 5px;
+                    outline: none;
+                    border: none;
+                    padding: 5px;
+                }
+            }
+
+        }
+
+        @media all and (max-width:900px) {
+            .imgRegister{
+                width: 80%;
+                border-radius: 0px 0px 15px 15px;
+            }
+            .imgRegister{
+                width: 80%;
+                border-radius: 15px 15px 0px 0px;
+            }
+        }
+        @media all and (max-width:500px) {
+            .imgRegister{
+                width: 100%;
+            }
+            .formRegister{
+                width: 100%;
+            }
+        }
+    }
 }

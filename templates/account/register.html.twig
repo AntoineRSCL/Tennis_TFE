@@ -1,88 +1,112 @@
 {# templates/registration/register.html.twig #}
 {% extends 'base.html.twig' %}
 
+
+{% block title %}Inscription | Le Smash Ucclois{% endblock %}
+
 {% block body %}
-<div class="container inscription">
-    <h1>Inscription</h1>
-    
-    {{ form_start(form) }}
+<div class="containerComponent">
+    <div class="registerContainer">
+        <div class="formRegister">
+            <div class="formRegisterContainer" id="form-container">
+                <h1>INSCRIPTION</h1>
 
-    <div id="form-container">
-        <!-- Étape 1: Information de Connexion -->
-        <div class="form-step active">
-            <h2>Information de Connexion</h2>
-            <div class="form-group">
-                {{ form_row(form.username) }}
-            </div>
-            <div class="form-group">
-                {{ form_row(form.password) }}
-            </div>
-            <div class="form-group" id="password-confirm-group" style="display:none;">
-                {{ form_row(form.confirm_password, { 'label': 'Confirmer le mot de passe' }) }}
-                <span id="password-error" class="text-danger" style="display:none;">Les mots de passe ne correspondent pas.</span>
+                <!-- Stepper -->
+                <div class="stepper">
+                    <div class="step" id="step-1">1</div>
+                    <div class="step" id="step-2">2</div>
+                    <div class="step" id="step-3">3</div>
+                    <div class="step" id="step-4">4</div>
+                    <div class="step" id="step-5">5</div>
+                </div>
+
+                <!-- Étape 1: Information de Connexion -->
+                <div class="form-step active">
+                    <h2>Information de Connexion</h2>
+                    <div class="formgroupRegister">
+                        {{ form_row(form.username) }}
+                    </div>
+                    <div class="formgroupRegister">
+                        {{ form_row(form.password) }}
+                    </div>
+                    <div class="formgroupRegister" id="password-confirm-group" style="display:none;">
+                        {{ form_row(form.confirm_password, { 'label': 'Confirmer le mot de passe'}) }}
+                        <span id="password-error" class="text-danger" style="display:none;">Les mots de passe ne correspondent pas.</span>
+                    </div>
+
+                </div>
+
+                <!-- Étape 2: Informations Personnelles -->
+                <div class="form-step">
+                    <h2>Informations Personnelles</h2>
+                    <div class="formgroupRegister">
+                        {{ form_row(form.firstname) }}
+                    </div>
+                    <div class="formgroupRegister">
+                        {{ form_row(form.lastname) }}
+                    </div>
+                    <div class="formgroupRegister">
+                        {{ form_row(form.birth_date) }}
+                    </div>
+                </div>
+
+                <!-- Étape 3: Information de Contact -->
+                <div class="form-step">
+                    <h2>Information de Contact</h2>
+                    <div class="formgroupRegister">
+                        {{ form_row(form.email) }}
+                    </div>
+                    <div class="formgroupRegister">
+                        {{ form_row(form.phone) }}
+                    </div>
+                    <div class="formgroupRegister">
+                        {{ form_row(form.private, {
+                            label: "Voulez-vous apparaître dans le carnet d'adresse des membres ?"
+                        }) }}
+                    </div>
+                </div>
+
+                <!-- Étape 4: Autres Informations -->
+                <div class="form-step">
+                    <h2>Autres Informations</h2>
+                    <div class="formgroupRegister">
+                        {{ form_row(form.ranking) }}
+                    </div>
+                    <div class="formgroupRegister">
+                        {{ form_row(form.picture, {
+                            label: "Image de profil"
+                        }) }}
+                    </div>
+                </div>
+
+                <!-- Étape 5: Récapitulatif -->
+                <div class="form-step">
+                    <h2>Récapitulatif des informations</h2>
+                    <ul id="recap-container">
+                        <!-- Les informations seront insérées ici via JavaScript -->
+                    </ul>
+                </div>
             </div>
 
+            <!-- Boutons de navigation -->
+            <div class="form-navigation">
+                <button type="button" id="prevBtn" class="btn btn-secondary" onclick="nextPrev(-1)" style="display:none;">Étape Précédente</button>
+                <button type="button" id="nextBtn" class="btn btn-primary" onclick="nextPrev(1)">Étape Suivante</button>
+            </div>
+
+            {{ form_end(form) }}
         </div>
-
-        <!-- Étape 2: Informations Personnelles -->
-        <div class="form-step">
-            <h2>Informations Personnelles</h2>
-            <div class="form-group">
-                {{ form_row(form.firstname) }}
+        <div class="imgRegister">
+            <div class="imgRegisterContainer">
+                <div class="textImgRegister">
+                    <span>Rejoignez notre club de tennis et vivez la passion du jeu avec nous !</span>
+                </div>
             </div>
-            <div class="form-group">
-                {{ form_row(form.lastname) }}
+            <div class="containerImgRegister">
+                <img src="/images/tennisCourt.jpg" alt="Image d'un court de tennis">
             </div>
-            <div class="form-group">
-                {{ form_row(form.birth_date) }}
-            </div>
-        </div>
-
-        <!-- Étape 3: Information de Contact -->
-        <div class="form-step">
-            <h2>Information de Contact</h2>
-            <div class="form-group">
-                {{ form_row(form.email) }}
-            </div>
-            <div class="form-group">
-                {{ form_row(form.phone) }}
-            </div>
-            <div class="form-group">
-                {{ form_row(form.private, {
-                    label: "Voulez-vous apparaître dans le carnet d'adresse des membres ?"
-                }) }}
-            </div>
-        </div>
-
-        <!-- Étape 4: Autres Informations -->
-        <div class="form-step">
-            <h2>Autres Informations</h2>
-            <div class="form-group">
-                {{ form_row(form.ranking) }}
-            </div>
-            <div class="form-group">
-                {{ form_row(form.picture, {
-                    label: "Image de profil"
-                }) }}
-            </div>
-        </div>
-
-        <!-- Étape 5: Récapitulatif -->
-        <div class="form-step">
-            <h2>Récapitulatif des informations</h2>
-            <ul id="recap-container">
-                <!-- Les informations seront insérées ici via JavaScript -->
-            </ul>
         </div>
     </div>
-
-    <!-- Boutons de navigation -->
-    <div class="form-navigation">
-        <button type="button" id="prevBtn" class="btn btn-secondary" onclick="nextPrev(-1)" style="display:none;">Étape Précédente</button>
-        <button type="button" id="nextBtn" class="btn btn-primary" onclick="nextPrev(1)">Étape Suivante</button>
-    </div>
-
-    {{ form_end(form) }}
 
 </div>
 
@@ -91,83 +115,103 @@
 {% block javascripts %}
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        let currentStep = 0; // Initialiser l'étape actuelle
-        showStep(currentStep); // Afficher la première étape
+    let currentStep = 0; // Initialiser l'étape actuelle
+    const steps = document.getElementsByClassName("form-step");
+    const stepElements = document.getElementsByClassName("step");
 
-        function showStep(n) {
-            let steps = document.getElementsByClassName("form-step");
+    // Affiche la première étape
+    showStep(currentStep); 
 
-            // Vérifie que l'index est valide
-            if (n < 0 || n >= steps.length) {
-                return; // Sortir de la fonction si l'index est hors limites
-            }
+    function showStep(n) {
+        // Vérifie que l'index est valide
+        if (n < 0 || n >= steps.length) {
+            return; // Sortir de la fonction si l'index est hors limites
+        }
 
-            // Masquer toutes les étapes
-            for (let i = 0; i < steps.length; i++) {
-                steps[i].style.display = "none";
-            }
+        // Masquer toutes les étapes et réinitialiser les classes du stepper
+        Array.from(steps).forEach((step, index) => {
+            step.style.display = "none";
+            stepElements[index].classList.remove("active", "completed");
+        });
 
-            // Afficher l'étape actuelle
-            steps[n].style.display = "block";
+        // Afficher l'étape actuelle
+        steps[n].style.display = "block";
+        stepElements[n].classList.add("active");
 
-            // Afficher ou masquer les boutons "Suivant" et "Précédent"
-            if (n == 0) {
-                document.getElementById("prevBtn").style.display = "none";
-                document.getElementById("password-confirm-group").style.display = "block"; // Afficher le champ de confirmation
-            } else {
-                document.getElementById("prevBtn").style.display = "inline";
-                document.getElementById("password-confirm-group").style.display = "none"; // Masquer le champ de confirmation
-            }
+        // Marquer les étapes précédentes comme complètes
+        for (let i = 0; i < n; i++) {
+            stepElements[i].classList.add("completed");
+        }
 
-            if (n == (steps.length - 1)) {
-                document.getElementById("nextBtn").innerHTML = "Soumettre";
-                generateRecap(); // Générer le récapitulatif des informations
-            } else {
-                document.getElementById("nextBtn").innerHTML = "Étape Suivante";
+        // Gérer l'affichage des boutons
+        manageButtonVisibility(n);
+    }
+
+    function manageButtonVisibility(n) {
+        const prevBtn = document.getElementById("prevBtn");
+        const nextBtn = document.getElementById("nextBtn");
+        const passwordConfirmGroup = document.getElementById("password-confirm-group");
+
+        if (n === 0) {
+            prevBtn.style.display = "none";
+            passwordConfirmGroup.style.display = "block"; // Afficher le champ de confirmation
+        } else {
+            prevBtn.style.display = "inline";
+            passwordConfirmGroup.style.display = "none"; // Masquer le champ de confirmation
+        }
+
+        nextBtn.innerHTML = (n === (steps.length - 1)) ? "Soumettre" : "Étape Suivante";
+    }
+
+    window.nextPrev = function(n) {
+        // Vérifier la confirmation du mot de passe lors de l'étape 1
+        if (currentStep === 0 && n === 1) {
+            if (!validatePassword()) {
+                return; // Ne pas avancer si les mots de passe ne correspondent pas
             }
         }
 
-        window.nextPrev = function(n) {
-            let steps = document.getElementsByClassName("form-step");
+        // Masquer l'étape actuelle
+        steps[currentStep].style.display = "none"; 
+        currentStep += n; // Avancer ou reculer dans les étapes
 
-            // Vérifier la confirmation du mot de passe lors de l'étape 1
-            if (currentStep === 0 && n === 1) {
-                let password = document.getElementById("{{ form.password.vars.id }}").value;
-                let confirmPassword = document.getElementById("{{ form.confirm_password.vars.id }}").value;
-
-                if (password !== confirmPassword) {
-                    document.getElementById("password-error").style.display = "block";
-                    return; // Ne pas avancer si les mots de passe ne correspondent pas
-                } else {
-                    document.getElementById("password-error").style.display = "none";
-                }
-            }
-
-            steps[currentStep].style.display = "none"; // Masquer l'étape actuelle
-            currentStep += n; // Avancer ou reculer dans les étapes
-
-            if (currentStep >= steps.length) {
-                document.querySelector('form').submit(); // Soumettre le formulaire si toutes les étapes sont complétées
-            } else {
-                showStep(currentStep); // Afficher l'étape suivante
-            }
-        };
-
-        function generateRecap() {
-            let recapContainer = document.getElementById('recap-container');
-            recapContainer.innerHTML = ''; // Réinitialiser le contenu
-
-            // Ajouter les informations à récapituler
-            recapContainer.innerHTML += `<li><strong>Nom d'utilisateur:</strong> ${document.getElementById("{{ form.username.vars.id }}").value}</li>`;
-            recapContainer.innerHTML += `<li><strong>Prénom:</strong> ${document.getElementById("{{ form.firstname.vars.id }}").value}</li>`;
-            recapContainer.innerHTML += `<li><strong>Nom:</strong> ${document.getElementById("{{ form.lastname.vars.id }}").value}</li>`;
-            recapContainer.innerHTML += `<li><strong>Date de naissance:</strong> ${document.getElementById("{{ form.birth_date.vars.id }}").value}</li>`;
-            recapContainer.innerHTML += `<li><strong>Email:</strong> ${document.getElementById("{{ form.email.vars.id }}").value}</li>`;
-            recapContainer.innerHTML += `<li><strong>Téléphone:</strong> ${document.getElementById("{{ form.phone.vars.id }}").value}</li>`;
-            recapContainer.innerHTML += `<li><strong>Apparaître dans le carnet d'adresse:</strong> ${document.getElementById("{{ form.private.vars.id }}").checked ? "Oui" : "Non"}</li>`;
-            recapContainer.innerHTML += `<li><strong>Classement:</strong> ${document.getElementById("{{ form.ranking.vars.id }}").value}</li>`;
-            recapContainer.innerHTML += `<li><strong>Image de profil:</strong> ${document.getElementById("{{ form.picture.vars.id }}").value}</li>`;
+        if (currentStep >= steps.length) {
+            document.querySelector('form').submit(); // Soumettre le formulaire si toutes les étapes sont complétées
+        } else {
+            showStep(currentStep); // Afficher l'étape suivante
         }
-    });
+    };
+
+    function validatePassword() {
+        const password = document.getElementById("{{ form.password.vars.id }}").value;
+        const confirmPassword = document.getElementById("{{ form.confirm_password.vars.id }}").value;
+        const passwordError = document.getElementById("password-error");
+
+        if (password !== confirmPassword) {
+            passwordError.style.display = "block";
+            return false; // Retourne faux si les mots de passe ne correspondent pas
+        } else {
+            passwordError.style.display = "none";
+            return true; // Retourne vrai si tout est correct
+        }
+    }
+
+    function generateRecap() {
+        const recapContainer = document.getElementById('recap-container');
+        recapContainer.innerHTML = ''; // Réinitialiser le contenu
+
+        // Ajouter les informations à récapituler
+        recapContainer.innerHTML += `<li><strong>Nom d'utilisateur:</strong> ${document.getElementById("{{ form.username.vars.id }}").value}</li>`;
+        recapContainer.innerHTML += `<li><strong>Prénom:</strong> ${document.getElementById("{{ form.firstname.vars.id }}").value}</li>`;
+        recapContainer.innerHTML += `<li><strong>Nom:</strong> ${document.getElementById("{{ form.lastname.vars.id }}").value}</li>`;
+        recapContainer.innerHTML += `<li><strong>Date de naissance:</strong> ${document.getElementById("{{ form.birth_date.vars.id }}").value}</li>`;
+        recapContainer.innerHTML += `<li><strong>Email:</strong> ${document.getElementById("{{ form.email.vars.id }}").value}</li>`;
+        recapContainer.innerHTML += `<li><strong>Téléphone:</strong> ${document.getElementById("{{ form.phone.vars.id }}").value}</li>`;
+        recapContainer.innerHTML += `<li><strong>Apparaître dans le carnet d'adresse:</strong> ${document.getElementById("{{ form.private.vars.id }}").checked ? "Oui" : "Non"}</li>`;
+        recapContainer.innerHTML += `<li><strong>Classement:</strong> ${document.getElementById("{{ form.ranking.vars.id }}").value}</li>`;
+        recapContainer.innerHTML += `<li><strong>Image de profil:</strong> ${document.getElementById("{{ form.picture.vars.id }}").value}</li>`;
+    }
+});
+
 </script>
 {% endblock %}

@@ -5,7 +5,7 @@
     background-color: $white;
     margin-top: 125px;
     @include flex(row);
-    .loginContainer{
+    .loginContainer, .registerContainer{
         width: 100%;
         max-width: 1200px;
         min-height: 600px;
@@ -31,7 +31,7 @@
             background-color: $black;
             width: 50%;
             height: 600px;
-            @include flex(row);
+            @include flex(column);
             .formLoginContainer{
                 width: 80%;
                 height: 500px;
@@ -129,14 +129,14 @@
             }
         }
 
-        .imgLogin{
+        .imgLogin, .imgRegister{
             border-radius: 0 15px 15px 0;
             background-color: $yellow;
             width: 50%;
             height: 600px;
             @include flex(row);
             position: relative;
-            .imgLoginContainer{
+            .imgLoginContainer, .imgRegisterContainer{
                 width: 75%;
                 min-height: 200px;
                 background-color: rgba(255, 255, 255, 0.3);
@@ -150,7 +150,7 @@
                     width: 80%;
                 }
 
-                .textImgLogin{
+                .textImgLogin, .textImgRegister{
                     width: 100%;
                     min-height: 200px;
                     font-family: $bebas;
@@ -173,7 +173,7 @@
                     }
                 }
             }
-            .containerImgLogin{
+            .containerImgLogin, .containerImgRegister{
                 position: absolute;
                 width: 100%;
                 height: 100%;
@@ -194,20 +194,20 @@
         }
 
         @media all and (max-width:900px) {
-            .imgLogin{
+            .imgLogin, .imgRegister{
                 width: 80%;
                 border-radius: 0px 0px 15px 15px;
             }
-            .formLogin{
+            .formLogin, .imgRegister{
                 width: 80%;
                 border-radius: 15px 15px 0px 0px;
             }
         }
         @media all and (max-width:500px) {
-            .imgLogin{
+            .imgLogin, .imgRegister{
                 width: 100%;
             }
-            .formLogin{
+            .formLogin, .formRegister{
                 width: 100%;
             }
         }
