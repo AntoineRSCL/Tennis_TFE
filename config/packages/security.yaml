@@ -33,6 +33,7 @@ security:
             form_login:
                 login_path: account_login
                 check_path: account_login
+                default_target_path: myclub_index
             logout:
                 path: account_logout
                 target: account_login
@@ -53,6 +54,7 @@ security:
     access_control:        
         - { path: ^/admin/login, roles: PUBLIC_ACCESS }
         - { path: ^/admin, roles: ROLE_ADMIN } 
+        - { path: ^/myclub, roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
     security:

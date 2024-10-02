@@ -2,17 +2,21 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class MyClubController extends AbstractController
 {
     #[Route('/myclub', name: 'myclub_index')]
+    #[IsGranted('ROLE_USER')]
     public function index(): Response
     {
-        return $this->render('my_club/index.html.twig', [
-            'controller_name' => 'MyClubController',
+        $user = $this->getUser();
+
+        return $this->render('myclub/index.html.twig', [
+            'user' => $user
         ]);
     }
 }

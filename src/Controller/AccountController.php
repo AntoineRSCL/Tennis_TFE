@@ -18,6 +18,10 @@ class AccountController extends AbstractController
     #[Route('/login', name: 'account_login')]
     public function index(AuthenticationUtils $utils): Response
     {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('myclub_index');
+        }
+
         $error = $utils->getLastAuthenticationError();
         $username = $utils->getLastUsername();
 
@@ -33,6 +37,17 @@ class AccountController extends AbstractController
             'username' => $username,
             'loginError' => $loginError
         ]);
+    }
+
+    /**
+     * Fonction pour se deconnecter
+     *
+     * @return void
+     */
+    #[Route("/logout", name: "account_logout")]
+    public function logout(): void
+    {
+
     }
 
     #[Route('/register', name: 'account_register')]
