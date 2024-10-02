@@ -105,9 +105,11 @@
                 }
                 
                 .logoContainer{
-                    width: 150px;
+                    width: 115px;
                     height: 100px;
                     @include flex(column);
+                    justify-content: start;
+                    align-items: start;
                     position: relative;
 
                     .logo{
@@ -118,6 +120,7 @@
                             margin-top: 5px;
                             width: 75px;
                             height: 100%;
+                            object-fit: cover;
                         }
                     }
                     a{

@@ -7,22 +7,35 @@
     <div class="loginContainer">
         <div class="formLogin">
             <div class="formLoginContainer">
-                <h1>Connectez-Vous</h1>
+                <h1>CONNECTEZ-VOUS</h1>
                 <h4>Bon retour parmis-nous !</h4>
-                <div class="errorLogin">
-                    <span>Votre login ou votre mot de passe est incorrect</span>
-                </div>
+                {% if hasError %}
+                    <div class="errorLogin">
+                        <span>Votre login ou votre mot de passe est incorrect</span>
+                    </div>
+                {% endif %}
+                {% if loginError %}
+                    <div class="errorLogin">
+                        {{ loginError }}
+                    </div>
+                {% endif %}
                 <form action="{{ path('account_login') }}" method="post">
-                    <div class="form-group my-2">
-                        <label for="username" class="form-label">Nom d'utilisateur</label>
-                        <input type="text" class="form-control" id="username" name="_username" placeholder="Votre username" required>
+                    <div class="groupLogin">
+                        <label for="username" class="labelLogin">Nom d'utilisateur</label>
+                        <input type="text" class="inputLogin" id="username" name="_username" placeholder="Votre username" required>
                     </div>
-                    <div class="form-group my-2">
-                        <label for="password" class="form-label">Mot de passe</label>
-                        <input type="password" class="form-control" id="password" name="_password" placeholder="Votre mot de passe" required>
+                    <div class="groupLogin">
+                        <label for="password" class="labelLogin">Mot de passe</label>
+                        <input type="password" class="inputLogin" id="password" name="_password" placeholder="Votre mot de passe" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Se connecter</button>
+                    <button type="submit" class="submitLogin">Se connecter</button>
                 </form>
+                <div class="mdpOublie">
+                    <a href="#">Mot de passe oublié ?</a>
+                </div>
+                <div class="registerBtn">
+                    <span>Pas encore de compte ?</span><a href="{{ path('account_register') }}">S'inscrire</a>
+                </div>
             </div>
         </div>
         <div class="imgLogin">
@@ -31,9 +44,9 @@
                     <span>Le chemin vers la victoire commence ici. </span>
                     <span>Connectez-vous et faites partie du jeu.</span>
                 </div>
-                <div class="containerImgLogin">
-                    <img src="/images/tennisPlayer.png" alt="Image d'un joueur de tennis">
-                </div>
+            </div>
+            <div class="containerImgLogin">
+                <img src="/images/tennisCourt.jpg" alt="Image d'un court de tennis">
             </div>
         </div>
     </div>
