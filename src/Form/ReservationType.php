@@ -2,36 +2,25 @@
 
 namespace App\Form;
 
+use App\Entity\User;
 use App\Entity\Court;
 use App\Entity\Reservation;
-use App\Entity\User;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
-class ReservationType extends AbstractType
+class ReservationType extends ApplicationType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('startTime', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('endTime', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('player1', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
-            ])
             ->add('player2', EntityType::class, [
                 'class' => User::class,
-                'choice_label' => 'id',
-            ])
-            ->add('court', EntityType::class, [
-                'class' => Court::class,
-                'choice_label' => 'id',
+                'choice_label' => 'fullName',
+                'label' => 'Adversaire (Player 2)',
+                'placeholder' => 'Choisissez un adversaire',
             ])
         ;
     }

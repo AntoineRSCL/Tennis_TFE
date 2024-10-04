@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle Réservation{% endblock %}
+
+{% block body %}
+<div class="containerComponent">
+    <div class="container">
+        <h1>Nouvelle Réservation</h1>
+
+        {{ form_start(form) }}
+            {{ form_row(form.player2) }}
+            {# Bouton de soumission personnalisé #}
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Créer</button>
+            </div>
+        {{ form_end(form) }}
+
+        <p>Heure de début: {{ reservation.startTime|date('H:i') }}</p>
+        <p>Heure de fin: {{ reservation.endTime|date('H:i') }}</p>
+    </div>
+</div>
+{% endblock %}

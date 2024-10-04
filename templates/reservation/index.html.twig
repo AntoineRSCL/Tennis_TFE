@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réservations des Terrains{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <h1 class="my-2">Réservations des Terrains</h1>
+
+        <form method="GET" action="{{ path('reservation_index') }}" class="mb-4">
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="reservation_date">Sélectionnez une date</label>
+                    <input type="date" id="reservation_date" name="date" class="form-control" value="{{ date|date('Y-m-d') }}">
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary mt-4">Voir les réservations</button>
+                </div>
+            </div>
+        </form>
+
+        {% if courts|length > 0 %}
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Horaire</th>
+                        {% for court in courts %}
+                            <th>{{ court.name }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for hour in 8..22 %}
+                        <tr>
+                            <td>{{ hour }}h - {{ hour + 1 }}h</td>
+                            {% for court in courts %}
+                                <td>
+                                    {% set reservation_found = false %}
+                                    {% for reservation in reservations %}
+                                        {% if reservation.court.id == court.id and reservation.startTime|date('H') == hour %}
+                                            <div class="reservation">
+                                                <strong>{{ reservation.player1.fullName }}</strong><br>
+                                                <strong>{{ reservation.player2 ? reservation.player2.fullName : 'Aucun' }}</strong><br>
+                                                <span class="badge bg-success">Réservé</span>
+                                            </div>
+                                            {% set reservation_found = true %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    
+                                    {% if not reservation_found %}
+                                        <button class="btn btn-primary reserve-btn"
+                                                data-hour="{{ hour }}"
+                                                data-court="{{ court.id }}">
+                                            Réserver
+                                        </button>
+                                    {% endif %}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            {# Ajoute les champs cachés pour les heures de début et de fin et le court #}
+            <input type="hidden" id="reservation_startTime" name="reservation[startTime]" value="">
+            <input type="hidden" id="reservation_endTime" name="reservation[endTime]" value="">
+            <input type="hidden" id="reservation_court" name="reservation[court]" value="">
+
+        {% else %}
+            <div class="alert alert-warning" role="alert">
+                Aucun court disponible.
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.reserve-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const hour = this.getAttribute('data-hour');
+                    const courtId = this.getAttribute('data-court');
+                    
+                    // Créer l'URL de redirection
+                    const date = `{{ date|date('Y-m-d') }}`;
+                    const startTime = `${date} ${hour}:00`;
+                    const endTime = `${date} ${parseInt(hour) + 1}:00`;
+
+                    // Rediriger vers la page de réservation avec les paramètres
+                    const url = `{{ path('reservation_new') }}?startTime=${encodeURIComponent(startTime)}&endTime=${encodeURIComponent(endTime)}&courtId=${encodeURIComponent(courtId)}`;
+                    window.location.href = url;
+                });
+            });
+        });
+    </script>
+{% endblock %}
