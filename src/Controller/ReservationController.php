@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ReservationController extends AbstractController
 {
-    #[Route('/reservation', name: 'reservation_index')]
+    #[Route('/myclub/reservation', name: 'reservation_index')]
     public function list(Request $request, CourtRepository $terrainRepository, ReservationRepository $reservationRepository): Response 
     {
         $date = $request->query->get('date', (new \DateTime())->format('Y-m-d'));
@@ -40,7 +40,7 @@ class ReservationController extends AbstractController
         ]);
     }
 
-    #[Route('/reservation/new', name: 'reservation_new')]
+    #[Route('/myclub/reservation/new', name: 'reservation_new')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         // Récupérer les paramètres de la requête

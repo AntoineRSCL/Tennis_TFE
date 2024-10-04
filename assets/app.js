@@ -11,6 +11,7 @@ import './styles/bootstrap.min.css';
 import './styles/pages/home.scss';
 import './styles/pages/login.scss';
 import './styles/pages/register.scss';
+import './styles/pages/reservation.scss';
 
 import './styles/partials/header.scss';
 
