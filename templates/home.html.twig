@@ -3,5 +3,16 @@
 {% block title %}Bienvenue au Tennis Smash Ucclois{% endblock %}
 
 {% block body %}
-
+    <div class="homePage">
+        <swiper-container class="mySwiper" pagination="true" pagination-clickable="true" navigation="true" space-between="30"
+    loop="true">
+            <swiper-slide>Slide 1</swiper-slide>
+            <swiper-slide>Slide 2</swiper-slide>
+            <swiper-slide>Slide 3</swiper-slide>
+            <swiper-slide>Slide 4</swiper-slide>
+        </swiper-container>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
 {% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Administration des évenements{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <h1 class="my-2">Administration des terrains</h1>
+        <a href="{{ path('admin_court_new') }}" class="btn btn-secondary my-1 mb-4">
+            <i class="fa-solid fa-circle-plus"></i>
+            <span class="ms-2">Ajouter un terrain de tennis</span>
+        </a>
+
+        {% if pagination.data is empty %}
+            <p class="alert alert-warning">Aucun terrain trouvé.</p>
+        {% else %}
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for court in pagination.data %}
+                        <tr>
+                            <td>{{ court.id }}</td>
+                            <td>{{ court.name }}</td>
+                            <td class="text-center">
+                                <a href="{{ path('admin_court_edit', {'id': court.id}) }}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                                <a href="{{ path('admin_court_delete', {'id': court.id}) }}" class="btn btn-danger delete-court"><i class="fas fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {{ pagination.display() }}
+        {% endif %}
+    </div>
+
+    <script>
+        // JavaScript pour la confirmation de suppression
+        document.querySelectorAll('.delete-court').forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault(); // Empêche le lien de suivre immédiatement
+
+                // Afficher une boîte de dialogue de confirmation
+                if (confirm("Êtes-vous sûr de vouloir supprimer ce terrain ?")) {
+                    // Si l'utilisateur confirme, suivre le lien de suppression
+                    window.location.href = this.getAttribute('href');
+                }
+            });
+        });
+    </script>
+{% endblock %}

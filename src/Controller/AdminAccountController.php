@@ -30,4 +30,10 @@ class AdminAccountController extends AbstractController
             'loginError' => $loginError
         ]);
     }
+
+    #[Route('/admin/logout', name: 'admin_account_logout')]
+    public function logout(): Response
+    {
+        
+    }
 }
