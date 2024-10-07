@@ -1,0 +1,56 @@
+{% extends "admin/base.html.twig" %}
+
+{% block title %}Créer un tournoi{% endblock %}
+
+{% form_theme form _self %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="my-2">Créer un tournoi</h1>
+        <form method="post">
+            {{ form_start(form) }}
+
+            {# Champ nom du tournoi #}
+            <div class="form-group">
+                {{ form_label(form.name, 'Nom du tournoi', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.name) }}
+            </div>
+
+            {# Champ statut du tournoi #}
+            <div class="form-group">
+                {{ form_label(form.status, 'Statut', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.status, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.status) }}
+            </div>
+
+            {# Champ classement minimum #}
+            <div class="form-group">
+                {{ form_label(form.rankingMin, 'Classement minimum', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.rankingMin, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.rankingMin) }}
+            </div>
+
+            {# Champ classement maximum #}
+            <div class="form-group">
+                {{ form_label(form.rankingMax, 'Classement maximum', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.rankingMax, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.rankingMax) }}
+            </div>
+
+            {# Champ nombre de participants maximum #}
+            <div class="form-group">
+                {{ form_label(form.participants_max, 'Nombre de participants maximum', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.participants_max, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.participants_max) }}
+            </div>
+
+            {# Bouton de soumission #}
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Créer le tournoi</button>
+            </div>
+
+            {{ form_end(form) }}
+        </form>
+    </div>
+{% endblock %}

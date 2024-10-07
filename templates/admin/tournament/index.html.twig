@@ -1,0 +1,56 @@
+{% extends "admin/base.html.twig" %}
+
+{% block title %}Liste des tournois{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="my-4">Liste des tournois</h1>
+        
+        {# Affichage des messages flash #}
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger">{{ message }}</div>
+        {% endfor %}
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nom du Tournoi</th>
+                    <th>Statut</th>
+                    <th>Participants Max</th>
+                    <th>Participants Actuels</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tournament in tournaments %}
+                    <tr>
+                        <td>{{ tournament.name }}</td>
+                        <td>{{ tournament.status }}</td>
+                        <td>{{ tournament.participantsMax }}</td>
+                        <td>{{ tournament.tournamentRegistrations|length }}</td>
+                        <td>
+                            {% if tournament.currentRound > 0 %} {# Vérifiez si le tournoi est démarré #}
+                                <a href="{{ path('admin_tournament_matches', { id: tournament.id }) }}" class="btn btn-info">Voir les Matchs</a>
+                            {% else %}
+                                <a href="{{ path('admin_tournament_start', { id: tournament.id }) }}" class="btn btn-success">Démarrer</a>
+                            {% endif %}
+                            {% if tournament.status != "Terminé" %}
+                                <a href="{{ path('admin_tournament_generate_next_round', { id: tournament.id }) }}" class="btn btn-warning">Prochain Tour</a>
+                            {% endif %}
+                            <a href="{{ path('admin_tournament_delete', {'id': tournament.id}) }}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce tournoi ?');">Supprimer</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center">Aucun tournoi disponible</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <a href="{{ path('admin_tournament_new') }}" class="btn btn-primary">Créer un nouveau tournoi</a>
+    </div>
+{% endblock %}

@@ -73,9 +73,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'player1', orphanRemoval: true)]
     private Collection $reservations;
 
+    /**
+     * @var Collection<int, Tournament>
+     */
+    #[ORM\OneToMany(targetEntity: Tournament::class, mappedBy: 'winner')]
+    private Collection $tournaments;
+
+    /**
+     * @var Collection<int, TournamentMatch>
+     */
+    #[ORM\OneToMany(targetEntity: TournamentMatch::class, mappedBy: 'player1', orphanRemoval: true)]
+    private Collection $tournamentMatches;
+
+    /**
+     * @var Collection<int, TournamentRegistration>
+     */
+    #[ORM\OneToMany(targetEntity: TournamentRegistration::class, mappedBy: 'player', orphanRemoval: true)]
+    private Collection $tournamentRegistrations;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
+        $this->tournaments = new ArrayCollection();
+        $this->tournamentMatches = new ArrayCollection();
+        $this->tournamentRegistrations = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
@@ -340,6 +361,96 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($reservation->getPlayer1() === $this) {
                 $reservation->setPlayer1(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tournament>
+     */
+    public function getTournaments(): Collection
+    {
+        return $this->tournaments;
+    }
+
+    public function addTournament(Tournament $tournament): static
+    {
+        if (!$this->tournaments->contains($tournament)) {
+            $this->tournaments->add($tournament);
+            $tournament->setWinner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTournament(Tournament $tournament): static
+    {
+        if ($this->tournaments->removeElement($tournament)) {
+            // set the owning side to null (unless already changed)
+            if ($tournament->getWinner() === $this) {
+                $tournament->setWinner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TournamentMatch>
+     */
+    public function getTournamentMatches(): Collection
+    {
+        return $this->tournamentMatches;
+    }
+
+    public function addTournamentMatch(TournamentMatch $tournamentMatch): static
+    {
+        if (!$this->tournamentMatches->contains($tournamentMatch)) {
+            $this->tournamentMatches->add($tournamentMatch);
+            $tournamentMatch->setPlayer1($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTournamentMatch(TournamentMatch $tournamentMatch): static
+    {
+        if ($this->tournamentMatches->removeElement($tournamentMatch)) {
+            // set the owning side to null (unless already changed)
+            if ($tournamentMatch->getPlayer1() === $this) {
+                $tournamentMatch->setPlayer1(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TournamentRegistration>
+     */
+    public function getTournamentRegistrations(): Collection
+    {
+        return $this->tournamentRegistrations;
+    }
+
+    public function addTournamentRegistration(TournamentRegistration $tournamentRegistration): static
+    {
+        if (!$this->tournamentRegistrations->contains($tournamentRegistration)) {
+            $this->tournamentRegistrations->add($tournamentRegistration);
+            $tournamentRegistration->setPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTournamentRegistration(TournamentRegistration $tournamentRegistration): static
+    {
+        if ($this->tournamentRegistrations->removeElement($tournamentRegistration)) {
+            // set the owning side to null (unless already changed)
+            if ($tournamentRegistration->getPlayer() === $this) {
+                $tournamentRegistration->setPlayer(null);
             }
         }
 
