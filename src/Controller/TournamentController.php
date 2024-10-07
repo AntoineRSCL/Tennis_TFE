@@ -8,11 +8,11 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class TournamentController extends AbstractController
 {
-    #[Route('/tournament', name: 'app_tournament')]
+    #[Route('/myclub/tournament', name: 'tournament_index')]
     public function index(): Response
     {
         return $this->render('tournament/index.html.twig', [
-            'controller_name' => 'TournamentController',
+            
         ]);
     }
 }

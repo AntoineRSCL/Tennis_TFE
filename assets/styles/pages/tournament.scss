@@ -1,0 +1,36 @@
+@import '../variables/variable.scss';
+.tournamentContainer{
+    width: 100%;
+    min-height: calc(100vh - 125px);
+    background-color: $white;
+    margin-top: 125px;
+    @include flex(column);
+    justify-content: start;
+    font-family: $roboto;
+    .listTournament{
+        margin-top: 50px;
+        width: 100%;
+        max-width: 1200px;
+        min-height: 80vh;
+        @include flex(column);
+        align-items: start;
+        justify-content: start;
+        background-color: red;
+        @media all and (max-width:1200px) {
+            max-width: 900px;
+        }
+        @media all and (max-width:900px) {
+            max-width: 700px;
+        }
+        @media all and (max-width:700px) {
+            max-width: 500px;
+        }
+        @media all and (max-width:500px) {
+            max-width: 400px;
+        }
+        h1{
+            font-family: $bebas;
+            color: $black;
+        }
+    }
+}
