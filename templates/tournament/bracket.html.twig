@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}MyClub - Tournoi{% endblock %}
+
+{% block body %}
+<div class="tournamentContainer">
+    <div class="listTournament">
+        <h1>Tableau du tournoi {{ tournament.name }}</h1>
+        <ul>
+            {% for match in matches %}
+                <li>{{ match.round }} : {{ match.player1.username }} vs {{ match.player2.username }} - Gagnant : {{ match.winner ? match.winner.username : 'Pas encore joué' }}</li>
+            {% endfor %}
+        </ul>
+        <a href="{{ path('tournament_index') }}">Retour</a>
+    </div>
+</div>
+
+{% endblock %}

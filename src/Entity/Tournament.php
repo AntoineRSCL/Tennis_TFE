@@ -48,6 +48,9 @@ class Tournament
     #[ORM\Column]
     private ?int $currentRound = 0;
 
+    #[ORM\Column(length: 255)]
+    private ?string $image = null;
+
     public function __construct()
     {
         $this->tournamentMatches = new ArrayCollection();
@@ -199,6 +202,18 @@ class Tournament
     public function setCurrentRound(int $currentRound): static
     {
         $this->currentRound = $currentRound;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): static
+    {
+        $this->image = $image;
 
         return $this;
     }
