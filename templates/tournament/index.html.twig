@@ -17,42 +17,45 @@
             </div>
         {% endfor %}
 
-        {# Initialiser un tableau pour stocker les tournois par statut #}
+        {# Regrouper les tournois par statut #}
         {% set tournamentsByStatus = {} %}
-
-        {# Boucle pour regrouper les tournois par statut #}
         {% for tournament in tournaments %}
-            {% if tournament.status not in tournamentsByStatus %}
-                {# Initialiser le tableau pour le statut si ce n'est pas déjà fait #}
-                {% set tournamentsByStatus = tournamentsByStatus | merge({ (tournament.status): [] }) %}
+            {% set status = tournament.status %}
+            {% if tournamentsByStatus[status] is not defined %}
+                {% set tournamentsByStatus = tournamentsByStatus|merge({(status): []}) %}
             {% endif %}
-            {# Ajouter le tournoi au tableau correspondant au statut #}
-            {% set tournamentsByStatus = tournamentsByStatus | merge({ (tournament.status): tournamentsByStatus[tournament.status] | merge([tournament]) }) %}
+            {% set tournamentsByStatus = tournamentsByStatus|merge({(status): tournamentsByStatus[status]|merge([tournament])}) %}
         {% endfor %}
 
         {# Affichage des tournois par statut #}
-        {% for status, groupedTournaments in tournamentsByStatus %}
+        {% set allStatuses = ['Inscription', 'En cours', 'Terminé'] %} {# Remplacez par vos statuts #}
+        {% for status in allStatuses %}
             <h2>{{ status }}</h2>
             <div class="tournamentList">
-                {% for tournament in groupedTournaments %}
-                    <div class="tournament">
-                        <h3>{{ tournament.name }}</h3>
-                        <p>Statut : {{ tournament.status }}</p>
-                        
-                        {# Si le tournoi est en phase d'inscription, afficher le bouton d'inscription #}
-                        {% if tournament.status == 'Inscription' %}
-                            {# Vérifier si l'utilisateur est déjà inscrit #}
-                            {% if not tournamentRegistrations[tournament.id] %}
-                                <a href="{{ path('tournament_register', { id: tournament.id }) }}" class="btn btn-primary">S'inscrire</a>
+                {% set groupedTournaments = tournamentsByStatus[status] is defined ? tournamentsByStatus[status] : [] %}
+                {% if groupedTournaments is empty %}
+                    <p>Aucun tournoi pour le moment.</p>
+                {% else %}
+                    {% for tournament in groupedTournaments %}
+                        <div class="tournament">
+                            <h3>{{ tournament.name }}</h3>
+                            <p>Statut : {{ tournament.status }}</p>
+                            
+                            {# Si le tournoi est en phase d'inscription, afficher le bouton d'inscription #}
+                            {% if tournament.status == 'Inscription' %}
+                                {# Vérifier si l'utilisateur est déjà inscrit #}
+                                {% if not tournamentRegistrations[tournament.id] %}
+                                    <a href="{{ path('tournament_register', { id: tournament.id }) }}" class="btn btn-primary">S'inscrire</a>
+                                {% else %}
+                                    <a href="{{ path('tournament_unregister', { id: tournament.id }) }}" class="btn btn-warning">Se désinscrire</a>
+                                {% endif %}
                             {% else %}
-                                <a href="{{ path('tournament_unregister', { id: tournament.id }) }}" class="btn btn-warning">Se désinscrire</a>
+                                {# Le tournoi est soit en cours soit terminé, afficher les tableaux #}
+                                <a href="{{ path('tournament_view_bracket', { id: tournament.id }) }}" class="btn btn-info">Voir les tableaux</a>
                             {% endif %}
-                        {% else %}
-                            {# Le tournoi est soit en cours soit terminé, afficher les tableaux #}
-                            <a href="{{ path('tournament_view_bracket', { id: tournament.id }) }}" class="btn btn-info">Voir les tableaux</a>
-                        {% endif %}
-                    </div>
-                {% endfor %}
+                        </div>
+                    {% endfor %}
+                {% endif %}
             </div>
         {% endfor %}
     </div>
