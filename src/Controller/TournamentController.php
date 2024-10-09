@@ -119,9 +119,32 @@ class TournamentController extends AbstractController
     {
         $matches = $tournament->getTournamentMatches();
 
+        // Trier les matchs par round
+        $matchesArray = $matches->toArray();
+        usort($matchesArray, function ($a, $b) {
+            $roundA = (int) filter_var($a->getRound(), FILTER_SANITIZE_NUMBER_INT);
+            $roundB = (int) filter_var($b->getRound(), FILTER_SANITIZE_NUMBER_INT);
+            return $roundA - $roundB;
+        });
+
+        // Calculer le nombre de participants et le nombre de rounds
+        $participantsCount = count($tournament->getTournamentRegistrations());
+        $roundsCount = ceil(log($participantsCount, 2)); // Arrondir vers le haut
+
         return $this->render('tournament/bracket.html.twig', [
             'tournament' => $tournament,
-            'matches' => $matches,
+            'matches' => $matchesArray,
+            'roundsCount' => $roundsCount, // Passer le nombre de rounds à la vue
         ]);
+    }
+
+
+
+    /**
+     * Calcule le nombre de rounds en fonction du nombre de participants.
+     */
+    private function calculateNumberOfRounds(int $participantsCount): int
+    {
+        return (int) log($participantsCount, 2);
     }
 }
