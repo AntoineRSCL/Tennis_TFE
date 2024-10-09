@@ -16,6 +16,8 @@
         align-items: start;
         justify-content: start;
         background-color: red;
+        color: $black;
+        padding: 10px;
         @media all and (max-width:1200px) {
             max-width: 900px;
         }
@@ -31,6 +33,110 @@
         h1{
             font-family: $bebas;
             color: $black;
+        }
+        h2{
+            margin-top: 20px;
+        }
+        .alert{
+            width: 100%;
+            margin: 0;
+            p{
+                margin: 0;
+                font-weight: bold;
+                font-size: 18px;
+            }
+        }
+        .tournamentList{
+            width: 100%;
+            @include flex(column);
+            .tournament{
+                width: 100%;
+                min-height: 100px;
+                background-color: white;
+                border-radius: 5px;
+                @include flex(row);
+                .image{
+                    width: 200px;
+                    height: 100px;
+                    @include flex(row);
+                    @media all and (max-width:1200px) {
+                        display: none;
+                    }
+                    img{
+                        width: 95%;
+                        height: 95%;
+                        object-fit: contain;
+                    }
+                }
+                .infoTournoi{
+                    flex: 1;
+                    height: 100px;
+                    @include flex(row);
+                    justify-content: start;
+                    gap: 10px;
+                    .nameStatus{
+                       @include flex(column);
+                       align-items: start;
+                       flex: 2;
+                       height: 100%;
+                       padding: 5px;
+                       h3{
+                        font-family: $bebas;
+                       }
+                    }
+                    .rankingTournoi, .participantTournoi{
+                        @include flex(column);
+                        align-items: start;
+                        flex: 2;
+                        height: 100%;
+                        padding: 5px; 
+                        .annonce{
+                            font-size: 18px;
+                            font-weight: bold;
+                        }
+                    }
+                    .inscriptionBracket{
+                        @include flex(column);
+                        align-items: start;
+                        flex: 2;
+                        height: 100%;
+                        padding: 5px; 
+                        .btnAction{
+                            width: 150px;
+                            height: 35px;
+                            border-radius: 5px;
+                            background-color: $black;
+                            @include flex(column);
+                            text-decoration: none;
+                            color: $yellow;
+                            transition: all 0.5s;
+                            &.greenBtn{
+                                background-color: #93c54b;
+                                color: $white;
+                            }
+                            &.redBtn{
+                                background-color: red;
+                                color: $white;
+                            }
+                            &:hover{
+                                background-color: $yellow;
+                                color: $black;
+                            }
+                        }
+                    }
+                    .winner{
+                        height: 100%;
+                        padding: 5px; 
+                        @include flex(column);
+                        align-items: start;
+                        flex: 1;
+                        .annonce{
+                            font-size: 18px;
+                            font-weight: bold;
+                        }
+                    }
+                }
+            }
         }
     }
 }
