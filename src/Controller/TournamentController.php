@@ -31,6 +31,11 @@ class TournamentController extends AbstractController
             $tournamentRegistrations[$tournament->getId()] = $registration !== null;
         }
 
+         // Trier les tournois par statut
+        usort($tournaments, function ($a, $b) {
+            return strcmp($a->getStatus(), $b->getStatus());
+        });
+
         return $this->render('tournament/index.html.twig', [
             'tournaments' => $tournaments,
             'tournamentRegistrations' => $tournamentRegistrations, // Bien transmettre cette variable à Twig
@@ -38,51 +43,58 @@ class TournamentController extends AbstractController
     }
 
     #[Route('/myclub/tournament/{id}/register', name: 'tournament_register')]
-    public function register(int $id, TournamentRepository $tournamentRepository, TournamentRegistrationRepository $tournamentRegistrationRepository, EntityManagerInterface $entityManager): Response
-    {
+    public function register(int $id, TournamentRepository $tournamentRepository, TournamentRegistrationRepository $tournamentRegistrationRepository, EntityManagerInterface $entityManager): Response {
         $user = $this->getUser(); // Récupérer l'utilisateur connecté
         $tournament = $tournamentRepository->find($id);
-
+    
         if (!$tournament) {
             $this->addFlash('danger', 'Le tournoi n\'existe pas.');
             return $this->redirectToRoute('tournament_index');
         }
-
+    
         // Vérifier si l'utilisateur est déjà inscrit
         $existingRegistration = $tournamentRegistrationRepository->findOneBy([
             'tournament' => $tournament,
             'player' => $user
         ]);
-
+    
         if ($existingRegistration) {
             $this->addFlash('warning', 'Vous êtes déjà inscrit à ce tournoi.');
             return $this->redirectToRoute('tournament_index');
         }
-
+    
         // Vérifier le classement de l'utilisateur avant inscription
         $userRanking = $user->getDoubleRanking();
         $tournamentRankingMin = $tournament->getRankingMin();
         $tournamentRankingMax = $tournament->getRankingMax();
-
+    
         if (($tournamentRankingMin && $userRanking < $tournamentRankingMin) || ($tournamentRankingMax && $userRanking > $tournamentRankingMax)) {
             $this->addFlash('danger', 'Votre classement ne correspond pas aux critères du tournoi.');
             return $this->redirectToRoute('tournament_index');
         }
-
+    
+        // Vérifier si le nombre maximum de participants est atteint
+        $participantsCount = count($tournament->getTournamentRegistrations());
+        if ($participantsCount >= $tournament->getParticipantsMax()) {
+            $this->addFlash('danger', 'Le nombre maximum de participants pour ce tournoi a été atteint.');
+            return $this->redirectToRoute('tournament_index');
+        }
+    
         // Créer une nouvelle inscription
         $registration = new TournamentRegistration();
         $registration->setTournament($tournament);
         $registration->setPlayer($user);
         $registration->setCreatedAt(new \DateTime());
-
+    
         // Sauvegarder l'inscription
         $entityManager->persist($registration);
         $entityManager->flush();
-
+    
         $this->addFlash('success', 'Vous êtes inscrit au tournoi.');
-
+    
         return $this->redirectToRoute('tournament_index');
     }
+    
 
     #[Route('/myclub/tournament/{id}/unregister', name: 'tournament_unregister')]
     public function unregister(Tournament $tournament, TournamentRegistrationRepository $registrationRepo, EntityManagerInterface $em): Response

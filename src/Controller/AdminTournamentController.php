@@ -33,6 +33,18 @@ class AdminTournamentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $tournament->setStatus('Inscription');
+
+            $pictureFile = $form->get('image')->getData();
+            if ($pictureFile) {
+                $newFilename = uniqid().'.'.$pictureFile->guessExtension();
+                $pictureFile->move(
+                    $this->getParameter('pictures_directory'), // Directory to store files
+                    $newFilename
+                );
+                $tournament->setImage($newFilename);
+            }
+
             $entityManager->persist($tournament);
             $entityManager->flush();
 

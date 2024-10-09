@@ -7,7 +7,7 @@
 {% block body %}
     <div class="container">
         <h1 class="my-2">Créer un tournoi</h1>
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             {{ form_start(form) }}
 
             {# Champ nom du tournoi #}
@@ -17,11 +17,11 @@
                 {{ form_errors(form.name) }}
             </div>
 
-            {# Champ statut du tournoi #}
+            {# Champ image du tournoi #}
             <div class="form-group">
-                {{ form_label(form.status, 'Statut', {'label_attr': {'class': 'control-label'}}) }}
-                {{ form_widget(form.status, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(form.status) }}
+                {{ form_label(form.image, 'Image du tournoi', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.image, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.image) }}
             </div>
 
             {# Champ classement minimum #}
