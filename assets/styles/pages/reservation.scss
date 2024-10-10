@@ -1,15 +1,17 @@
 @import '../variables/variable.scss';
 .containerReservation{
     min-width: 100%;
-    min-height: calc(100vh - 125px);
+    min-height: calc(100vh - 200px);
     background-color: $white;
     margin-top: 125px;
     @include flex(column);
+    justify-content: start;
     font-family: $roboto;
     .containerTitleDate{
         width: 100%;
         min-height: 150px;
-        margin-bottom: 25px;
+        position: fixed;
+        background-color: $white;
         @include flex(column);
         h1{
             color: $black;
@@ -44,39 +46,48 @@
             }
         }
     }
-    .containerTableReservations{
-        min-width: 100%;
-        min-height: 80vh;
+    .containerTableReservations {
+        width: calc(15 * 120px + 75px); /* Garde la largeur minimale à 100% */
+        height: calc(80vh - 100px); /* Ajustez la hauteur pour inclure la marge */
         background-color: purple;
-        .ligneTableR, .ligneTableRH{
-            min-width: 100%;
-            height: 50px;
+        position: absolute;
+        left: 0;
+        top: 275px;
+        border: 2px solid black;
+    
+        .ligneTableR, .ligneTableRH {
+            min-width: 100%; /* Garde chaque ligne à la largeur minimale de 100% */
+            height: 50px; /* Hauteur fixe pour les lignes */
             background-color: white;
             outline: $black 1px solid;
             @include flex(row);
             justify-content: start;
-
-            .hourTR{
+    
+            .hourTR {
                 width: 75px;
                 height: 100%;
                 font-size: 15px;
                 @include flex(row);
                 border-right: 1px solid black;
+                position: sticky;
             }
-            .terrainTR{
+    
+            .terrainTR {
                 width: 120px;
                 height: 100%;
                 @include flex(row);
                 border-left: 1px solid black;
                 border-right: 1px solid black;
-                .reservation{
+    
+                .reservation {
                     position: relative;
                     width: 100%;
                     height: 100%;
                     border-bottom: 1px solid black;
                     border-top: 1px solid black;
                     @include flex(row);
-                    .infoReservation{
+    
+                    .infoReservation {
                         width: 100%;
                         height: 100%;
                         border-radius: 2px;
@@ -85,7 +96,8 @@
                         @include flex(column);
                         font-size: 14px;
                     }
-                    .btnReservation{
+    
+                    .btnReservation {
                         width: 100%;
                         height: 100%;
                         background-color: $black;
@@ -94,15 +106,19 @@
                         border-radius: 2px;
                         opacity: 0;
                         transition: all 0.2s;
-                        &:hover{
+    
+                        &:hover {
                             opacity: 1;
                         }
                     }
                 }
             }
         }
-        .ligneTableRH{
-            height: 75px;
+    
+        .ligneTableRH {
+            height: 75px; /* Conservez la hauteur de vos lignes */
         }
     }
+    
+    
 }
