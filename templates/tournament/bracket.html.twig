@@ -5,99 +5,79 @@
 {% block body %}
 <div class="tournamentContainer">
     <div class="bracketContainer">
+        <h2>Tableau du tournoi : {{tournament.name}}</h2>
         <div class="bracket">
             <swiper-container class="mySwiper" init="false">
                 {% for round in range(1, roundsCount) %}
                     <swiper-slide>
                         <h3>Tour {{round}}</h3>
                         <div class="matchList">
+                            {% set matchFound = false %}
                             {% for match in matches %}
                                 {% set matchRound = match.round|replace({'Tour ': ''})|trim|number_format(0, '', '') %}
                                 {% if matchRound == round %}
+                                    {% set matchFound = true %}
                                     <div class="match">
-                                        {% if match.winner == match.player1 %}
-                                            <div class="player winner">
-                                                <div class="infoPlayer">
-                                                    <div class="imgPlayer">
-                                                        {% if match.player1.picture %}
-                                                            <img src="/uploads/pictures/{{match.player1.picture}}" alt="">
-                                                        {% else %}
-                                                            <img src="/images/avatarvide.png" alt="">
-                                                        {% endif %}
-                                                    </div>
-                                                    <div class="infos">
-                                                        <span class="infoName">{{match.player1.fullName}}</span>
-                                                        <span class="infoRanking">{{match.player1.ranking}}</span>
-                                                    </div>
+                                        <div class="player{% if match.winner %} {% if match.winner == match.player1 %}winner{% else %}loser{% endif %} {% endif %}">
+                                            <div class="infoPlayer">
+                                                <div class="imgPlayer">
+                                                    {% if match.player1.picture %}
+                                                        <img src="/uploads/pictures/{{match.player1.picture}}" alt="">
+                                                    {% else %}
+                                                        <img src="/images/avatarvide.png" alt="">
+                                                    {% endif %}
                                                 </div>
+                                                <div class="infos">
+                                                    <span class="infoName">{{match.player1.fullName}}</span>
+                                                    <span class="infoRanking">{{match.player1.ranking}}</span>
+                                                </div>
+                                            </div>
+                                            {% if match.winner == match.player1 %}
                                                 <div class="winnerTitle">
-                                                    <span>Vainqueur</span>
-                                                </div>
-                                            </div>
-                                        {% else %}
-                                            <div class='player'>
-                                                <div class="infoPlayer">
-                                                    <div class="imgPlayer">
-                                                        {% if match.player1.picture %}
-                                                            <img src="/uploads/pictures/{{match.player1.picture}}" alt="">
-                                                        {% else %}
-                                                            <img src="/images/avatarvide.png" alt="">
-                                                        {% endif %}
-                                                    </div>
-                                                    <div class="infos">
-                                                        <span class="infoName">{{match.player1.fullName}}</span>
-                                                        <span class="infoRanking">{{match.player1.ranking}}</span>
+                                                    <div class="logoWinner">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/></svg>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        {% endif %}
+                                            {% endif %}
+                                        </div>
                                         <div class="vs">VS</div>
-                                        {% if match.winner == match.player2 %}
-                                            <div class="player winner">
-                                                <div class="infoPlayer">
-                                                    <div class="imgPlayer">
-                                                        {% if match.player2.picture %}
-                                                            <img src="/uploads/pictures/{{match.player2.picture}}" alt="">
-                                                        {% else %}
-                                                            <img src="/images/avatarvide.png" alt="">
-                                                        {% endif %}
-                                                    </div>
-                                                    <div class="infos">
-                                                        <span class="infoName">{{match.player2.fullName}}</span>
-                                                        <span class="infoRanking">{{match.player2.ranking}}</span>
-                                                    </div>
+                                        <div class="player{% if match.winner %} {% if match.winner == match.player2 %}winner{% else %}loser{% endif %} {% endif %}">
+                                            <div class="infoPlayer">
+                                                <div class="imgPlayer">
+                                                    {% if match.player2.picture %}
+                                                        <img src="/uploads/pictures/{{match.player2.picture}}" alt="">
+                                                    {% else %}
+                                                        <img src="/images/avatarvide.png" alt="">
+                                                    {% endif %}
                                                 </div>
+                                                <div class="infos">
+                                                    <span class="infoName">{{match.player2.fullName}}</span>
+                                                    <span class="infoRanking">{{match.player2.ranking}}</span>
+                                                </div>
+                                            </div>
+                                            {% if match.winner == match.player2 %}
                                                 <div class="winnerTitle">
-                                                    <span>Vainqueur</span>
-                                                </div>
-                                            </div>
-                                        {% else %}
-                                            <div class='player'>
-                                                <div class="infoPlayer">
-                                                    <div class="imgPlayer">
-                                                        {% if match.player2.picture %}
-                                                            <img src="/uploads/pictures/{{match.player2.picture}}" alt="">
-                                                        {% else %}
-                                                            <img src="/images/avatarvide.png" alt="">
-                                                        {% endif %}
-                                                    </div>
-                                                    <div class="infos">
-                                                        <span class="infoName">{{match.player2.fullName}}</span>
-                                                        <span class="infoRanking">{{match.player2.ranking}}</span>
+                                                    <div class="logoWinner">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/></svg>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        {% endif %}
+                                            {% endif %}
+                                        </div>
                                     </div>
                                 {% endif %}
                             {% endfor %}
-
+                            {% if not matchFound %}
+                                <div class="noMatch">
+                                    <p>Pas encore tiré au sort</p>
+                                </div>
+                            {% endif %}
                         </div>
                     </swiper-slide>
                 {% endfor %}
             </swiper-container>
         </div>
-    </div>
+        <a href="{{ path('tournament_index') }} " class="btnRetourTournoi">Retour a la liste de tournoi</a>
+    </div> 
 </div>
 
 {% endblock %}
@@ -105,21 +85,21 @@
 {% block javascripts %}
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
 
-  <script>
-    const swiperEl = document.querySelector('swiper-container')
-    Object.assign(swiperEl, {
-      slidesPerView: 1,
-      spaceBetween: 10,
-      pagination: {
-        clickable: true,
-      },
-      breakpoints: {
-        900: {
-          slidesPerView: 2,
-          spaceBetween: 30,
-        },
-      },
-    });
-    swiperEl.initialize();
-  </script>
+    <script>
+        const swiperEl = document.querySelector('swiper-container')
+        Object.assign(swiperEl, {
+            slidesPerView: 1,
+            spaceBetween: 50,
+            pagination: {
+                clickable: true,
+            },
+            breakpoints: {
+                900: {
+                    slidesPerView: 2,
+                    spaceBetween: 50,
+                },
+            },
+        });
+        swiperEl.initialize();
+    </script>
 {% endblock %}
