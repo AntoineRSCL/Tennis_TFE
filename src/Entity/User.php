@@ -23,6 +23,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
+    #[Assert\NotBlank(message: "Le nom d'utilisateur est obligatoire")]
     private ?string $username = null;
 
     /**
@@ -35,30 +36,41 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotBlank(message: "Le mot de passe est obligatoire")]
+    #[Assert\Length(min: 5, minMessage:"Votre mot de passe doit faire plus de 5 caractères")]
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le prénom est obligatoire")]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le nom est obligatoire")]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "L'adresse E-mail est obligatoire")]
+    #[Assert\Email(message: "Le format de l'adresse E-mail doit être valide")]
     private ?string $email = null;
 
     #[ORM\Column(length: 25, nullable: true)]
+    #[Assert\Length(max: 25, minMessage:"Votre numero de telephone doit faire moins de 25 caractères")]
     private ?string $phone = null;
 
     #[ORM\Column(length: 10)]
+    #[Assert\NotBlank(message: "Le classement est obligatoire")]
     private ?string $ranking = null;
 
     #[ORM\Column(length: 5)]
     private ?string $double_ranking = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\NotBlank(message: "La date de naissance est obligatoire")]
     private ?\DateTimeInterface $birth_date = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Image(mimeTypes:['image/png','image/jpeg', 'image/jpg', 'image/gif', 'image/webp'], mimeTypesMessage:"Vous devez upload un fichier jpg, jpeg, webp, png ou gif")]
+    #[Assert\File(maxSize:"2048k", maxSizeMessage: "La taille du fichier est trop grande")]
     private ?string $picture = null;
 
     #[ORM\Column]

@@ -8,11 +8,9 @@
     border-radius: 15px 0 0 15px;
     background-color: $black;
     width: 50%;
-    height: 600px;
+    min-height: 700px;
     @include flex(column);
     font-family: $roboto;
-    justify-content: start;
-    padding-top: 50px;
     .formRegisterContainer{
         width: 80%;
         min-height: 200px;
@@ -29,97 +27,110 @@
             margin-bottom: 20px;
             font-size:1.8em;
         }
-
-        .containerStepper{
-            margin-top: 20px;
-            text-align: center;
+        form{
             width: 100%;
-            height: 50px;
-            @include flex(column);
-            align-items: start;
-
-            .progressContainer{
-                display: flex;
-                justify-content: space-between;
-                margin-bottom: 30px;
-                max-width: 100%;
-                position: relative;
-                width: 350px;
-                @media all and (max-width:900px) {
-                    max-width: 80%;
-                }
-
-                &::before{
-                    background-color: $yellow;
-                    content: "";
-                    height: 4px;
-                    left: 0;
-                    position: absolute;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    width: 100%;
-                    z-index: 1;
-                }
-
-                .progress{
-                    background-color: white;
-                    height: 4px;
-                    left: 0;
-                    position: absolute;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    transition: 0.4s ease;
-                    width: 0%;
-                    z-index: 1;
-                }
-
-                .circle{
-                    align-items: center;
-                    background-color: $black;
-                    font-weight: bold;
-                    border: 3px solid;
-                    border-radius: 50%;
-                    color: $yellow;
+            .containerStepper{
+                margin-top: 20px;
+                text-align: center;
+                width: 100%;
+                height: 50px;
+                @include flex(column);
+                align-items: start;
+    
+                .progressContainer{
                     display: flex;
-                    height: 30px;
-                    justify-content: center;
-                    transition: 0.4 ease;
-                    width: 30px;
+                    justify-content: space-between;
+                    margin-bottom: 30px;
+                    max-width: 100%;
                     position: relative;
-                    z-index: 60;
-
-                    &.active{
-                        border-color: $white;
-                        background-color: $white;
-                        color: $black;
+                    width: 350px;
+                    @media all and (max-width:900px) {
+                        max-width: 80%;
+                    }
+    
+                    &::before{
+                        background-color: $yellow;
+                        content: "";
+                        height: 4px;
+                        left: 0;
+                        position: absolute;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        width: 100%;
+                        z-index: 1;
+                    }
+    
+                    .progress{
+                        background-color: white;
+                        height: 4px;
+                        left: 0;
+                        position: absolute;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        transition: 0.4s ease;
+                        width: 0%;
+                        z-index: 1;
+                    }
+    
+                    .circle{
+                        align-items: center;
+                        background-color: $black;
+                        font-weight: bold;
+                        border: 3px solid;
+                        border-radius: 50%;
+                        color: $yellow;
+                        display: flex;
+                        height: 30px;
+                        justify-content: center;
+                        transition: 0.4 ease;
+                        width: 30px;
+                        position: relative;
+                        z-index: 60;
+    
+                        &.active{
+                            border-color: $white;
+                            background-color: $white;
+                            color: $black;
+                        }
+                    }
+                }
+            }
+            .form-step{
+                width: 100%;
+                min-height: 200px;
+                flex-direction: column;
+                gap: 10px;
+                h2{
+                    margin: 0;
+                }
+                .formgroupRegister{
+                    width: 100%;
+                    min-height: 85px;
+                    @include flex(column);
+                    label{
+                        width: 100%;
+                        padding: 5px 10px;
+                    }
+                    input{
+                        width: 100%;
+                        padding: 10px 10px;
+                        border-radius: 5px;
+                        outline: none;
+                        border: none;
+                    }
+                    .text-danger{
+                        width: 100%;
+                        padding: 5px;
+                        p{
+                            margin: 0;
+                            font-weight: bold;
+                        }
                     }
                 }
             }
         }
 
-        .formgroupRegister{
-            width: 100%;
-            height: 80px;
-            background-color: red;
-            @include flex(column);
-            div{
-                @include flex(column);
-                width: 100%;
-                height: 100%;
-                label{
-                    width: 100%;
-                }
-                input{
-                    width: 100%;
-                    height: 40px;
-                    border-radius: 5px;
-                    outline: none;
-                    border: none;
-                    padding: 5px;
-                }
-            }
-
-        }
+        
 
         @media all and (max-width:900px) {
             .formRegister{
@@ -138,6 +149,20 @@
             .formRegister{
                 width: 100%;
             }
+        }
+    }
+
+    .loginRedirection{
+        width: 100%;
+        padding: 10px 0;
+        @include flex(row);
+        gap: 5px;
+        margin-top: 20px;
+        span{
+            color: $white;
+        }
+        a{
+            color: $yellow;
         }
     }
 
@@ -164,5 +189,88 @@
             background-color: $yellow;
             color: $black;
         }
+    }
+}
+
+.imgRegister{
+    border-radius: 0 15px 15px 0;
+    background-color: $yellow;
+    width: 50%;
+    height: 700px;
+    @include flex(row);
+    position: relative;
+    .imgRegisterContainer{
+        width: 75%;
+        min-height: 200px;
+        background-color: rgba(255, 255, 255, 0.3);
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        position: relative;
+        z-index: 50;
+        @media all and (max-width:700px) {
+            width: 80%;
+        }
+
+        .textImgRegister{
+            width: 100%;
+            min-height: 200px;
+            font-family: $bebas;
+            @include flex(column);
+            gap: 20px;
+            
+            span{
+                font-size: 28px;
+                color: $yellow;
+                text-align: center;
+                @media all and (max-width:1200px) {
+                    font-size: 22px;
+                }
+                @media all and (max-width:900px) {
+                    font-size: 26px;
+                }
+                @media all and (max-width:700px) {
+                    font-size: 22px;
+                }
+            }
+        }
+    }
+    .containerImgRegister{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 0 15px 15px 0;
+        @media all and (max-width:900px) {
+            border-radius: 0 0px 15px 15px;
+        }
+        img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 0 15px 15px 0;
+            @media all and (max-width:900px) {
+                border-radius: 0 0px 15px 15px;
+            }
+        }
+    }
+}
+
+@media all and (max-width:900px) {
+    .imgLogin, .imgRegister{
+        width: 80%;
+        border-radius: 0px 0px 15px 15px;
+    }
+    .formLogin, .formRegister{
+        width: 80%;
+        border-radius: 15px 15px 0px 0px;
+    }
+}
+@media all and (max-width:500px) {
+    .imgLogin, .imgRegister{
+        width: 100%;
+    }
+    .formLogin, .formRegister{
+        width: 100%;
     }
 }

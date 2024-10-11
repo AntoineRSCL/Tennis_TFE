@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationType;
+use Symfony\Component\Form\FormError;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -51,35 +52,38 @@ class AccountController extends AbstractController
     }
 
     #[Route('/register', name: 'account_register')]
-    public function register(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
+    public function register(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationType::class, $user);
 
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
-            // Hash the password
-            $hashedPassword = $passwordHasher->hashPassword($user, $user->getPassword());
-            $user->setPassword($hashedPassword);
+            // Vérifiez si le nom d'utilisateur existe déjà
+            $existingUser = $em->getRepository(User::class)->findOneBy(['username' => $user->getUsername()]);
+            if ($existingUser) {
+                $form->addError(new FormError('Ce nom d\'utilisateur est déjà utilisé.'));
+            } else {
+                // Hash the password
+                $hashedPassword = $passwordHasher->hashPassword($user, $user->getPassword());
+                $user->setPassword($hashedPassword);
 
-            // Handle file upload (picture)
-            $pictureFile = $form->get('picture')->getData();
-            if ($pictureFile) {
-                $newFilename = uniqid().'.'.$pictureFile->guessExtension();
-                $pictureFile->move(
-                    $this->getParameter('pictures_directory'), // Directory to store files
-                    $newFilename
-                );
-                $user->setPicture($newFilename);
+                // Handle file upload (picture)
+                $pictureFile = $form->get('picture')->getData();
+                if ($pictureFile) {
+                    $newFilename = uniqid().'.'.$pictureFile->guessExtension();
+                    $pictureFile->move(
+                        $this->getParameter('pictures_directory'), // Directory to store files
+                        $newFilename
+                    );
+                    $user->setPicture($newFilename);
+                }
+
+                $em->persist($user);
+                $em->flush();
+
+                return $this->redirectToRoute('account_login'); // Redirigez l'utilisateur après l'inscription
             }
-
-            // Persist user to database
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            // Optionally, redirect to login or another page
-            return $this->redirectToRoute('account_login');
         }
 
         return $this->render('account/register.html.twig', [

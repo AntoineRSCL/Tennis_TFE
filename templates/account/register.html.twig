@@ -1,7 +1,6 @@
 {# templates/registration/register.html.twig #}
 {% extends 'base.html.twig' %}
 
-
 {% block title %}Inscription | Le Smash Ucclois{% endblock %}
 
 {% block body %}
@@ -24,33 +23,84 @@
                     </div>
                 </div>
 
+                
+
                 <!-- Étape 1: Information de Connexion -->
                 <div class="form-step active">
                     <h2>Information de Connexion</h2>
                     <div class="formgroupRegister">
-                        {{ form_row(form.username) }}
+                        {{ form_label(form.username) }}
+                        {{ form_widget(form.username) }}
+                        {% if form.vars.errors is not empty %}
+                            <div class="text-danger">
+                                {% if form.vars.errors is not empty %}
+                                    {% for error in form.vars.errors %}
+                                        <p>{{ error.message }}</p>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        {% endif %}
                     </div>
                     <div class="formgroupRegister">
-                        {{ form_row(form.password) }}
+                        {{ form_label(form.password) }}
+                        {{ form_widget(form.password) }}
+                        {% if form.password.vars.errors|length > 0 %}
+                            <div class="text-danger">
+                                {% for error in form.password.vars.errors %}
+                                    <p>{{ error.message }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
-                    <div class="formgroupRegister" id="password-confirm-group" style="display:none;">
-                        {{ form_row(form.confirm_password, { 'label': 'Confirmer le mot de passe'}) }}
+                    <div class="formgroupRegister" id="password-confirm-group">
+                        {{ form_label(form.confirm_password, 'Confirmer le mot de passe') }}
+                        {{ form_widget(form.confirm_password) }}
+                        {% if form.confirm_password.vars.errors|length > 0 %}
+                            <div class="text-danger">
+                                {% for error in form.confirm_password.vars.errors %}
+                                    <p>{{ error.message }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                         <span id="password-error" class="text-danger" style="display:none;">Les mots de passe ne correspondent pas.</span>
                     </div>
-
                 </div>
 
                 <!-- Étape 2: Informations Personnelles -->
                 <div class="form-step">
                     <h2>Informations Personnelles</h2>
                     <div class="formgroupRegister">
-                        {{ form_row(form.firstname) }}
+                        {{ form_label(form.firstname) }}
+                        {{ form_widget(form.firstname) }}
+                        {% if form.firstname.vars.errors|length > 0 %}
+                            <div class="text-danger">
+                                {% for error in form.firstname.vars.errors %}
+                                    <p>{{ error.message }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
                     <div class="formgroupRegister">
-                        {{ form_row(form.lastname) }}
+                        {{ form_label(form.lastname) }}
+                        {{ form_widget(form.lastname) }}
+                        {% if form.lastname.vars.errors|length > 0 %}
+                            <div class="text-danger">
+                                {% for error in form.lastname.vars.errors %}
+                                    <p>{{ error.message }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
                     <div class="formgroupRegister">
-                        {{ form_row(form.birth_date) }}
+                        {{ form_label(form.birth_date) }}
+                        {{ form_widget(form.birth_date) }}
+                        {% if form.birth_date.vars.errors|length > 0 %}
+                            <div class="text-danger">
+                                {% for error in form.birth_date.vars.errors %}
+                                    <p>{{ error.message }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
 
@@ -58,15 +108,36 @@
                 <div class="form-step">
                     <h2>Information de Contact</h2>
                     <div class="formgroupRegister">
-                        {{ form_row(form.email) }}
+                        {{ form_label(form.email) }}
+                        {{ form_widget(form.email) }}
+                        {% if form.email.vars.errors|length > 0 %}
+                            <div class="text-danger">
+                                {% for error in form.email.vars.errors %}
+                                    <p>{{ error.message }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
                     <div class="formgroupRegister">
-                        {{ form_row(form.phone) }}
+                        {{ form_label(form.phone) }}
+                        {{ form_widget(form.phone) }}
+                        {% if form.phone.vars.errors|length > 0 %}
+                            <div class="text-danger">
+                                {% for error in form.phone.vars.errors %}
+                                    <p>{{ error.message }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
                     <div class="formgroupRegister">
-                        {{ form_row(form.private, {
-                            label: "Voulez-vous apparaître dans le carnet d'adresse des membres ?"
-                        }) }}
+                        {{ form_row(form.private, { label: "Voulez-vous apparaître dans le carnet d'adresse des membres ?" }) }}
+                        {% if form.private.vars.errors|length > 0 %}
+                            <div class="text-danger">
+                                {% for error in form.private.vars.errors %}
+                                    <p>{{ error.message }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
 
@@ -74,12 +145,26 @@
                 <div class="form-step">
                     <h2>Autres Informations</h2>
                     <div class="formgroupRegister">
-                        {{ form_row(form.ranking) }}
+                        {{ form_label(form.ranking) }}
+                        {{ form_widget(form.ranking) }}
+                        {% if form.ranking.vars.errors|length > 0 %}
+                            <div class="text-danger">
+                                {% for error in form.ranking.vars.errors %}
+                                    <p>{{ error.message }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
                     <div class="formgroupRegister">
-                        {{ form_row(form.picture, {
-                            label: "Image de profil"
-                        }) }}
+                        {{ form_label(form.picture, 'Image de profil') }}
+                        {{ form_widget(form.picture) }}
+                        {% if form.picture.vars.errors|length > 0 %}
+                            <div class="text-danger">
+                                {% for error in form.picture.vars.errors %}
+                                    <p>{{ error.message }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
 
@@ -99,6 +184,10 @@
             </div>
 
             {{ form_end(form) }}
+
+            <div class="loginRedirection">
+                <span>Vous possédez déja un compte ?</span><a href="{{ path('account_login') }}">Se connecter</a>
+            </div>
         </div>
         <div class="imgRegister">
             <div class="imgRegisterContainer">
@@ -111,14 +200,13 @@
             </div>
         </div>
     </div>
-
 </div>
 
 {% endblock %}
 
 {% block javascripts %}
 <script>
-     document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function() {
         let currentStep = 0; // Initialiser l'étape actuelle
         showStep(currentStep); // Afficher la première étape
 
