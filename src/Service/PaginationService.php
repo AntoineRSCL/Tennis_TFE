@@ -71,6 +71,8 @@ class PaginationService
      */
     private array $criteria = [];
 
+    private ?string $searchTerm = null;
+
     /**
      * Constructeur du service de pagination qui sera appelé par Symfony
      * 
@@ -190,6 +192,17 @@ class PaginationService
         return $this;
     }
 
+    public function setSearchTerm(?string $searchTerm): self
+    {
+        $this->searchTerm = $searchTerm;
+        return $this;
+    }
+
+    public function getSearchTerm(): ?string
+    {
+        return $this->searchTerm;
+    }
+
     /**
      * Permet de récupérer les données paginées pour une entité spécifique
      * @throws \Exception si la propriété $entityClass n'est pas configurée
@@ -206,6 +219,12 @@ class PaginationService
         $queryBuilder = $this->manager
             ->getRepository($this->entityClass)
             ->createQueryBuilder('e');
+
+        // Ajouter la recherche ici
+        if ($this->searchTerm) {
+            $queryBuilder->andWhere('e.lastname LIKE :searchTerm OR e.firstname LIKE :searchTerm')
+                        ->setParameter('searchTerm', '%' . $this->searchTerm . '%');
+        }
 
         foreach ($this->criteria as $field => $value) {
             if ($value === null) {
@@ -229,13 +248,11 @@ class PaginationService
             }
         }
 
-        // Ajoutez ces lignes pour effectuer la pagination
+        // Pagination
         $queryBuilder->setFirstResult($offset)
                     ->setMaxResults($this->limit);
 
-        return $queryBuilder
-            ->getQuery()
-            ->getResult();
+        return $queryBuilder->getQuery()->getResult();
     }
 
 

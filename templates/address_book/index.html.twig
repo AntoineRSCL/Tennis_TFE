@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Carnet d'Adresses{% endblock %}
+
+{% block body %}
+    <h1>Carnet d'Adresses</h1>
+
+    {% if users is empty %}
+        <p>Aucun utilisateur trouvé.</p>
+    {% else %}
+        <ul>
+            {% for user in users %}
+                <li>{{ user.username }} - {{ user.email }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    
+        {{ pagination.display() }}
+{% endblock %}
