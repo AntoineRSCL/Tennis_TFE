@@ -3,6 +3,8 @@
 {% block title %}Carnet d'Adresses{% endblock %}
 
 {% block body %}
+<div class="containerComponent">
+
     <h1>Carnet d'Adresses</h1>
 
     {% if users is empty %}
@@ -17,4 +19,5 @@
 
     
         {{ pagination.display() }}
+</div>
 {% endblock %}

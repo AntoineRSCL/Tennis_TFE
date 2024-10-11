@@ -1,0 +1,23 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Modifier le coach{% endblock %}
+
+{% block body %}
+<div class="containerComponent">
+    <h1>Modifier le coach</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.username) }}
+        {{ form_row(form.firstname) }}
+        {{ form_row(form.lastname) }}
+        {{ form_row(form.email) }}
+        {{ form_row(form.phone) }}
+        {{ form_row(form.ranking) }}
+        {{ form_row(form.birth_date) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.languagesSpoken) }}
+
+        <button class="btn btn-success">Enregistrer les modifications</button>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

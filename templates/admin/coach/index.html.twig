@@ -1,0 +1,59 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Liste des Coachs{% endblock %}
+
+{% block body %}
+    <div class="containerComponent">
+        <h1>Liste des Coachs</h1>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nom d'utilisateur</th>
+                    <th>Prénom</th>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Téléphone</th>
+                    <th>Classement</th>
+                    <th>Langues Parlées</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for coach in coaches %}
+                    <tr>
+                        <td>{{ coach.user.username }}</td>
+                        <td>{{ coach.user.firstname }}</td>
+                        <td>{{ coach.user.lastname }}</td>
+                        <td>{{ coach.user.email }}</td>
+                        <td>{{ coach.user.phone }}</td>
+                        <td>{{ coach.user.ranking }}</td>
+                        <td>{{ coach.languagesSpoken }}</td>
+                        <td>
+                            <a href="{{ path('admin_coach_edit', { id: coach.id }) }}" class="btn btn-primary">Éditer</a>
+                            <form action="{{ path('admin_coach_delete', { id: coach.id }) }}" method="post" style="display:inline;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce coach ?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ coach.id) }}">
+                                <button class="btn btn-danger">Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8">Aucun coach trouvé.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('admin_coach_new') }}" class="btn btn-success">Créer un nouveau coach</a>
+    </div>
+
+    <script>
+        // Optionnel : script pour une meilleure expérience utilisateur
+        document.querySelectorAll('form').forEach(form => {
+            form.onsubmit = function() {
+                return confirm('Êtes-vous sûr de vouloir supprimer ce coach ?');
+            };
+        });
+    </script>
+{% endblock %}

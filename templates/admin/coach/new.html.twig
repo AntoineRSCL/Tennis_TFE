@@ -1,0 +1,27 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Créer un nouveau coach{% endblock %}
+
+{% block body %}
+<div class="containerComponent">
+    <h1>Créer un nouveau coach</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.username) }}
+        {{ form_row(form.password) }}
+        {{ form_row(form.firstname) }}
+        {{ form_row(form.lastname) }}
+        {{ form_row(form.email) }}
+        {{ form_row(form.phone) }}
+        {{ form_row(form.ranking) }}
+        {{ form_row(form.birth_date) }}
+        {{ form_row(form.picture) }}
+
+        {# Coach-specific fields #}
+        {{ form_row(form.description) }}
+        {{ form_row(form.languagesSpoken) }}
+
+        <button class="btn btn-success">Créer le coach</button>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

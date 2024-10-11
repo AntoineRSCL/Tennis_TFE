@@ -103,6 +103,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: TournamentRegistration::class, mappedBy: 'player', orphanRemoval: true)]
     private Collection $tournamentRegistrations;
 
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Coach $coach = null;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
@@ -465,6 +468,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $tournamentRegistration->setPlayer(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCoach(): ?Coach
+    {
+        return $this->coach;
+    }
+
+    public function setCoach(?Coach $coach): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($coach === null && $this->coach !== null) {
+            $this->coach->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($coach !== null && $coach->getUser() !== $this) {
+            $coach->setUser($this);
+        }
+
+        $this->coach = $coach;
 
         return $this;
     }
