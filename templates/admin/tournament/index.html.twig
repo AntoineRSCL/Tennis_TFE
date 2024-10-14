@@ -3,9 +3,10 @@
 {% block title %}Liste des tournois{% endblock %}
 
 {% block body %}
-    <div class="container">
+    <div class="container-fluid">
         <h1 class="my-4">Liste des tournois</h1>
-        
+        <a href="{{ path('admin_tournament_new') }}" class="btn btn-primary mb-3">Créer un nouveau tournoi</a>
+
         {# Affichage des messages flash #}
         {% for message in app.flashes('success') %}
             <div class="alert alert-success">{{ message }}</div>
@@ -51,6 +52,5 @@
             </tbody>
         </table>
         
-        <a href="{{ path('admin_tournament_new') }}" class="btn btn-primary">Créer un nouveau tournoi</a>
     </div>
 {% endblock %}
