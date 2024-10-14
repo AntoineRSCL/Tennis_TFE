@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Cocur\Slugify\Slugify;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\AgendaRepository;
@@ -39,6 +41,17 @@ class Agenda
 
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
+
+    /**
+     * @var Collection<int, AgendaReservation>
+     */
+    #[ORM\OneToMany(targetEntity: AgendaReservation::class, mappedBy: 'agenda', orphanRemoval: true)]
+    private Collection $agendaReservations;
+
+    public function __construct()
+    {
+        $this->agendaReservations = new ArrayCollection();
+    }
 
     /**
      * Permet de créer un slug automatiquement à partir du titre de l'article
@@ -129,6 +142,36 @@ class Agenda
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AgendaReservation>
+     */
+    public function getAgendaReservations(): Collection
+    {
+        return $this->agendaReservations;
+    }
+
+    public function addAgendaReservation(AgendaReservation $agendaReservation): static
+    {
+        if (!$this->agendaReservations->contains($agendaReservation)) {
+            $this->agendaReservations->add($agendaReservation);
+            $agendaReservation->setAgenda($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAgendaReservation(AgendaReservation $agendaReservation): static
+    {
+        if ($this->agendaReservations->removeElement($agendaReservation)) {
+            // set the owning side to null (unless already changed)
+            if ($agendaReservation->getAgenda() === $this) {
+                $agendaReservation->setAgenda(null);
+            }
+        }
 
         return $this;
     }

@@ -106,12 +106,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Coach $coach = null;
 
+    /**
+     * @var Collection<int, AgendaReservation>
+     */
+    #[ORM\OneToMany(targetEntity: AgendaReservation::class, mappedBy: 'user', orphanRemoval: true)]
+    private Collection $agendaReservations;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
         $this->tournaments = new ArrayCollection();
         $this->tournamentMatches = new ArrayCollection();
         $this->tournamentRegistrations = new ArrayCollection();
+        $this->agendaReservations = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
@@ -490,6 +497,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->coach = $coach;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AgendaReservation>
+     */
+    public function getAgendaReservations(): Collection
+    {
+        return $this->agendaReservations;
+    }
+
+    public function addAgendaReservation(AgendaReservation $agendaReservation): static
+    {
+        if (!$this->agendaReservations->contains($agendaReservation)) {
+            $this->agendaReservations->add($agendaReservation);
+            $agendaReservation->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAgendaReservation(AgendaReservation $agendaReservation): static
+    {
+        if ($this->agendaReservations->removeElement($agendaReservation)) {
+            // set the owning side to null (unless already changed)
+            if ($agendaReservation->getUser() === $this) {
+                $agendaReservation->setUser(null);
+            }
+        }
 
         return $this;
     }
