@@ -31,6 +31,7 @@
           font-size: 4vw;
           text-align: center;
           margin-bottom: 50px;
+          color: $yellow;
           @media all and (max-width:900px) {
             font-size: 40px;
           }
@@ -130,7 +131,7 @@
         width: 100%;
         height: 50px;
         bottom: -50px;
-        z-index: 10;
+        z-index: 50;
         transform: rotate(180deg);
 
         &::before{
@@ -178,14 +179,49 @@
           .statContainer{
             width: 65%;
             height: 200px;
-            background-color: red;
             margin-top: 20px;
+            @include flex(column);
             @media all and (max-width:1200px) {
               width: 90%;
+            }
+            .statsUp, .statsDown{
+              width: 100%;
+              flex: 1;
+              @include flex(row);
+              .stat{
+                flex: 1;
+                height: 100%;
+                @include flex(row);
+                justify-content: start;
+                gap: 30px;
+                .logoStat{
+                  width: 50px;
+                  height: 50px;
+                  img, svg{
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                  }
+                }
+                .textStat{
+                  @include flex(column);
+                  align-items: start;
+                  color: $black;
+                  .numberStat{
+                    font-size: 30px;
+                  }
+                }
+              }
             }
           }
         }
       }
+    }
+    .newsHome{
+      width: 100%;
+      height: 50vh;
+      background-color: $black;
+      position: relative;
     }
 }
 
