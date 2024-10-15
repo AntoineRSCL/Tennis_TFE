@@ -4,15 +4,35 @@
 
 {% block body %}
     <div class="homePage">
-        <swiper-container class="mySwiper" pagination="true" pagination-clickable="true" navigation="true" space-between="30"
-    loop="true">
-            <swiper-slide>Slide 1</swiper-slide>
-            <swiper-slide>Slide 2</swiper-slide>
-            <swiper-slide>Slide 3</swiper-slide>
-            <swiper-slide>Slide 4</swiper-slide>
-        </swiper-container>
+        <div class="accueil">
+            <div class="homeText">
+                <h2>Bienvenue au</h2>
+                <h1>Tennis Club Smash Ucclois</h1>
+                <div class="btnHome">
+                    <a href="">À Propos</a>
+                    <a href="" class="connectBtn">Se connecter</a>
+                </div>
+            </div>
+            <div class="shapedividers_com-9608"></div>
+            <img src="/images/tennisBackground.jpg" alt="Image de terrain de tennis">
+        </div>
+        <div class="statsHome">
+            <div class="statLeft"> 
+                <div class="infoStats"></div>
+                <div class="statStats"></div>
+                <div class="imgLeft">
+                    <div class="containerImgLeft"></div>
+                </div>
+            </div>
+            <div class="statRight">
+                <div class="infoStats"></div>
+                <div class="statStats"></div>
+            </div>
+        </div>
     </div>
 {% endblock %}
+
+
 {% block javascripts %}
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
 {% endblock %}
