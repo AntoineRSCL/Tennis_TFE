@@ -16,5 +16,5 @@ import './styles/pages/tournament.scss';
 
 import './styles/partials/header.scss';
 
-import './js/burger.js'
+import './js/burger.js';
 

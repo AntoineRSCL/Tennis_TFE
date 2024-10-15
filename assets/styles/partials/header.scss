@@ -30,7 +30,6 @@
             }
 
             .infoConnexionContainer {
-                width: 100%;
                 max-width: 1200px;
                 height: 25px;
                 @include flex(row);
@@ -38,14 +37,14 @@
                 @media all and (max-width: 1250px) {
                     max-width: 900px;
                 }
-                @media all and (max-width: 925px) {
+                @media all and (max-width: 900px) {
                     max-width: 700px;
                 }
                 @media all and (max-width: 700px) {
-                    max-width: 500px;
+                    width: 500px;
                 }
                 @media all and (max-width: 500px) {
-                    max-width: 350px;
+                    width: 350px;
                     height: 50px;
                     flex-direction: column;
                 }
@@ -193,22 +192,21 @@
             @include flex(row);
 
             .navHeaderContainer {
-                width: 100%;
-                max-width: 1200px;
+                width: 1200px;
                 height: 100px;
                 @include flex(row);
                 justify-content: space-between;
 
                 @media all and (max-width: 1250px) {
-                    max-width: 900px;
+                    width: 900px;
                 }
 
                 @media all and (max-width: 925px) {
-                    max-width: 700px;
+                    width: 700px;
                 }
 
                 @media all and (max-width: 700px) {
-                    max-width: 500px;
+                    width: 500px;
                 }
 
                 .logoContainer {
@@ -339,7 +337,7 @@
                 }
 
                 @media all and (max-width: 500px) {
-                    max-width: 350px;
+                    width: 350px;
                     height: 75px;
 
                     .logoContainer {
