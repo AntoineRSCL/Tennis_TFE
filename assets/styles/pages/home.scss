@@ -366,12 +366,22 @@
     }
     .eventHome{
       width: 100%;
-      min-height: 100vh;
+      min-height: 80vh;
       background-color: $black;
       position: relative;
       @include flex(column);
       justify-content: start;
       color: white;
+      position: relative;
+      .upEvent, .downEvent{
+        position: absolute;
+        width: 100%;
+        height: 50%;
+      }
+      .downEvent{
+        background-color: $white;
+        bottom: 0;
+      }
       .shapedividers_com-9608{
         position: absolute;
         width: 100%;
@@ -390,6 +400,72 @@
         font-family: $bebas;
         font-size: 50px;
         text-align: center;
+      }
+      .allEvent{
+        padding: 10px 20px;
+        @include btn($black, $yellow);
+        margin-bottom: 75px;
+      }
+      .eventContainer{
+        width: 100%;
+        max-width: 1200px;
+        min-height: 45vh;
+        @include flex(row);
+        color: $black;
+        margin: 50px 0;
+        @media all and (max-width:1200px) {
+            max-width: 900px;
+        }
+        @media all and (max-width:900px) {
+            max-width: 700px;
+            flex-direction: column;
+        }
+        @media all and (max-width:700px) {
+            max-width: 500px;
+        }
+        @media all and (max-width:500px) {
+            max-width: 400px;
+        }
+        @media all and (max-width:400px) {
+            max-width: 250px;
+        }
+      }
+      swiper-container{
+        margin-top: 5vh;
+        width: 100%;
+        height: 45vh;
+        swiper-slide{
+          background-color: red;
+          border-radius: 10px;
+          height: 40vh;
+          @include flex(column);
+          align-items: start;
+          justify-content: end;
+          position: relative;
+          h4, span{
+            position: relative;
+            z-index: 55;
+            color: white;
+            font-weight: bold;
+            padding: 2px 10px;
+            background-color: $black;
+            width: 100%;
+          }
+          img{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            object-fit: cover;
+            border-radius: 10px;
+          }
+          a{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            border-radius: 10px;
+            z-index: 50;
+          }
+        }
       }
     }
 }

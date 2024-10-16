@@ -16,6 +16,22 @@ class AgendaRepository extends ServiceEntityRepository
         parent::__construct($registry, Agenda::class);
     }
 
+    /**
+     * Récupère les 4 événements les plus proches de la date actuelle (sans inclure les événements passés).
+     *
+     * @return Agenda[]
+     */
+    public function findUpcomingEvents(): array
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.date >= :currentDate')
+            ->setParameter('currentDate', new \DateTime()) // On récupère la date actuelle
+            ->orderBy('a.date', 'ASC') // Trier par date croissante
+            ->setMaxResults(4) // Limiter les résultats à 4 événements
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Agenda[] Returns an array of Agenda objects
 //     */
