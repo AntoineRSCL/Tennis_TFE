@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\NewsRepository;
 use App\Repository\UserRepository;
 use App\Repository\CoachRepository;
 use App\Repository\CourtRepository;
@@ -12,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'homepage')]
-    public function index(CoachRepository $coachRepo, UserRepository $userRepo, CourtRepository $courtRepo): Response
+    public function index(CoachRepository $coachRepo, UserRepository $userRepo, CourtRepository $courtRepo, NewsRepository $newsRepo): Response
     {
         // Récupérer le nombre total de membres, de coachs et de courts
         $totalMembers = $userRepo->count([]);
@@ -22,10 +23,13 @@ class HomeController extends AbstractController
         // Arrondir le nombre de membres à la dizaine inférieure
         $totalMembersRounded = floor($totalMembers / 10) * 10;
 
+        $lastNews = $newsRepo->findLastFourNews();
+
         return $this->render('home.html.twig', [
             'totalMembers' => $totalMembersRounded,
             'totalCoaches' => $totalCoaches,
             'totalCourts' => $totalCourts,
+            'lastNews' => $lastNews
         ]);
     }
 }

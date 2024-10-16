@@ -95,6 +95,40 @@
         </div>
         <div class="newsHome">
             <div class="shapedividers_com-9608"></div>
+            <h2>DERNIERES ACTUALITÉS</h2>
+            <div class="newsContainer">
+                <!-- Première actualité à gauche -->
+                {% for news in lastNews %}
+                    {% if loop.first %}
+                        <div class="primaryNews">
+                            <h2 class="newsTitle">{{ news.title }}</h2>
+                            <p>{{ news.content|slice(0, 300) ~ '...' }}</p>
+                            <div class="imgNews">
+                                <img src="/uploads/pictures/{{news.picture}}" alt="Image de {{news.title}}">
+                            </div>
+                            <a href="{{ path('news_show', {slug: news.slug}) }}"></a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+                <!-- Conteneur pour les trois autres actualités à droite -->
+                <div class="otherNews">
+                    {% for news in lastNews %}
+                        {% if not loop.first %}
+                            <div class="news">
+                                <div class="textNews">
+                                    <h3>{{ news.title }}</h3>
+                                    <p>{{ news.content|slice(0, 100) ~ '...' }}</p>
+                                </div>
+                                <div class="imageNews">
+                                    <img src="/uploads/pictures/{{news.picture}}" alt="Image de {{news.title}}">
+                                </div>
+                                <a href="{{ path('news_show', {slug: news.slug}) }}"></a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

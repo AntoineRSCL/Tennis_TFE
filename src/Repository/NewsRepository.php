@@ -16,6 +16,20 @@ class NewsRepository extends ServiceEntityRepository
         parent::__construct($registry, News::class);
     }
 
+    /**
+     * Recupere les 4 dernieres news
+     *
+     * @return array
+     */
+    public function findLastFourNews(): array
+    {
+        return $this->createQueryBuilder('n')
+            ->orderBy('n.createdAt', 'DESC')
+            ->setMaxResults(4)
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return News[] Returns an array of News objects
     //     */
