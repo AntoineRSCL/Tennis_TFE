@@ -14,6 +14,7 @@ import './styles/pages/register.scss';
 import './styles/pages/reservation.scss';
 import './styles/pages/tournament.scss';
 
+import './styles/partials/footer.scss';
 import './styles/partials/header.scss';
 
 import './js/burger.js';

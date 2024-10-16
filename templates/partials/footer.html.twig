@@ -1,0 +1,39 @@
+<div class="footer">
+    <div class="shapedividers_com-9608"></div>
+    <div class="footerContainer">
+        <div class="logoFooter">
+            <div class="logoF">
+                <img src="/images/logoTennis.png" alt="Logo du TC Smash Ucclois">
+            </div>
+            <h2>TENNIS SMASH UCCLOIS</h2>
+            <div class="legals">
+                <a href="#">Mentions Légales</a>
+                <a href="#">R.O.I</a>
+            </div>
+        </div>
+        <div class="containerMap">
+            <div class="mapContainer">
+                <div id="map"></div>
+            </div>
+        </div>
+        <div class="navFooter">
+        
+        </div>
+        <div class="footerContact"></div>
+    </div>
+        
+</div>
+<script>
+    // Initialisation de la carte centrée sur le Parc de Wolvendael (coordonnées GPS : 50.8027, 4.3425)
+    var map = L.map('map').setView([50.8027, 4.3425], 15); // Niveau de zoom initial: 15
+
+    // Charger et afficher les tuiles OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Ajouter un marqueur sur les coordonnées du Parc de Wolvendael
+    var marker = L.marker([50.8027, 4.3425]).addTo(map)
+        .bindPopup('Parc de Wolvendael, Uccle') // Popup lorsque l'on clique sur le marqueur
+        .openPopup(); // Popup ouvert par défaut
+</script>
