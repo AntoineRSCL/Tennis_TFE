@@ -9,7 +9,7 @@
     font-family: $roboto;
     .accueil{
       width: 100%;
-      height: 55vh;
+      height: 50vh;
       position: relative;
       @include flex(row);
       .homeText{
@@ -39,6 +39,9 @@
         .btnHome{
           @include flex(row);
           gap: 20px;
+          @media all and (max-width:350px) {
+            flex-direction: column;
+          }
           a{
             width: 150px;
             padding: 10px;
@@ -79,10 +82,14 @@
     }
     .statsHome{
       width: 100%;
-      height: calc(2 * (45vh - 125px));
+      height: calc(2 * (50vh - 125px));
       background-color: red;
       @include flex(row);
       position: relative;
+      @media all and (max-width:600px) {
+        height: auto;
+        min-height: calc(2 * (50vh - 125px)) !important;
+      }
       .statLeft, .statRight{
         flex: 1;
         height: 100%;
@@ -126,30 +133,21 @@
         }
         
       }
-      .shapedividers_com-9608{
-        position: absolute;
-        width: 100%;
-        height: 50px;
-        bottom: -50px;
-        z-index: 50;
-        transform: rotate(180deg);
-
-        &::before{
-            background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.28 2.17" preserveAspectRatio="none"><path d="M35.28 1.16c-3.17-.8-7.3.4-10.04.56-2.76.17-9.25-1.47-12.68-1.3-3.42.16-4.64.84-7.04.86C3.12 1.31 0 .4 0 .4v1.77h35.28z" fill="%23CCF201"/></svg>'); 
-        }
-      }
       .statRight{
+        min-height: 100%;
         .infoStats{
           @include flex(column);
           justify-content: end;
           align-items: start;
           color: $black;
+          min-height: 20px;
           @media all and (max-width:900px) {
             justify-content: center;
             align-items: center;
+            text-align: center;
           }
           .containerTextInfo{
-            width: 65%;
+            width: 80%;
             min-height: 20px;
             margin-bottom: 20px;
             @media all and (max-width:1200px) {
@@ -157,10 +155,15 @@
             }
             .contactInfo{
               width: 100%;
-              height: 50px;
+              min-height: 50px;
               @include flex(row);
               justify-content: start;
               gap: 15px;
+              @media all and (max-width:900px) {
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+              }
               .contactUs{
                 @include flex(row);
                 a{
@@ -176,10 +179,16 @@
           }
         }
         .statStats{
+          @include flex(row);
+          justify-content: start;
+          @media all and (max-width:1200px) {
+            justify-content: center;
+          }
           .statContainer{
             width: 65%;
-            height: 200px;
+            min-height: 200px;
             margin-top: 20px;
+            margin-bottom: 20px;
             @include flex(column);
             @media all and (max-width:1200px) {
               width: 90%;
@@ -188,27 +197,40 @@
               width: 100%;
               flex: 1;
               @include flex(row);
+              @media all and (max-width:700px) {
+                flex-direction: column;
+                gap: 15px;
+              }
               .stat{
                 flex: 1;
                 height: 100%;
                 @include flex(row);
                 justify-content: start;
                 gap: 30px;
-                .logoStat{
-                  width: 50px;
-                  height: 50px;
-                  img, svg{
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                  }
+                @media all and (max-width:900px) {
+                  justify-content: center;
                 }
-                .textStat{
-                  @include flex(column);
-                  align-items: start;
-                  color: $black;
-                  .numberStat{
-                    font-size: 30px;
+                .statBlock{
+                  width: 200px;
+                  @include flex(row);
+                  justify-content: start;
+                  gap: 10px;
+                  .logoStat{
+                    width: 50px;
+                    height: 50px;
+                    img, svg{
+                      width: 100%;
+                      height: 100%;
+                      object-fit: cover;
+                    }
+                  }
+                  .textStat{
+                    @include flex(column);
+                    align-items: start;
+                    color: $black;
+                    .numberStat{
+                      font-size: 30px;
+                    }
                   }
                 }
               }
@@ -222,6 +244,17 @@
       height: 50vh;
       background-color: $black;
       position: relative;
+      .shapedividers_com-9608{
+        position: absolute;
+        width: 100%;
+        height: 100px;
+        transform: rotate(180deg);
+        z-index: 10;
+
+        &::before{
+            background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.28 2.17" preserveAspectRatio="none"><path d="M35.28 1.16c-3.17-.8-7.3.4-10.04.56-2.76.17-9.25-1.47-12.68-1.3-3.42.16-4.64.84-7.04.86C3.12 1.31 0 .4 0 .4v1.77h35.28z" fill="%23CCF201"/></svg>'); 
+        }
+      }
     }
 }
 
