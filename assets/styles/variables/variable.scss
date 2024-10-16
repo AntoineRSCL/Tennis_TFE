@@ -18,6 +18,39 @@ $bebas: "Bebas Neue", sans-serif;
     align-items: center;
 }
 
+@mixin btn($color, $colorHover){
+    padding: 10px 20px;
+    @include flex(column);
+    text-decoration: none;
+    overflow: hidden;
+    position: relative;
+    color: $colorHover;
+    z-index: 0;
+    background-color: $color;
+    border-radius: 5px;
+
+    &:hover{
+        color: $color;
+    }
+    &::before {
+        content: '';
+        position: absolute;
+        top: 50px;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: $colorHover;
+        color: $color;
+        border-radius: 50% 50% 0 0 ;
+        transition: all 0.8s;
+        z-index: -1;
+    }
+    &:hover::before{
+        top: 0;
+        border-radius: 0;
+    }
+}
+
 .shapedividers_com-9608{
     overflow:hidden;
     position:relative;
