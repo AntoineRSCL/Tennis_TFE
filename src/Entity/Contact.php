@@ -5,8 +5,10 @@ namespace App\Entity;
 use App\Repository\ContactRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ContactRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Contact
 {
     #[ORM\Id]
@@ -15,22 +17,41 @@ class Contact
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le sujet du message ne peut pas être vide.")]
     private ?string $subject = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le nom ne peut pas être vide.")]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le prénom ne peut pas être vide.")]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Email(message: "L'adresse email n'est pas valide.")]
     private ?string $email = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(message: "Le contenu du message ne peut pas être vide.")]
     private ?string $message = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $sendAt = null;
+
+    /**
+     * Ajoute la date actuelle lors d'envoi d'un message
+     *
+     * @return void
+     */
+    #[ORM\PrePersist]
+    public function dateMessage(): void
+    {
+        if(empty($this->sendAt))
+        {
+            $this->sendAt = new \DateTime();
+        }
+    }
 
     public function getId(): ?int
     {

@@ -48,7 +48,54 @@
         min-height: 50vh;
         background-color: $yellow;
         position: relative;
-
+        @include flex(row);
+        .contactContainer{
+            width: 100%;
+            max-width: 1200px;
+            min-height: 50vh;
+            @include flex(row);
+            align-items: start;
+            color: $black;
+            @media all and (max-width:1200px) {
+                max-width: 900px;
+            }
+            @media all and (max-width:900px) {
+                max-width: 700px;
+            }
+            @media all and (max-width:700px) {
+                max-width: 500px;
+            }
+            @media all and (max-width:500px) {
+                max-width: 400px;
+            }
+            @media all and (max-width:400px) {
+                max-width: 250px;
+            }
+            .leftContact{
+                flex: 1;
+                @include flex(column);
+                justify-content: start;
+                align-items: start;
+                background-color: pink;
+                min-height: 30vh;
+                padding: 20px;
+                gap: 5px;
+                p{
+                    margin: 0;
+                    font-size: 15px;
+                }
+                .important{
+                    font-weight: bold;
+                    font-size: 17px;
+                }
+            }
+            .rightContact{
+                flex: 1;
+                @include flex(column);
+                background-color: orange;
+                min-height: 30vh;
+            }
+        }
         
     }
     .mapContact{
