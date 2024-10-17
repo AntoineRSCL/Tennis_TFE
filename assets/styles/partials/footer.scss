@@ -1,7 +1,7 @@
 @import '../variables/variable.scss';
 .footer{
     width: 100%;
-    min-height: 50vh;
+    min-height: 25vh;
     background-color: black;
     position: relative;
     @include flex(column);
@@ -21,9 +21,8 @@
     .footerContainer{
         width: 100%;
         max-width: 1200px;
-        min-height: 45vh;
+        min-height: 20vh;
         margin-top: 125px;
-        background-color: orange;
         @include flex(row);
         justify-content: center;
         align-items: start;
@@ -46,12 +45,12 @@
         }
         .logoFooter{
             width: 300px;
-            height: 300px;
-            background-color: red;
+            height: 250px;
             @include flex(column);
+            justify-content: start;
             .logoF{
-                width: 150px;
-                height: 150px;
+                width: 125px;
+                height: 125px;
                 img{
                     width: 100%;
                     height: 100%;
@@ -61,8 +60,17 @@
             h2{
                 margin: 0;
                 font-family: $bebas;
+                color: $white;
                 width: 100%;
                 text-align: center;
+            }
+            a{
+                font-weight: bold;
+                color: white;
+                text-decoration: none;
+                &:hover{
+                    text-decoration: underline;
+                }
             }
             .legals{
                 margin-top: 25px;
@@ -70,31 +78,27 @@
                 @include flex(row);
                 gap: 50px;
             }
-            @media all and (max-width:900px) {
-                width: 500px;
-                height: 200px;
+            @media all and (max-width:1200px) {
+                width: 40%;
                 .logoF{
                     width: 100px;
                     height: 100px;
                 }
             }
-            @media all and (max-width:500px) {
+            @media all and (max-width:700px) {
                 width: 100%;
             }
         }
         .containerMap{
             width: 350px;
-            height: 300px;
-            background-color: pink;
+            height: 250px;
             @include flex(column);
-            @media all and (max-width:900px) {
-                height: 200px;
-            }
-            @media all and (max-width:500px) {
-                width: 100%;
+            justify-content: start;
+            h4{
+                color: $yellow;
             }
             .mapContainer{
-                width: 325px;
+                width: 275px;
                 height: 175px;
                 @include flex(column);
                 border: none;
@@ -104,29 +108,132 @@
                     @include flex(column);
                 }
             }
+            @media all and (max-width:1200px) {
+                width: 30%;
+            }
+            @media all and (max-width:900px) {
+                width: 40%;
+            }
+            @media all and (max-width:700px) {
+                width: 100%;
+                order: 4;
+            }
         }
         .navFooter{
             width: 150px;
-            height: 300px;
-            background-color: brown;
-            @media all and (max-width:900px) {
-                height: 200px;
+            height: 225px;
+            @include flex(column);
+            justify-content: start;
+            align-items: start;
+            padding: 0px 20px;
+            gap: 5px;
+            a{
+                text-decoration: none;
+                color: $white;
+                &:hover{
+                    text-decoration: underline;
+                }
+            }
+            h4{
+                color: $yellow;
+            }
+            @media all and (max-width:1200px) {
+                width: 30%;
+                order: 4;
+            }
+            @media all and (max-width:700px) {
+                order: 3;
             }
             @media all and (max-width:500px) {
-                width: 100%;
+                width: 40%;
             }
         }
         .footerContact{
-            width: 350px;
-            height: 300px;
-            background-color: purple;
-            @media all and (max-width:900px) {
-                width: 500px;
-                height: 200px;
+            width: 300px;
+            height: 225px;
+            @include flex(column);
+            justify-content: start;
+            @media all and (max-width:1200px) {
+                width: 60%;
             }
-            @media all and (max-width:500px) {
-                width: 100%;
+            .containerContactF{
+                @include flex(column);
+                align-items: start;
+                h4{
+                    margin-bottom: 25px;
+                    color: $yellow;
+                }
+                span{
+                    color: white;
+                }
+                a{
+                    color: $yellow;
+                }
+                .contactReseau{
+                    @include flex(row);
+                    justify-content: start;
+                    gap: 10px;
+                    margin-top: 25px;
+                    
+                    .reseau{
+                        width: 40px;
+                        height: 40px;
+                        border: 1px solid white;
+                        @include flex(row);
+                        position: relative;
+                        border-radius: 10px;
+                        svg{
+                            width: 20px;
+                            height: 20px;
+                            fill: $white;
+                        }
+                        &:hover{
+                            background-color: $white;
+                            svg{
+                                fill: $black;
+                            }
+                        }
+                        a{
+                            width: 100%;
+                            height: 100%;
+                            position: absolute;
+                        }
+                    }
+                }
             }
+        }
+    }
+    .copyright{
+        width: 100%;
+        height: 30px;
+        @include flex(row);
+        background-color: $white;
+    }
+    .copyrightContainer{
+        width: 100%;
+        max-width: 1200px;
+        height: 30px;
+        @include flex(row);
+        gap: 50px;
+        color: $black;
+        flex-wrap: wrap;
+        @media all and (max-width:1200px) {
+            max-width: 900px;
+        }
+        @media all and (max-width:900px) {
+            max-width: 700px;
+        }
+        @media all and (max-width:700px) {
+            max-width: 500px;
+        }
+        @media all and (max-width:500px) {
+            max-width: 400px;
+        }
+        @media all and (max-width:400px) {
+            max-width: 250px;
+        }
+        .copyrightDroit{
+            @include flex(row);
         }
     }
 }
