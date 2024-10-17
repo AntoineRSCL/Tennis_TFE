@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nous contactez{% endblock %}
+
+{% block body %}
+    <div class="contact">
+        <div class="imgContact">
+            <h1>Nous Contacter</h1>
+            <img src="/images/contactPage.jpg" alt="Image pour le contact">
+            <div class="shapedividers_com-9608"></div>
+        </div>
+        <div class="formContact">
+            <div class="shapedividers_com-9608"></div>
+        </div>
+        <div class="mapContact">
+            <div class="shapedividers_com-9608 return"></div>
+            <div id="mapContact"></div>
+            <div class="shapedividers_com-9608"></div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        // Initialisation de la carte centrée sur le Parc de Wolvendael (coordonnées GPS : 50.8027, 4.3425)
+        var map = L.map('mapContact', {
+            zoomControl: false // Désactive les boutons + et -
+        }).setView([50.8027, 4.3425], 15); // Niveau de zoom initial: 15
+
+        // Charger et afficher les tuiles OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Ajouter un marqueur sur les coordonnées du Parc de Wolvendael
+        var marker = L.marker([50.8027, 4.3425]).addTo(map)
+            .bindPopup('Parc de Wolvendael, Uccle') // Popup lorsque l'on clique sur le marqueur
+            .openPopup(); // Popup ouvert par défaut
+    </script>
+
+{% endblock %}
