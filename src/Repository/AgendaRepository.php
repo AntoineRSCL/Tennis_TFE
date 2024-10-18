@@ -32,6 +32,25 @@ class AgendaRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+     /**
+     * Récupérer les événements à venir triés par date
+     *
+     * @return Agenda[]
+     */
+    public function findAllUpcomingEvents(): array
+    {
+        // Récupérer la date du jour
+        $today = new \DateTime('today');
+
+        // Créer la requête pour récupérer les événements à venir
+        return $this->createQueryBuilder('a')
+            ->where('a.date >= :today')
+            ->setParameter('today', $today)
+            ->orderBy('a.date', 'ASC')  // Trier par date la plus proche
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Agenda[] Returns an array of Agenda objects
 //     */

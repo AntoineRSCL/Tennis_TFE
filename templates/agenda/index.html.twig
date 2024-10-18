@@ -6,8 +6,68 @@
     <div class="agenda">
         <div class="imgAgenda">
             <h1>Évenements</h1>
-            <img src="/images/about.jpg" alt="Image pour évenements">
+            <img src="/images/event.jpg" alt="Image pour évenements">
             <div class="shapedividers_com-9608"></div>
         </div>
+        <div class="agendaData">
+            <div class="agendaContainer">
+                {% for event in events %}
+                    {% if loop.index <= 3 %}
+                        <div class="{% if loop.index == 2 %}rightEvent{% else %}leftEvent{% endif %}">
+                            <div class="imgEvent">
+                                <img src="/uploads/pictures/{{ event.picture }}" alt="Image de l'évenement {{ event.title }}">
+                            </div>
+                            <div class="infoEvent">
+                                <div class="infoContenu">
+                                    <span class="dateEvent">{{ event.date|date('d-m-Y') }}</span>
+                                    <h2>{{event.title}}</h2>
+                                    <p>{{event.description}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <swiper-container class="mySwiper" init="false">
+                            <swiper-slide>
+                                <img src="/uploads/pictures/{{ event.picture }}" alt="Image de {{ event.title }}">
+                                <a href="{{ path('agenda_show', {slug: event.slug}) }}"></a>
+                                <span>{{ event.date|date('d/m/Y') }}</span>
+                                <h4>{{ event.title }}</h4>
+                            </swiper-slide>
+                        </swiper-container>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+
+  <script>
+    const swiperEl = document.querySelector('swiper-container')
+    Object.assign(swiperEl, {
+      slidesPerView: 1,
+      spaceBetween: 10,
+      pagination: {
+        clickable: true,
+      },
+      breakpoints: {
+        640: {
+          slidesPerView: 2,
+          spaceBetween: 20,
+        },
+        900: {
+          slidesPerView: 3,
+          spaceBetween: 40,
+        },
+        1200: {
+          slidesPerView: 4,
+          spaceBetween: 50,
+        },
+      },
+    });
+    swiperEl.initialize();
+  </script>
+
 {% endblock %}
