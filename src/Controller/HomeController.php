@@ -44,7 +44,7 @@ class HomeController extends AbstractController
         $totalCoaches = $coachRepo->findAll();
 
 
-        return $this->render('home.html.twig', [
+        return $this->render('about/index.html.twig', [
             'totalCoaches' => $totalCoaches,
         ]);
     }
