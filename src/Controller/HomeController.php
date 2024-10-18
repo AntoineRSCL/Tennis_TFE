@@ -36,4 +36,16 @@ class HomeController extends AbstractController
             'upcomingEvents' => $upcomingEvents,
         ]);
     }
+
+    #[Route('/apropos', name: 'about')]
+    public function about(CoachRepository $coachRepo): Response
+    {
+        // Récupérer le nombre total de membres, de coachs et de courts
+        $totalCoaches = $coachRepo->findAll();
+
+
+        return $this->render('home.html.twig', [
+            'totalCoaches' => $totalCoaches,
+        ]);
+    }
 }

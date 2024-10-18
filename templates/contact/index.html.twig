@@ -17,7 +17,46 @@
                     <p>Vous avez des questions concernant notre site, des préoccupations sur votre réservation, ou peut-être un problème à signaler ? N'hésitez pas à nous contacter dès maintenant !</p>
                     <p>Que ce soit pour obtenir des informations supplémentaires sur nos installations, nos horaires, ou pour signaler un souci technique, notre équipe dédiée est là pour vous accompagner et vous répondre dans les plus brefs délais.</p>
                 </div>
-                <div class="rightContact"></div>
+                <div class="rightContact">
+                    <div class="formContacts">
+                        {% for label, messages in app.flashes %}
+                            <div class="alertContact alert-{{ label }}">
+                                {% for message in messages %}
+                                    <p>{{ message }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                        <form method="post">
+                            {{ form_start(form) }}
+                            <div class="inputContact">
+                                {{ form_widget(form.lastname, {'attr': {'class': 'form-control', 'autocomplete': 'off'}}) }}
+                                {{ form_errors(form.lastname) }}
+                            </div>
+                            <div class="inputContact">
+                                {{ form_widget(form.firstName, {'attr': {'class': 'form-control', 'autocomplete': 'off'}}) }}
+                                {{ form_errors(form.firstName) }}
+                            </div>
+                            <div class="inputContact">
+                                {{ form_widget(form.email, {'attr': {'class': 'form-control', 'autocomplete': 'off'}}) }}
+                                {{ form_errors(form.email) }}
+                            </div>
+                            <div class="inputContact">
+                                {{ form_widget(form.subject, {'attr': {'class': 'form-control', 'autocomplete': 'off'}}) }}
+                                {{ form_errors(form.subject) }}
+                            </div>
+                            <div class="inputContactMessage">
+                                {{ form_widget(form.message, {'attr': {'class': 'form-control', 'autocomplete': 'off'}}) }}
+                                {{ form_errors(form.message) }}
+                            </div>
+                            <div class="submitContact">
+                                <div class="submitBtn">
+                                    <button type="submit" class="submitBtn">Envoyer</button>
+                                </div>
+                            </div>
+                            {{ form_end(form) }}
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="mapContact">
@@ -43,6 +82,7 @@
         var marker = L.marker([50.8027, 4.3425]).addTo(map)
             .bindPopup('Parc de Wolvendael, Uccle') // Popup lorsque l'on clique sur le marqueur
             .openPopup(); // Popup ouvert par défaut
+
     </script>
 
 {% endblock %}

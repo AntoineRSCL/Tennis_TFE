@@ -23,7 +23,7 @@ class ContactController extends AbstractController
         {
             $manager->persist($contact);
             $manager->flush();
-            $this->addFlash('success', 'Votre message a bien été envoyé');
+            $this->addFlash('success', 'Votre message a bien été envoyé !');
             return $this->redirectToRoute('contact_index');
         }
         return $this->render('contact/index.html.twig', [
