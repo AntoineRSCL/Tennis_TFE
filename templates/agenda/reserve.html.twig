@@ -1,0 +1,27 @@
+{# templates/agenda/reserve.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Réserver ma place{% endblock %}
+
+{% block body %}
+    <div class="agenda">
+        <div class="imgAgenda">
+            <h1>Évenements</h1>
+            <img src="/images/event.jpg" alt="Image pour évenements">
+            <div class="shapedividers_com-9608"></div>
+        </div>
+        <div class="agendaData">
+            <div class="agendaContainer">
+                <h2>Réserver des places pour {{ agenda.title }}</h2>
+
+                <p>Il reste {{ agenda.limitNumber - agenda.agendaReservations|length }} places disponibles.</p>
+
+                {{ form_start(form) }}
+                    {{ form_row(form.nb_places) }}  {# Champ pour choisir le nombre de places #}
+                    <button class="btn btn-primary">Réserver</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
