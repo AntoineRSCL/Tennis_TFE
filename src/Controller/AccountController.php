@@ -17,28 +17,33 @@ use Symfony\Component\Security\Core\Exception\TooManyLoginAttemptsAuthentication
 class AccountController extends AbstractController
 {
     #[Route('/login', name: 'account_login')]
-    public function index(AuthenticationUtils $utils): Response
+    public function index(Request $request, AuthenticationUtils $utils): Response
     {
+        // Si l'utilisateur est déjà connecté, redirection vers l'accueil
         if ($this->getUser()) {
             return $this->redirectToRoute('myclub_index');
         }
 
+        // Récupérer l'erreur de connexion, le cas échéant
         $error = $utils->getLastAuthenticationError();
         $username = $utils->getLastUsername();
 
         $loginError = null;
-
-        if($error instanceof TooManyLoginAttemptsAuthenticationException)
-        {
-            // l'ereur est due à la limitation de tentative de connexion
-            $loginError = "Trop de tentatives de connexion. Réessayez plus tard";
+        if ($error) {
+            $loginError = "Votre login ou mot de passe est incorrect";
         }
+
+        // Récupérer l'URL de redirection depuis les paramètres GET ou définir une URL par défaut
+        $redirectUrl = $request->query->get('redirect', $this->generateUrl('myclub_index'));
+
         return $this->render('account/index.html.twig', [
             'hasError' => $error !== null,
             'username' => $username,
-            'loginError' => $loginError
+            'loginError' => $loginError,
+            'redirect' => $redirectUrl // Passer l'URL de redirection au formulaire de connexion
         ]);
     }
+
 
     /**
      * Fonction pour se deconnecter

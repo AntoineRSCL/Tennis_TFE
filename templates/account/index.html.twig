@@ -8,15 +8,10 @@
         <div class="formLogin">
             <div class="formLoginContainer">
                 <h1>CONNECTEZ-VOUS</h1>
-                <h4>Bon retour parmis-nous !</h4>
+                <h4>Bon retour parmi-nous !</h4>
                 {% if hasError %}
                     <div class="errorLogin">
-                        <span>Votre login ou votre mot de passe est incorrect</span>
-                    </div>
-                {% endif %}
-                {% if loginError %}
-                    <div class="errorLogin">
-                        {{ loginError }}
+                        <span>{{ loginError }}</span>
                     </div>
                 {% endif %}
                 <form action="{{ path('account_login') }}" method="post">
@@ -28,6 +23,10 @@
                         <label for="password" class="labelLogin">Mot de passe</label>
                         <input type="password" class="inputLogin" id="password" name="_password" placeholder="Votre mot de passe" required>
                     </div>
+
+                    {# Champ caché pour la redirection #}
+                    <input type="hidden" name="redirect" value="{{ redirect }}">
+
                     <button type="submit" class="submitLogin">Se connecter</button>
                 </form>
                 <div class="mdpOublie">

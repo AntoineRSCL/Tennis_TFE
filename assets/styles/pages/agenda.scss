@@ -71,11 +71,16 @@
             }
             @media all and (max-width:500px) {
                 max-width: 400px;
+                gap: 50px;
             }
             .leftEvent, .rightEvent{
                 width: 100%;
                 min-height: 450px;
                 @include flex(row);
+                @media all and (max-width:500px) {
+                    flex-direction: column;
+                    gap: 20px;
+                }
                 .imgEvent{
                     flex: 1;
                     height: 100%;
@@ -122,6 +127,9 @@
             .rightEvent{
                 .imgEvent{
                     order: 2;
+                    @media all and (max-width:500px) {
+                        order: 0;
+                    }
                 }
             }
             swiper-container{

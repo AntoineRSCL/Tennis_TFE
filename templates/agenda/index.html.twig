@@ -30,7 +30,8 @@
                                         <a href="{{ path('agenda_reserve', {slug: event.slug}) }}" class="btn btn-primary">Réservez ma place</a>
                                     {% else %}
                                         <span>Pour réserver votre place, connectez-vous</span>
-                                        <a href="{{ path('account_login') }}" class="btn btn-secondary">Se connecter</a>
+                                        <a href="{{ path('account_login', {redirect: path('agenda_index')}) }}" class="btn btn-secondary">Se connecter</a>
+
                                     {% endif %}
                                 </div>
                             </div>

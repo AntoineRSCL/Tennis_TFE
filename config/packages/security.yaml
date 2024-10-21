@@ -33,7 +33,7 @@ security:
             form_login:
                 login_path: account_login
                 check_path: account_login
-                default_target_path: myclub_index
+                success_handler: App\Security\LoginSuccessHandler # Utiliser le Success Handler personnalisé
             logout:
                 path: account_logout
                 target: account_login
