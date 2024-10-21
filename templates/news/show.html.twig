@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Actualités{% endblock %}
+
+{% block body %}
+    <div class="newsPage">
+        <div class="imgNews">
+            <h1>Actualités</h1>
+            <img src="/images/about.jpg" alt="Image pour actualités">
+            <div class="shapedividers_com-9608"></div>
+        </div>
+        <div class="newsData">
+            <div class="newsContainer">
+                <div class="newsBloc">
+                    <div class="imgBlockNews">
+                        <img src="/uploads/pictures/{{news.picture}}" alt="Image de {{news.title}}">
+                    </div>
+                    <div class="contentBlocNews">
+                        <h2>{{news.title}}</h2>
+                        <span>{{ news.createdAt|date('d/m/Y') }}</span>
+                        <p>{{ news.content}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="shapedividers_com-9608"></div>
+        </div>
+    </div>
+{% endblock %}

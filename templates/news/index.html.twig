@@ -1,12 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello NewsController!{% endblock %}
+{% block title %}Actualités{% endblock %}
 
 {% block body %}
     <div class="newsPage">
         <div class="imgNews">
             <h1>Actualités</h1>
             <img src="/images/about.jpg" alt="Image pour actualités">
+            <div class="shapedividers_com-9608"></div>
+        </div>
+        <div class="newsData">
+            <div class="newsContainer">
+                {% for news in newsList %}
+                    <div class="newsItem">
+                        <a href="{{ path('news_show', {slug: news.slug}) }}"></a>
+                        <div class="imgItemNews">
+                            <img src="/uploads/pictures/{{news.picture}}" alt="Image de {{news.title}}">
+                        </div>
+                        <div class="contentNewsItem">
+                            <h4>{{news.title}}</h4>
+                            <span>{{ news.createdAt|date('d/m/Y') }}</span>
+                            <p>{{ news.content|slice(0, 100) ~ '...' }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="pagination">
+                {{ pagination.display() }}
+            </div>
             <div class="shapedividers_com-9608"></div>
         </div>
     </div>

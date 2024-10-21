@@ -30,6 +30,14 @@ class NewsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findAllNewsOrderByDate(): array 
+    {
+        return $this->createQueryBuilder('n')
+            ->orderBy('n.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return News[] Returns an array of News objects
     //     */

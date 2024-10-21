@@ -4,20 +4,23 @@ namespace App\Controller;
 
 use App\Entity\News;
 use App\Repository\NewsRepository;
+use App\Service\PaginationService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class NewsController extends AbstractController
 {
-    #[Route('/news', name: 'news_index')]
-    public function index(NewsRepository $newsRepo): Response
+    #[Route('/news/{page<\d+>?1}', name: 'news_index')]
+    public function index(NewsRepository $newsRepo, PaginationService $pagination, int $page = 1): Response
     {
-        // Récupérer toutes les actualités
-        $newsList = $newsRepo->findAll();
+        $pagination->setEntityClass(News::class)
+                   ->setLimit(9) // Limite à 9 résultats par page
+                   ->setPage($page);
 
         return $this->render('news/index.html.twig', [
-            'newsList' => $newsList, // On passe la liste des actualités au template
+            'newsList' => $pagination->getData(),  // Les actualités paginées
+            'pagination' => $pagination,           // L'objet de pagination pour la navigation
         ]);
     }
 
