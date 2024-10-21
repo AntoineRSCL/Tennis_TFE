@@ -5,30 +5,58 @@
 {% block body %}
     <div class="agenda">
         <div class="imgAgenda">
-            <h1>Évenements</h1>
-            <img src="/images/event.jpg" alt="Image pour évenements">
+            <h1>Événements</h1>
+            <img src="/images/event.jpg" alt="Image pour événements">
             <div class="shapedividers_com-9608"></div>
         </div>
-        <div class="infoAgenda">
-            <h1>{{ agenda.title }}</h1>
-            <p>Date : {{ agenda.date|date('d-m-Y') }}</p>
-            <p>Description : {{ agenda.description }}</p>
-            <p>Limite de places : {{ agenda.limitNumber }}</p>
-            <p>Places réservées : {{ agenda.agendaReservations|length }}</p>
+        <div class="agendaData">
+            <div class="agendaContainer">
+                {% for label, messages in app.flashes %}
+                    <div class="alertShowEvent alert-{{ label }}">
+                        {% for message in messages %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+                <div class="leftEvent">
+                    <div class="imgAffichage">
+                        <img src="/uploads/pictures/{{ agenda.picture }}" alt="Image de l'événement {{ agenda.title }}">
+                    </div>
+                    <div class="infoEvent">
+                        <div class="infoContenu">
+                            <span class="dateEvent">{{ agenda.date|date('d-m-Y') }}</span>
+                            <h2>{{ agenda.title }}</h2>
+                            <p>{{ agenda.description }}</p>
+                            <span>Places disponibles</span>
+                            <span>{{ agenda.limitNumber - agenda.agendaReservations|length }} / {{ agenda.limitNumber }}</span>
 
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                {% if userReservationsCount > 0 %}
-                    <p>Vous avez réservé {{ userReservationsCount }} place{% if userReservationsCount > 1 %}s{% endif %} pour cet événement.</p>
-                    <a href="{{ path('agenda_reserve', { slug: agenda.slug }) }}" class="btn btn-secondary">Modifier ma réservation</a>
-                    <a href="{{ path('agenda_cancel', { slug: agenda.slug }) }}" class="btn btn-danger">Annuler ma réservation</a>
-                {% else %}
-                    <a href="{{ path('agenda_reserve', { slug: agenda.slug }) }}" class="btn btn-primary">Réserver une place</a>
-                {% endif %}
-            {% else %}
-                <p>Vous devez être connecté pour réserver une place.</p>
-                <a href="{{ path('account_login') }}" class="btn btn-secondary">Se connecter</a>
-            {% endif %}
+                            {# Vérifier les réservations de l'utilisateur #}
+                            {% set userReservations = agenda.agendaReservations|filter(user => user.user == app.user) %}
+                            {% set userReservationsCount = userReservations|length %}
 
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                {% if userReservationsCount == 0 %}
+                                    {# Si l'utilisateur n'a pas de réservation #}
+                                    <a href="{{ path('agenda_reserve', {slug: agenda.slug}) }}" class="btn btn-primary">Réservez ma place</a>
+                                {% else %}
+                                    {# Si l'utilisateur a des réservations #}
+                                    <p>Vous avez {{ userReservationsCount }} place{{ userReservationsCount > 1 ? 's' : '' }} réservée{{ userReservationsCount > 1 ? 's' : '' }}.</p>
+                                    <a href="{{ path('agenda_reserve', {slug: agenda.slug}) }}" class="btn btn-secondary">Modifier ma réservation</a>
+                                    <form action="{{ path('agenda_cancel', {slug: agenda.slug}) }}" method="post">
+                                        <button type="submit" class="btn btn-danger">Annuler mes réservations</button>
+                                    </form>
+                                {% endif %}
+                            {% else %}
+                                <span>Pour réserver votre place, connectez-vous</span>
+                                <a href="{{ path('account_login', {redirect: path('agenda_show', {slug: agenda.slug})}) }}" class="btn btn-secondary">Se connecter</a>
+                            {% endif %}
+                            
+                        </div>
+                    </div>
+                </div>
+                <a href="{{ path('agenda_index') }}" class='retourEvent'>Retour aux évenements</a>
+            </div>
+            <div class="shapedividers_com-9608"></div>
         </div>
     </div>
 {% endblock %}

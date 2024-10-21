@@ -24,15 +24,7 @@
                                     <p>{{ event.description }}</p>
                                     <span>Places disponibles</span>
                                     <span>{{ event.limitNumber - event.agendaReservations|length }} / {{ event.limitNumber }}</span>
-
-                                    {# Bouton selon l'état de connexion de l'utilisateur #}
-                                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                                        <a href="{{ path('agenda_reserve', {slug: event.slug}) }}" class="btn btn-primary">Réservez ma place</a>
-                                    {% else %}
-                                        <span>Pour réserver votre place, connectez-vous</span>
-                                        <a href="{{ path('account_login', {redirect: path('agenda_index')}) }}" class="btn btn-secondary">Se connecter</a>
-
-                                    {% endif %}
+                                    <a href="{{ path('agenda_show', {slug: event.slug}) }}" class="btn btn-primary">Voir l'évenement</a>
                                 </div>
                             </div>
                         </div>
@@ -55,6 +47,7 @@
                     </swiper-container>
                 {% endif %}
             </div>
+            <div class="shapedividers_com-9608"></div>
         </div>
     </div>
 {% endblock %}

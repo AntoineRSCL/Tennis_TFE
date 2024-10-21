@@ -13,15 +13,43 @@
         </div>
         <div class="agendaData">
             <div class="agendaContainer">
-                <h2>Réserver des places pour {{ agenda.title }}</h2>
+                <div class="formReserveEvent">
+                    <h3>Réserver des places pour {{ agenda.title }}</h3>
 
-                <p>Il reste {{ agenda.limitNumber - agenda.agendaReservations|length }} places disponibles.</p>
+                    <p>Il reste {{ agenda.limitNumber - agenda.agendaReservations|length }} places disponibles.</p>
 
-                {{ form_start(form) }}
-                    {{ form_row(form.nb_places) }}  {# Champ pour choisir le nombre de places #}
-                    <button class="btn btn-primary">Réserver</button>
-                {{ form_end(form) }}
+                    {# Afficher les messages flash ici #}
+                    {% for label, messages in app.flashes %}
+                        <div class="alertReserve alert-{{ label }}">
+                            {% for message in messages %}
+                                <p>{{ message }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+
+                    {{ form_start(form) }}
+                        {{ form_row(form.nb_places) }}  {# Champ pour choisir le nombre de places #}
+                        <button class="btnReserveEvent">Réserver</button>
+                    {{ form_end(form) }}
+                </div>
+                <a href="{{ path('agenda_show', {slug: agenda.slug}) }}" class='retourEvent'>Retour à l'évenement</a>
+                <div class="leftEvent">
+                    <div class="imgAffichage">
+                        <img src="/uploads/pictures/{{ agenda.picture }}" alt="Image de l'évenement {{ agenda.title }}">
+                    </div>
+                    <div class="infoEvent">
+                        <div class="infoContenu">
+                            <span class="dateEvent">{{ agenda.date|date('d-m-Y') }}</span>
+                            <h2>{{ agenda.title }}</h2>
+                            <p>{{ agenda.description }}</p>
+                            <span>Places disponibles</span>
+                            <span>{{ agenda.limitNumber - agenda.agendaReservations|length }} / {{ agenda.limitNumber }}</span>
+                        </div>
+                    </div>
+                </div>
+                
             </div>
+            <div class="shapedividers_com-9608"></div>
         </div>
     </div>
 {% endblock %}

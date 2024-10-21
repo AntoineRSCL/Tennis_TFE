@@ -47,14 +47,15 @@
     .agendaData{
         position: relative;
         width: 100%;
-        min-height: 100vh;
+        min-height: 10vh;
         @include flex(column);
         background-color: white;
+        padding-bottom: 100px;
         .agendaContainer{
             margin-top: 20px;
             width: 100%;
             max-width: 1200px;
-            min-height: 80vh;
+            min-height: 10vh;
             @include flex(column);
             align-items: start;
             justify-content: start;
@@ -73,11 +74,19 @@
                 max-width: 400px;
                 gap: 50px;
             }
+            .alertShowEvent{
+                width: 100%;
+                padding: 20px;
+                @include flex(row);
+                p{
+                    margin: 0;
+                }
+            }
             .leftEvent, .rightEvent{
                 width: 100%;
                 min-height: 450px;
                 @include flex(row);
-                @media all and (max-width:500px) {
+                @media all and (max-width:700px) {
                     flex-direction: column;
                     gap: 20px;
                 }
@@ -91,6 +100,26 @@
                         object-fit: cover;
                         border-radius: 200px;
                         border: none;
+                    }
+                }
+                .imgAffichage{
+                    flex: 1;
+                    height: 100%;
+                    @include flex(row);
+                    img{
+                        width: 400px;
+                        height: 400px;
+                        object-fit: cover;
+                        border-radius: 10px;
+                        border: none;
+                        @media all and (max-width:900px) and (min-width:700px) { 
+                            width: 250px;
+                            height: 250px;
+                        }
+                        @media all and (max-width:400px) { 
+                            width: 250px;
+                            height: 250px;
+                        }
                     }
                 }
                 .infoEvent{
@@ -121,15 +150,59 @@
                             border: 0;
                             @include btn($black, $yellow);
                         }
+                        button{
+                            @include btn(red, $black);
+                        }
                     }
                 }
             }
             .rightEvent{
                 .imgEvent{
                     order: 2;
-                    @media all and (max-width:500px) {
+                    @media all and (max-width:700px) {
                         order: 0;
                     }
+                }
+            }
+            .retourEvent{
+                border: 0;
+                @include btn($black, $yellow);
+            }
+            .formReserveEvent{
+                width: 100%;
+                min-height: 10vh;
+                background-color: $black;
+                color: $white;
+                border-radius: 20px;
+                padding: 20px;
+                margin-bottom: 25px;
+                
+                @include flex(column);
+                align-items: start;
+                gap: 30px;
+                h3, p{
+                    margin: 0;
+                }
+                .alertReserve{
+                    width: 100%;
+                    border-radius: 10px;
+                    padding: 10px;
+                }
+                label{
+                    width: 100%;
+                }
+                input{
+                    border-radius: 5px;
+                    border: 0;
+                    outline: 0;
+                    padding: 10px;
+                    width: 75px;
+                    height: 40px;
+                    margin-bottom: 20px;
+                }
+                button{
+                    @include btn($white, green);
+                    border: 0;
                 }
             }
             swiper-container{
@@ -169,5 +242,16 @@
                   }
             }
         }
+        .shapedividers_com-9608{
+            position: absolute;
+            width: 100%;
+            height: 100px;
+            bottom: 0;
+            z-index: 10;
+    
+            &::before{
+                background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.28 2.17" preserveAspectRatio="none"><path d="M35.28 1.16c-3.17-.8-7.3.4-10.04.56-2.76.17-9.25-1.47-12.68-1.3-3.42.16-4.64.84-7.04.86C3.12 1.31 0 .4 0 .4v1.77h35.28z" fill="%23000000"/></svg>'); 
+            }
+          }
     }
 }

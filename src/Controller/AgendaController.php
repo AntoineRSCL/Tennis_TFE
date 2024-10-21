@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted; // Assurez-vous que cette ligne est ajoutée
 
 class AgendaController extends AbstractController
 {
@@ -27,13 +28,9 @@ class AgendaController extends AbstractController
     #[Route('/agenda/{slug}', name: 'agenda_show')]
     public function show(Agenda $agenda): Response
     {
-        // Récupérer l'utilisateur connecté
         $user = $this->getUser();
-
-        // Initialiser le compteur de réservations
         $userReservationsCount = 0;
 
-        // Vérifier si l'utilisateur a réservé cet événement
         if ($user) {
             foreach ($agenda->getAgendaReservations() as $reservation) {
                 if ($reservation->getUser() === $user) {
@@ -44,18 +41,23 @@ class AgendaController extends AbstractController
 
         return $this->render('agenda/show.html.twig', [
             'agenda' => $agenda,
-            'userReservationsCount' => $userReservationsCount, // Assurez-vous que cette ligne est présente
+            'userReservationsCount' => $userReservationsCount,
         ]);
     }
-
 
     #[Route('/agenda/{slug}/reserve', name: 'agenda_reserve')]
     public function reserve(Request $request, EntityManagerInterface $em, Agenda $agenda): Response
     {
+        $user = $this->getUser();
+
+        // Vérifier si l'utilisateur est connecté
+        if (!$user) {
+            throw $this->createAccessDeniedException('Vous devez être connecté pour réserver.');
+        }
+
         $form = $this->createForm(AgendaReservationType::class);
         $form->handleRequest($request);
 
-        $user = $this->getUser();
         $currentReservations = $agenda->getAgendaReservations()->filter(function($reservation) use ($user) {
             return $reservation->getUser() === $user;
         });
@@ -71,7 +73,7 @@ class AgendaController extends AbstractController
 
             // Vérifier si le nombre total de réservations dépasse la limite
             if ($agenda->getLimitNumber() !== null && $totalReservedPlaces > $agenda->getLimitNumber()) {
-                $this->addFlash('error', 'Il ne reste que ' . ($agenda->getLimitNumber() - $currentReservationsCount) . ' places disponibles.');
+                $this->addFlash('danger', 'Il ne reste que ' . ($agenda->getLimitNumber() - $currentReservationsCount) . ' places disponibles.');
                 return $this->redirectToRoute('agenda_reserve', ['slug' => $agenda->getSlug()]);
             }
 
@@ -111,6 +113,11 @@ class AgendaController extends AbstractController
     {
         $user = $this->getUser();
 
+        // Vérifier si l'utilisateur est connecté
+        if (!$user) {
+            throw $this->createAccessDeniedException('Vous devez être connecté pour annuler une réservation.');
+        }
+
         // Récupérer les réservations existantes de l'utilisateur pour cet événement
         $currentReservations = $agenda->getAgendaReservations()->filter(function($reservation) use ($user) {
             return $reservation->getUser() === $user;
@@ -134,6 +141,4 @@ class AgendaController extends AbstractController
 
         return $this->redirectToRoute('agenda_show', ['slug' => $agenda->getSlug()]);
     }
-
-
 }
