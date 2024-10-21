@@ -27,9 +27,27 @@ class AgendaController extends AbstractController
     #[Route('/agenda/{slug}', name: 'agenda_show')]
     public function show(Agenda $agenda): Response
     {
+        // Récupérer l'utilisateur connecté
+        $user = $this->getUser();
+
+        // Initialiser le compteur de réservations
+        $userReservationsCount = 0;
+
+        // Vérifier si l'utilisateur a réservé cet événement
+        if ($user) {
+            foreach ($agenda->getAgendaReservations() as $reservation) {
+                if ($reservation->getUser() === $user) {
+                    $userReservationsCount++;
+                }
+            }
+        }
+
         return $this->render('agenda/show.html.twig', [
+            'agenda' => $agenda,
+            'userReservationsCount' => $userReservationsCount, // Assurez-vous que cette ligne est présente
         ]);
     }
+
 
     #[Route('/agenda/{slug}/reserve', name: 'agenda_reserve')]
     public function reserve(Request $request, EntityManagerInterface $em, Agenda $agenda): Response
@@ -37,20 +55,36 @@ class AgendaController extends AbstractController
         $form = $this->createForm(AgendaReservationType::class);
         $form->handleRequest($request);
 
+        $user = $this->getUser();
+        $currentReservations = $agenda->getAgendaReservations()->filter(function($reservation) use ($user) {
+            return $reservation->getUser() === $user;
+        });
+
+        // Compter le nombre de réservations actuelles de l'utilisateur
+        $currentReservationsCount = count($currentReservations);
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $nbPlaces = $form->get('nb_places')->getData();  // Récupérer le nombre de places depuis le formulaire
-            $user = $this->getUser();
+            $nbPlaces = $form->get('nb_places')->getData(); // Récupérer le nombre de places depuis le formulaire
 
-            // Calculer le nombre de places déjà réservées
-            $currentReservations = count($agenda->getAgendaReservations());
+            // Calculer le total de places réservées
+            $totalReservedPlaces = $currentReservationsCount + $nbPlaces;
 
-            // Vérifier si le nombre de places demandées dépasse le nombre de places disponibles
-            if ($agenda->getLimitNumber() !== null && ($currentReservations + $nbPlaces) > $agenda->getLimitNumber()) {
-                $this->addFlash('error', 'Il ne reste que ' . ($agenda->getLimitNumber() - $currentReservations) . ' places disponibles.');
+            // Vérifier si le nombre total de réservations dépasse la limite
+            if ($agenda->getLimitNumber() !== null && $totalReservedPlaces > $agenda->getLimitNumber()) {
+                $this->addFlash('error', 'Il ne reste que ' . ($agenda->getLimitNumber() - $currentReservationsCount) . ' places disponibles.');
                 return $this->redirectToRoute('agenda_reserve', ['slug' => $agenda->getSlug()]);
             }
 
-            // Créer plusieurs réservations selon le nombre de places
+            // Modifier ou ajouter les réservations
+            if ($currentReservationsCount > 0) {
+                // Si l'utilisateur a déjà réservé, mettez à jour ses réservations
+                // Suppression des réservations existantes
+                foreach ($currentReservations as $reservation) {
+                    $em->remove($reservation);
+                }
+            }
+
+            // Créer les nouvelles réservations
             for ($i = 0; $i < $nbPlaces; $i++) {
                 $reservation = new AgendaReservation();
                 $reservation->setAgenda($agenda);
@@ -61,7 +95,7 @@ class AgendaController extends AbstractController
 
             $em->flush();
 
-            $this->addFlash('success', 'Votre réservation de ' . $nbPlaces . ' places a été effectuée avec succès.');
+            $this->addFlash('success', 'Votre réservation de ' . $nbPlaces . ' place' . ($nbPlaces > 1 ? 's' : '') . ' a été effectuée avec succès.');
 
             return $this->redirectToRoute('agenda_show', ['slug' => $agenda->getSlug()]);
         }
@@ -70,6 +104,35 @@ class AgendaController extends AbstractController
             'agenda' => $agenda,
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/agenda/{slug}/cancel', name: 'agenda_cancel')]
+    public function cancel(Request $request, EntityManagerInterface $em, Agenda $agenda): Response
+    {
+        $user = $this->getUser();
+
+        // Récupérer les réservations existantes de l'utilisateur pour cet événement
+        $currentReservations = $agenda->getAgendaReservations()->filter(function($reservation) use ($user) {
+            return $reservation->getUser() === $user;
+        });
+
+        // Compter le nombre de réservations actuelles de l'utilisateur
+        $currentReservationsCount = count($currentReservations);
+
+        if ($currentReservationsCount > 0) {
+            // Si l'utilisateur a des réservations, on annule toutes ses réservations
+            foreach ($currentReservations as $reservation) {
+                $em->remove($reservation);
+            }
+
+            $em->flush();
+
+            $this->addFlash('success', 'Vos réservations ont été annulées avec succès.');
+        } else {
+            $this->addFlash('error', 'Aucune réservation à annuler.');
+        }
+
+        return $this->redirectToRoute('agenda_show', ['slug' => $agenda->getSlug()]);
     }
 
 

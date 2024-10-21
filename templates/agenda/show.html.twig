@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ agenda.title }}{% endblock %}
+
+{% block body %}
+    <div class="agenda">
+        <div class="imgAgenda">
+            <h1>Évenements</h1>
+            <img src="/images/event.jpg" alt="Image pour évenements">
+            <div class="shapedividers_com-9608"></div>
+        </div>
+        <div class="infoAgenda">
+            <h1>{{ agenda.title }}</h1>
+            <p>Date : {{ agenda.date|date('d-m-Y') }}</p>
+            <p>Description : {{ agenda.description }}</p>
+            <p>Limite de places : {{ agenda.limitNumber }}</p>
+            <p>Places réservées : {{ agenda.agendaReservations|length }}</p>
+
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                {% if userReservationsCount > 0 %}
+                    <p>Vous avez réservé {{ userReservationsCount }} place{% if userReservationsCount > 1 %}s{% endif %} pour cet événement.</p>
+                    <a href="{{ path('agenda_reserve', { slug: agenda.slug }) }}" class="btn btn-secondary">Modifier ma réservation</a>
+                    <a href="{{ path('agenda_cancel', { slug: agenda.slug }) }}" class="btn btn-danger">Annuler ma réservation</a>
+                {% else %}
+                    <a href="{{ path('agenda_reserve', { slug: agenda.slug }) }}" class="btn btn-primary">Réserver une place</a>
+                {% endif %}
+            {% else %}
+                <p>Vous devez être connecté pour réserver une place.</p>
+                <a href="{{ path('account_login') }}" class="btn btn-secondary">Se connecter</a>
+            {% endif %}
+
+        </div>
+    </div>
+{% endblock %}
