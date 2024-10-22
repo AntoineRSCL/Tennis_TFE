@@ -37,7 +37,7 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Route('/apropos', name: 'about')]
+    #[Route('/about', name: 'about')]
     public function about(CoachRepository $coachRepo): Response
     {
         // Récupérer le nombre total de membres, de coachs et de courts

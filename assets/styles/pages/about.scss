@@ -10,7 +10,7 @@
     .imgAbout{
         position: relative;
         width: 100%;
-        height: 50vh;
+        height: 40vh;
         @include flex(column);
         h1{
             position: relative;
@@ -29,6 +29,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            object-position: bottom;
             position: absolute;
         }
         .shapedividers_com-9608{
@@ -39,8 +40,154 @@
             z-index: 10;
     
             &::before{
-                background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.28 2.17" preserveAspectRatio="none"><path d="M35.28 1.16c-3.17-.8-7.3.4-10.04.56-2.76.17-9.25-1.47-12.68-1.3-3.42.16-4.64.84-7.04.86C3.12 1.31 0 .4 0 .4v1.77h35.28z" fill="%23FFFFFF"/></svg>'); 
+                background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.28 2.17" preserveAspectRatio="none"><path d="M35.28 1.16c-3.17-.8-7.3.4-10.04.56-2.76.17-9.25-1.47-12.68-1.3-3.42.16-4.64.84-7.04.86C3.12 1.31 0 .4 0 .4v1.77h35.28z" fill="%23000000"/></svg>'); 
             }
         }
+    }
+    .aboutData{
+        position: relative;
+        width: 100%;
+        min-height: 40vh;
+        @include flex(column);
+        padding-bottom: 100px;
+        background-color: black;
+        .aboutContainer{
+            margin-top: 20px;
+            width: 100%;
+            max-width: 1200px;
+            min-height: 25vh;
+            @include flex(column);
+            align-items: start;
+            justify-content: start;
+            color: $white;
+            padding: 20px;
+            margin-bottom: 50px;
+            h2{
+                font-family: $bebas;
+                font-size: 5vh;
+            }
+            p{
+                margin: 0;
+            }
+            @media all and (max-width:1200px) {
+                max-width: 900px;
+            }
+            @media all and (max-width:900px) {
+                max-width: 700px;
+            }
+            @media all and (max-width:700px) {
+                max-width: 500px;
+            }
+            @media all and (max-width:500px) {
+                max-width: 400px;
+                gap: 50px;
+            }
+        }
+        .aboutBox {
+            width: 100%;
+            height: calc(100vh - 125px);
+            background-color: red;
+            @include flex(row);
+            @media all and (max-width:900px) {
+                flex-direction: column;
+            }
+            .imgABox {
+                flex: 1;
+                height: 100%;
+                position: relative;
+                @include flex(row);
+                @media all and (max-width:900px) {
+                    width: 100%;
+                    height: 50vh;
+                }
+        
+                // Triangle orienté vers la gauche et centré verticalement
+                &::after {
+                    content: '';
+                    position: absolute;
+                    top: 50%; // Le triangle commence à mi-hauteur
+                    right: 0; // Collé au bord droit
+                    transform: translateY(-50%) rotate(180deg); // Combinaison du centrage vertical et rotation
+                    border-style: solid;
+                    border-width: 100px 0 100px 100px; // Bordures pour créer un triangle
+                    border-color: transparent transparent transparent white; // Triangle blanc
+
+                    @media all and (max-width:900px) {
+                        top: auto;
+                        right: auto;
+                        bottom: 0;
+                        left: 50%;
+                        transform: translateX(-50%) translateY(30%) rotate(-90deg); // Combinaison du centrage vertical et rotation
+                    }
+                }
+        
+                h2 {
+                    position: relative;
+                    color: $white;
+                    font-size: 150px;
+                    font-family: $bebas;
+                    @media all and (max-width:1200px) {
+                        font-size: 100px;
+                    }
+                    @media all and (max-width:950px) {
+                        font-size: 80px;
+                    }
+                }
+        
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    position: absolute;
+                }
+            }
+        
+            .textABox {
+                flex: 1;
+                height: 100%;
+                background-color: white;
+                @include flex(column);
+                .contentTextABox{
+                    width: 80%;
+                    height: 80%;
+                    @include flex(column);
+                    align-items: start;
+                }
+                @media all and (max-width:900px) {
+                    width: 100%;
+                    height: 50vh;
+                }
+            }
+        }
+        .right{
+            .imgABox{
+                order: 2;
+                @media all and (max-width:900px) {
+                    order: 0;
+                }
+                &::after {
+                    content: '';
+                    position: absolute;
+                    right: auto;
+                    top: 50%; // Le triangle commence à mi-hauteur
+                    left: 0; // Collé au bord droit
+                    transform: translateY(-50%); // Combinaison du centrage vertical et rotation
+                    border-style: solid;
+                    border-width: 100px 0 100px 100px; // Bordures pour créer un triangle
+                    border-color: transparent transparent transparent white; // Triangle blanc
+
+                    @media all and (max-width:900px) {
+                        top: auto;
+                        right: auto;
+                        bottom: 0;
+                        left: 50%;
+                        transform: translateX(-50%) translateY(30%) rotate(-90deg); // Combinaison du centrage vertical et rotation
+                    }
+                }
+            }
+            .textABox{
+            }
+        }
+        
     }
 }
