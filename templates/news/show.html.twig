@@ -10,7 +10,7 @@
             <div class="shapedividers_com-9608"></div>
         </div>
         <div class="newsData">
-            <div class="newsContainer">
+            <div class="newsContainerItem">
                 <div class="newsBloc">
                     <div class="imgBlockNews">
                         <img src="/uploads/pictures/{{news.picture}}" alt="Image de {{news.title}}">
@@ -19,8 +19,17 @@
                         <h2>{{news.title}}</h2>
                         <span>{{ news.createdAt|date('d/m/Y') }}</span>
                         <p>{{ news.content}}</p>
+                        {% if news.link %}
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                <a href="{{ path(news.link) }}">Voir</a>
+                            {% else %}
+                                <a href="{{ path('account_login', {redirect: path(news.link)}) }}" class="btn btn-secondary">Voir</a>
+                            {% endif %}
+                        {% endif %}
+
                     </div>
                 </div>
+                <a href="{{ path('news_index') }}" class='retourNews'>Retour aux actualités</a>
             </div>
             <div class="shapedividers_com-9608"></div>
         </div>
