@@ -152,6 +152,9 @@
                     height: 80%;
                     @include flex(column);
                     align-items: start;
+                    .btnABox{
+                        @include btn($black, $yellow);
+                    }
                 }
                 @media all and (max-width:900px) {
                     width: 100%;

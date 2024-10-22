@@ -21,9 +21,16 @@
                 </div>
                 <div class="textABox">
                     <div class="contentTextABox">
-                        <p>Le Tennis Club Smash Ucclois a vu le jour en [année de création], dans le cadre magnifique du parc du Wolvendael. Ce projet est né de la volonté de quelques passionnés de tennis qui souhaitaient créer un lieu où le sport, le partage et la convivialité seraient au cœur de l'expérience. Ce qui a commencé comme un petit groupe de joueurs dévoués s'est progressivement transformé en un club florissant, attirant des membres de tous horizons, qu'ils soient débutants ou joueurs aguerris.</p>
-                        <p>Au fil des ans, le club a connu plusieurs phases de développement, modernisant ses infrastructures pour répondre aux attentes croissantes de ses membres. Grâce à des investissements constants et à un soutien communautaire solide, le club a élargi ses installations et ses services, devenant une référence incontournable pour les amateurs de tennis à Uccle et au-delà. Chaque événement, tournoi ou session d'entraînement fait partie d'une histoire plus vaste, celle d'une communauté qui évolue ensemble dans un cadre exceptionnel.</p>
-                        <p>Aujourd'hui, le Tennis Club Smash Ucclois reste fidèle à ses valeurs fondatrices : offrir un espace où le sport, la camaraderie et l'excellence se rencontrent. Nous sommes fiers de notre histoire et des liens solides que nous avons tissés avec nos membres, des plus jeunes aux plus expérimentés.</p>
+                        <p><strong>Le Tennis Club Smash Ucclois</strong> a vu le jour en 2010, dans le cadre magnifique du <strong>parc du Wolvendael</strong>. Ce projet est né de la volonté de quelques passionnés de tennis qui souhaitaient créer un lieu où le <strong>sport</strong>, le <strong>partage</strong> et la <strong>convivialité</strong> seraient au cœur de l'expérience. Ce qui a commencé comme un petit groupe de joueurs dévoués s'est progressivement transformé en un <strong>club florissant</strong>, attirant des membres de tous horizons, qu'ils soient <strong>débutants</strong> ou <strong>joueurs aguerris</strong>.</p>
+                        
+                        <p>Au fil des ans, le club a connu plusieurs phases de développement, <strong>modernisant ses infrastructures</strong> pour répondre aux attentes croissantes de ses membres. Grâce à des investissements constants et à un <strong>soutien communautaire solide</strong>, le club a élargi ses installations et ses services, devenant une <strong>référence incontournable</strong> pour les amateurs de tennis à <strong>Uccle</strong> et au-delà. Chaque événement, tournoi ou session d'entraînement fait partie d'une <strong>histoire plus vaste</strong>, celle d'une <strong>communauté qui évolue ensemble</strong> dans un cadre exceptionnel.</p>
+                        
+                        <p>Aujourd'hui, le Tennis Club Smash Ucclois reste fidèle à ses <strong>valeurs fondatrices</strong> : offrir un espace où le <strong>sport</strong>, la <strong>camaraderie</strong> et l'<strong>excellence</strong> se rencontrent. Nous sommes fiers de notre <strong>histoire</strong> et des <strong>liens solides</strong> que nous avons tissés avec nos membres, des <strong>plus jeunes</strong> aux <strong>plus expérimentés</strong>.</p>
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            <a href="{{ path('reservation_index') }}" class="btnABox">Réserver un terrain</a>
+                        {% else %}
+                            <a href="{{ path('account_login', {redirect: path('reservation_index')}) }}" class="btnABox">Réserver un terrain</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -34,9 +41,17 @@
                 </div>
                 <div class="textABox">
                     <div class="contentTextABox">
-                        <p>La mission du Tennis Club Smash Ucclois va bien au-delà de la simple pratique sportive. Nous croyons fermement que le tennis est un vecteur de développement personnel et collectif. Notre objectif est de créer un environnement inclusif, où chaque membre, peu importe son âge ou son niveau, peut non seulement améliorer ses compétences techniques mais aussi s'épanouir sur le plan humain.</p>
-                        <p>Nous mettons un point d’honneur à offrir un enseignement de qualité, adapté à chacun, avec des méthodes pédagogiques modernes et ludiques. Nos moniteurs, tous animés par une véritable passion pour le tennis, sont là pour guider et motiver les joueurs, que ce soit dans le cadre d'un apprentissage progressif ou d'un perfectionnement pour la compétition. L’accent est mis sur le plaisir du jeu, l’esprit sportif et la progression, dans un cadre sécurisé et agréable.</p>
-                        <p>En plus des entraînements, notre club organise régulièrement des animations, des tournois, et des événements sociaux qui encouragent les membres à se rencontrer et à tisser des liens. Nous voulons que le Tennis Club Smash Ucclois soit un lieu de rencontre, de partage et de découvertes, où chaque joueur se sent chez lui, soutenu et inspiré à atteindre ses objectifs, tout en prenant plaisir à chaque instant passé sur le court.</p>
+                        <p>La <strong>mission du Tennis Club Smash Ucclois</strong> va bien au-delà de la simple pratique sportive. Nous croyons fermement que le <strong>tennis</strong> est un vecteur de <strong>développement personnel</strong> et <strong>collectif</strong>. Notre objectif est de créer un <strong>environnement inclusif</strong>, où chaque membre, peu importe son âge ou son niveau, peut non seulement <strong>améliorer ses compétences techniques</strong> mais aussi <strong>s'épanouir sur le plan humain</strong>.</p>
+                        
+                        <p>Nous mettons un point d’honneur à offrir un <strong>enseignement de qualité</strong>, adapté à chacun, avec des <strong>méthodes pédagogiques modernes</strong> et <strong>ludiques</strong>. Nos moniteurs, tous animés par une véritable <strong>passion pour le tennis</strong>, sont là pour <strong>guider</strong> et <strong>motiver</strong> les joueurs, que ce soit dans le cadre d'un apprentissage progressif ou d'un perfectionnement pour la compétition. L’accent est mis sur le <strong>plaisir du jeu</strong>, l'<strong>esprit sportif</strong> et la <strong>progression</strong>, dans un cadre sécurisé et agréable.</p>
+                        
+                        <p>En plus des entraînements, notre club organise régulièrement des <strong>animations</strong>, des <strong>tournois</strong>, et des <strong>événements sociaux</strong> qui encouragent les membres à se rencontrer et à tisser des liens. Nous voulons que le Tennis Club Smash Ucclois soit un lieu de <strong>rencontre</strong>, de <strong>partage</strong> et de <strong>découvertes</strong>, où chaque joueur se sent chez lui, <strong>soutenu</strong> et <strong>inspiré</strong> à atteindre ses objectifs, tout en prenant plaisir à chaque instant passé sur le court.</p>
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            <a href="{{ path('tournament_index') }}" class="btnABox">Voir les tournois</a>
+                        {% else %}
+                            <a href="{{ path('account_login', {redirect: path('tournament_index')}) }}" class="btnABox">Voir les tournois</a>
+                        {% endif %}
+                        <a href="{{ path('agenda_index') }}" class="btnABox">Voir les évenements</a>
                     </div>
                 </div>
             </div>
