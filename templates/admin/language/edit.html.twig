@@ -1,0 +1,33 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Modifier une Langue{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <h1 class="my-4">Modifier une Langue</h1>
+        <form method="post" enctype="multipart/form-data">
+            {{ form_start(form) }}
+
+            {# Champ nom #}
+            <div class="form-group">
+                {{ form_label(form.name, 'Nom', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.name) }}
+            </div>
+
+            {# Champ image du drapeau #}
+            <div class="form-group">
+                {{ form_label(form.flagImage, 'Image du Drapeau (facultatif)', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.flagImage, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.flagImage) }}
+            </div>
+
+            {# Bouton de soumission #}
+            <div class="form-group">
+                <button type="submit" class="btn btn-warning">Modifier</button>
+            </div>
+
+            {{ form_end(form) }}
+        </form>
+    </div>
+{% endblock %}

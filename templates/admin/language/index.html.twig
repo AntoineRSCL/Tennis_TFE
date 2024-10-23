@@ -1,0 +1,56 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Gestion des Langues{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <h1 class="my-4">Liste des Langues</h1>
+        <a href="{{ path('admin_language_new') }}" class="btn btn-secondary my-2">
+            <i class="fa-solid fa-circle-plus"></i>
+            <span class="ms-2">Ajouter une Langue</span>
+        </a>
+        {% if languages is empty %}
+            <p class="alert alert-warning">Aucune langue trouvée.</p>
+        {% else %}
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Drapeau</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for language in languages %}
+                        <tr>
+                            <td>{{ language.id }}</td>
+                            <td>{{ language.name }}</td>
+                            <td>
+                                {% if language.flagImage %}
+                                    <img src="/uploads/pictures/{{ language.flagImage }}" alt="{{ language.name }}" style="width: 30px; height: auto;">
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                <a href="{{ path('admin_language_edit', {'id': language.id}) }}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                                <a href="{{ path('admin_language_delete', {'id': language.id}) }}" class="btn btn-danger delete-language"><i class="fas fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+
+    <script>
+        document.querySelectorAll('.delete-language').forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+
+                if (confirm("Êtes-vous sûr de vouloir supprimer cette langue ?")) {
+                    window.location.href = this.getAttribute('href');
+                }
+            });
+        });
+    </script>
+{% endblock %}

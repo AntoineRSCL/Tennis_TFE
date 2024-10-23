@@ -4,56 +4,54 @@
 
 {% block body %}
     <div class="container-fluid">
-        <h1>Liste des Coachs</h1>
+        <h1 class="my-2">Liste des Coachs</h1>
+        <a href="{{ path('admin_coach_new') }}" class="btn btn-secondary my-1 mb-4">
+            <i class="fa-solid fa-circle-plus"></i>
+            <span class="ms-2">Ajouter un Coach</span>
+        </a>
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Nom d'utilisateur</th>
-                    <th>Prénom</th>
-                    <th>Nom</th>
-                    <th>Email</th>
-                    <th>Téléphone</th>
-                    <th>Classement</th>
-                    <th>Langues Parlées</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for coach in coaches %}
+        {% if coaches is empty %}
+            <p class="alert alert-warning">Aucun coach trouvé.</p>
+        {% else %}
+            <table class="table table-hover">
+                <thead>
                     <tr>
-                        <td>{{ coach.user.username }}</td>
-                        <td>{{ coach.user.firstname }}</td>
-                        <td>{{ coach.user.lastname }}</td>
-                        <td>{{ coach.user.email }}</td>
-                        <td>{{ coach.user.phone }}</td>
-                        <td>{{ coach.user.ranking }}</td>
-                        <td>{{ coach.languagesSpoken }}</td>
-                        <td>
-                            <a href="{{ path('admin_coach_edit', { id: coach.id }) }}" class="btn btn-primary">Éditer</a>
-                            <form action="{{ path('admin_coach_delete', { id: coach.id }) }}" method="post" style="display:inline;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce coach ?');">
-                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ coach.id) }}">
-                                <button class="btn btn-danger">Supprimer</button>
-                            </form>
-                        </td>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th class="text-center">Actions</th>
                     </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="8">Aucun coach trouvé.</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <a href="{{ path('admin_coach_new') }}" class="btn btn-success">Créer un nouveau coach</a>
+                </thead>
+                <tbody>
+                    {% for coach in coaches %}
+                        <tr>
+                            <td>{{ coach.id }}</td>
+                            <td>{{ coach.user.firstname }} {{ coach.user.lastname }}</td>
+                            <td class="text-center">
+                                <a href="{{ path('admin_coach_edit', { id: coach.id }) }}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                                <form action="{{ path('admin_coach_delete', { id: coach.id }) }}" method="post" style="display: inline-block;">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ coach.id) }}">
+                                    <button class="btn btn-danger delete-coach"><i class="fas fa-trash"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
     </div>
 
     <script>
-        // Optionnel : script pour une meilleure expérience utilisateur
-        document.querySelectorAll('form').forEach(form => {
-            form.onsubmit = function() {
-                return confirm('Êtes-vous sûr de vouloir supprimer ce coach ?');
-            };
+        // JavaScript pour la confirmation de suppression
+        document.querySelectorAll('.delete-coach').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault(); // Empêche le bouton de soumettre immédiatement
+
+                // Afficher une boîte de dialogue de confirmation
+                if (confirm("Êtes-vous sûr de vouloir supprimer ce coach ?")) {
+                    // Si l'utilisateur confirme, soumettre le formulaire
+                    this.closest('form').submit();
+                }
+            });
         });
     </script>
 {% endblock %}

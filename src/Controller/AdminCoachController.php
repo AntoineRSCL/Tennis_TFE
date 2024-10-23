@@ -6,6 +6,7 @@ use App\DTO\UserCoachDTO;
 use App\Entity\User;
 use App\Entity\Coach;
 use App\Form\CoachType;
+use App\Entity\Language;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,37 +31,43 @@ class AdminCoachController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
         $dto = new UserCoachDTO();
-        $form = $this->createForm(CoachType::class, $dto);
+        $form = $this->createForm(CoachType::class, $dto, [
+            'languages' => $entityManager->getRepository(Language::class)->findAll(), // Récupérer toutes les langues
+        ]);
         $form->handleRequest($request);
     
         if ($form->isSubmitted() && $form->isValid()) {
+            // Création du User
             $user = new User();
             $user->setUsername($dto->getUsername());
             $user->setRoles(['ROLE_COACH']);
             $user->setPrivate(true);
             $user->setAddressVerified(true);
-            $user->setFirstname($dto->getFirstname()); // Utilisez le getter
-            $user->setLastname($dto->getLastname());   // Utilisez le getter
-            $user->setEmail($dto->getEmail());         // Utilisez le getter
-            $user->setPhone($dto->getPhone());         // Utilisez le getter
-            $user->setRanking($dto->getRanking());     // Utilisez le getter
-            $user->setBirthDate($dto->getBirthDate()); // Utilisez le getter
+            $user->setFirstname($dto->getFirstname());
+            $user->setLastname($dto->getLastname());
+            $user->setEmail($dto->getEmail());
+            $user->setPhone($dto->getPhone());
+            $user->setRanking($dto->getRanking());
+            $user->setBirthDate($dto->getBirthDate());
     
-            // Hash the password
-            $hashedPassword = $passwordHasher->hashPassword($user, $dto->getPassword()); // Utilisez le getter
+            // Hash du mot de passe
+            $hashedPassword = $passwordHasher->hashPassword($user, $dto->getPassword());
             $user->setPassword($hashedPassword);
     
-            // Persist the User
-            $entityManager->persist($user);
-            $entityManager->flush();
-    
-            // Create the Coach
+            // Ajout du coach
             $coach = new Coach();
+            $coach->setDescription($dto->getDescription());
+            $coach->setJobTitle($dto->getJobTitle());
             $coach->setUser($user);
-            $coach->setDescription($dto->getDescription()); // Utilisez le getter
-            $coach->setLanguagesSpoken($dto->getLanguagesSpoken()); // Utilisez le getter
     
-            // Persist the Coach
+            // Ajout des langues
+            foreach ($dto->getLanguages() as $language) {
+                $coach->addLanguage($language);
+            }
+    
+            // Persister l'entité User
+            $entityManager->persist($user);
+            // Persister l'entité Coach
             $entityManager->persist($coach);
             $entityManager->flush();
     
@@ -73,35 +80,45 @@ class AdminCoachController extends AbstractController
     }
 
     #[Route('/admin/coach/{id}/edit', name: 'admin_coach_edit')]
-    public function edit(Request $request, Coach $coach, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Coach $coach, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
-        // Créez un DTO à partir des données du coach
-        $userCoachDTO = new UserCoachDTO();
-        $userCoachDTO->setUsername($coach->getUser()->getUsername());
-        $userCoachDTO->setFirstname($coach->getUser()->getFirstname());
-        $userCoachDTO->setLastname($coach->getUser()->getLastname());
-        $userCoachDTO->setEmail($coach->getUser()->getEmail());
-        $userCoachDTO->setPhone($coach->getUser()->getPhone());
-        $userCoachDTO->setRanking($coach->getUser()->getRanking());
-        $userCoachDTO->setBirthDate($coach->getUser()->getBirthDate());
-        $userCoachDTO->setDescription($coach->getDescription());
-        $userCoachDTO->setLanguagesSpoken($coach->getLanguagesSpoken());
+        $dto = new UserCoachDTO();
+        $dto->setUsername($coach->getUser()->getUsername());
+        $dto->setFirstname($coach->getUser()->getFirstname());
+        $dto->setLastname($coach->getUser()->getLastname());
+        $dto->setEmail($coach->getUser()->getEmail());
+        $dto->setPhone($coach->getUser()->getPhone());
+        $dto->setRanking($coach->getUser()->getRanking());
+        $dto->setBirthDate($coach->getUser()->getBirthDate());
+        $dto->setDescription($coach->getDescription());
+        $dto->setJobTitle($coach->getJobTitle());
+        $dto->setLanguages($coach->getLanguages()->toArray()); // Utilisez toArray() pour passer les langues en tableau
 
-        $form = $this->createForm(CoachType::class, $userCoachDTO);
+        $form = $this->createForm(CoachType::class, $dto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Mettez à jour les entités
-            $user = $coach->getUser();
-            $user->setUsername($userCoachDTO->getUsername());
-            $user->setFirstname($userCoachDTO->getFirstname());
-            $user->setLastname($userCoachDTO->getLastname());
-            $user->setEmail($userCoachDTO->getEmail());
-            $user->setPhone($userCoachDTO->getPhone());
-            $user->setRanking($userCoachDTO->getRanking());
-            $user->setBirthDate($userCoachDTO->getBirthDate());
-            $coach->setDescription($userCoachDTO->getDescription());
-            $coach->setLanguagesSpoken($userCoachDTO->getLanguagesSpoken());
+            // Mettre à jour le coach
+            $coach->setDescription($dto->getDescription());
+            $coach->setJobTitle($dto->getJobTitle());
+
+            // Supprimer les langues existantes
+            $coach->removeAllLanguages(); // Supprime toutes les langues existantes
+
+            // Ajouter les nouvelles langues
+            foreach ($dto->getLanguages() as $language) {
+                // Trouver l'objet Language correspondant dans la base de données
+                $languageEntity = $entityManager->getRepository(Language::class)->find($language->getId());
+                if ($languageEntity) {
+                    $coach->addLanguage($languageEntity); // Ajoute l'objet Language à Coach
+                }
+            }
+
+            // Mettre à jour le mot de passe uniquement s'il est défini
+            if ($dto->getPassword() !== null && $dto->getPassword() !== '') {
+                $hashedPassword = $passwordHasher->hashPassword($coach->getUser(), $dto->getPassword());
+                $coach->getUser()->setPassword($hashedPassword);
+            }
 
             $entityManager->flush();
             return $this->redirectToRoute('admin_coach_index');
@@ -109,7 +126,6 @@ class AdminCoachController extends AbstractController
 
         return $this->render('admin/coach/edit.html.twig', [
             'form' => $form->createView(),
-            'coach' => $coach,
         ]);
     }
 

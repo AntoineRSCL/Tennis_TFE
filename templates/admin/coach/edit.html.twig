@@ -1,23 +1,103 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}Modifier le coach{% endblock %}
+{% block title %}Modifier un Coach{% endblock %}
 
 {% block body %}
-<div class="container-fluid">
-    <h1>Modifier le coach</h1>
+    <div class="container-fluid">
+        <h1 class="my-4">Modifier un Coach</h1>
+        <form method="post" enctype="multipart/form-data">
+            {{ form_start(form) }}
 
-    {{ form_start(form) }}
-        {{ form_row(form.username) }}
-        {{ form_row(form.firstname) }}
-        {{ form_row(form.lastname) }}
-        {{ form_row(form.email) }}
-        {{ form_row(form.phone) }}
-        {{ form_row(form.ranking) }}
-        {{ form_row(form.birth_date) }}
-        {{ form_row(form.description) }}
-        {{ form_row(form.languagesSpoken) }}
+            {# Champ nom d'utilisateur #}
+            <div class="form-group">
+                {{ form_label(form.username, 'Nom d’utilisateur', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.username, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.username) }}
+            </div>
 
-        <button class="btn btn-success">Enregistrer les modifications</button>
-    {{ form_end(form) }}
-</div>
+            {# Champ password #}
+            <div class="form-group">
+                {{ form_label(form.password, 'Mot de Passe', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.password, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.password) }}
+            </div>
+
+            {# Champ prénom #}
+            <div class="form-group">
+                {{ form_label(form.firstname, 'Prénom', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.firstname, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.firstname) }}
+            </div>
+
+            {# Champ nom #}
+            <div class="form-group">
+                {{ form_label(form.lastname, 'Nom', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.lastname) }}
+            </div>
+
+            {# Champ email #}
+            <div class="form-group">
+                {{ form_label(form.email, 'Email', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.email) }}
+            </div>
+
+            {# Champ téléphone #}
+            <div class="form-group">
+                {{ form_label(form.phone, 'Téléphone', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.phone, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.phone) }}
+            </div>
+
+            {# Champ classement #}
+            <div class="form-group">
+                {{ form_label(form.ranking, 'Classement', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.ranking, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.ranking) }}
+            </div>
+
+            {# Champ date de naissance #}
+            <div class="form-group">
+                {{ form_label(form.birth_date, 'Date de naissance', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.birth_date, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.birth_date) }}
+            </div>
+
+            {# Champ description #}
+            <div class="form-group">
+                {{ form_label(form.description, 'Description', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.description) }}
+            </div>
+
+            {# Champ fonction #}
+            <div class="form-group">
+                {{ form_label(form.jobTitle, 'Fonction', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.jobTitle, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.jobTitle) }}
+            </div>
+
+            {# Champ langues #}
+            <div class="form-group">
+                {{ form_label(form.languages, 'Langues', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.languages, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.languages) }}
+            </div>
+
+            {# Champ image #}
+            <div class="form-group">
+                {{ form_label(form.picture, 'Image de profil (facultatif)', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.picture, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.picture) }}
+            </div>
+
+            {# Bouton de soumission #}
+            <div class="form-group">
+                <button type="submit" class="btn btn-warning">Modifier</button>
+            </div>
+
+            {{ form_end(form) }}
+        </form>
+    </div>
 {% endblock %}
