@@ -2,11 +2,12 @@
 
 namespace App\Controller;
 
-use App\DTO\UserCoachDTO;
 use App\Entity\User;
 use App\Entity\Coach;
 use App\Form\CoachType;
 use App\Entity\Language;
+use App\DTO\UserCoachDTO;
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,7 +33,7 @@ class AdminCoachController extends AbstractController
     {
         $dto = new UserCoachDTO();
         $form = $this->createForm(CoachType::class, $dto, [
-            'languages' => $entityManager->getRepository(Language::class)->findAll(), // Récupérer toutes les langues
+            'languages' => $entityManager->getRepository(Language::class)->findAll(),
         ]);
         $form->handleRequest($request);
     
@@ -54,6 +55,27 @@ class AdminCoachController extends AbstractController
             $hashedPassword = $passwordHasher->hashPassword($user, $dto->getPassword());
             $user->setPassword($hashedPassword);
     
+            // Gestion de l'image
+            $pictureFile = $form->get('picture')->getData();
+            if ($pictureFile) {
+                $slugify = new Slugify();
+                $originalFilename = pathinfo($pictureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugify->slugify($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$pictureFile->guessExtension();
+    
+                // Déplacer le fichier dans le répertoire approprié
+                try {
+                    $pictureFile->move(
+                        $this->getParameter('pictures_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // Gérer l'erreur d'upload si nécessaire
+                }
+    
+                $user->setPicture($newFilename); // Mettre à jour l'entité User avec le nouveau nom de fichier
+            }
+    
             // Ajout du coach
             $coach = new Coach();
             $coach->setDescription($dto->getDescription());
@@ -64,7 +86,7 @@ class AdminCoachController extends AbstractController
             foreach ($dto->getLanguages() as $language) {
                 $coach->addLanguage($language);
             }
-    
+
             // Persister l'entité User
             $entityManager->persist($user);
             // Persister l'entité Coach
@@ -103,14 +125,14 @@ class AdminCoachController extends AbstractController
             $coach->setJobTitle($dto->getJobTitle());
 
             // Supprimer les langues existantes
-            $coach->removeAllLanguages(); // Supprime toutes les langues existantes
+            $coach->removeAllLanguages();
 
             // Ajouter les nouvelles langues
             foreach ($dto->getLanguages() as $language) {
                 // Trouver l'objet Language correspondant dans la base de données
                 $languageEntity = $entityManager->getRepository(Language::class)->find($language->getId());
                 if ($languageEntity) {
-                    $coach->addLanguage($languageEntity); // Ajoute l'objet Language à Coach
+                    $coach->addLanguage($languageEntity);
                 }
             }
 
@@ -118,6 +140,37 @@ class AdminCoachController extends AbstractController
             if ($dto->getPassword() !== null && $dto->getPassword() !== '') {
                 $hashedPassword = $passwordHasher->hashPassword($coach->getUser(), $dto->getPassword());
                 $coach->getUser()->setPassword($hashedPassword);
+            }
+
+            // Gestion de l'image
+            $pictureFile = $form->get('picture')->getData();
+            if ($pictureFile) {
+                // Supprimer l'ancienne image
+                $oldPicture = $coach->getUser()->getPicture();
+                if ($oldPicture) {
+                    $oldPicturePath = $this->getParameter('pictures_directory').'/'.$oldPicture;
+                    if (file_exists($oldPicturePath)) {
+                        unlink($oldPicturePath);
+                    }
+                }
+
+                // Gérer le téléchargement de la nouvelle image
+                $slugify = new Slugify();
+                $originalFilename = pathinfo($pictureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugify->slugify($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$pictureFile->guessExtension();
+    
+                // Déplacer le fichier dans le répertoire approprié
+                try {
+                    $pictureFile->move(
+                        $this->getParameter('pictures_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // Gérer l'erreur d'upload si nécessaire
+                }
+    
+                $coach->getUser()->setPicture($newFilename); // Mettre à jour l'entité User avec le nouveau nom de fichier
             }
 
             $entityManager->flush();

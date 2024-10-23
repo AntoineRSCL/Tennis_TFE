@@ -33,7 +33,9 @@ class CoachType extends AbstractType
                 'widget' => 'single_text',
             ])
             ->add('picture', FileType::class, [
+                'label' => 'Image',
                 'required' => false,
+                'mapped' => false, // Ne pas mapper directement le champ 'picture' à l'entité News
             ])
             ->add('description', TextareaType::class)
             ->add('jobTitle', TextType::class)

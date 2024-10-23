@@ -61,5 +61,34 @@
                 </div>
             </div>
         </div>
+        <div class="coachAbout">
+            <div class="coachContainer">
+                <h2>Nos Coachs</h2>
+                <p>Notre équipe de coachs passionnés et expérimentés est dédiée à vous aider à atteindre vos objectifs, que vous soyez débutant ou joueur avancé. Grâce à leur expertise et leur approche personnalisée, chaque membre bénéficie d'un accompagnement adapté à ses besoins.</p>
+                <div class="cardCoachs">
+                    {% for coach in totalCoaches %}
+                        <div class="coach">
+                            <div class="imgCoach">
+                                <img src="/uploads/pictures/{{ coach.user.picture }}" alt="Image de {{ coach.user.fullName }}">
+                            </div>
+                            <div class="infoCoach">
+                                <h3>{{ coach.user.fullName }}</h3>
+                                <h4>{{ coach.jobTitle }}</h4>
+                                <div class="languageCoach">
+                                    {% for language in coach.languages %}
+                                        <img src="/uploads/pictures/{{ language.flagImage }}" alt="Drapeau du {{ language.name }}">
+                                    {% endfor %}
+                                </div>
+                                <span>{{ coach.description }}</span>
+                                <div class="contactCoach">
+                                    <span>Tel: {{ coach.user.phone }}</span>
+                                    <span>Mail: {{ coach.user.email }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
