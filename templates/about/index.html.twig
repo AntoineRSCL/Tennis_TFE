@@ -26,11 +26,14 @@
                         <p>Au fil des ans, le club a connu plusieurs phases de développement, <strong>modernisant ses infrastructures</strong> pour répondre aux attentes croissantes de ses membres. Grâce à des investissements constants et à un <strong>soutien communautaire solide</strong>, le club a élargi ses installations et ses services, devenant une <strong>référence incontournable</strong> pour les amateurs de tennis à <strong>Uccle</strong> et au-delà. Chaque événement, tournoi ou session d'entraînement fait partie d'une <strong>histoire plus vaste</strong>, celle d'une <strong>communauté qui évolue ensemble</strong> dans un cadre exceptionnel.</p>
                         
                         <p>Aujourd'hui, le Tennis Club Smash Ucclois reste fidèle à ses <strong>valeurs fondatrices</strong> : offrir un espace où le <strong>sport</strong>, la <strong>camaraderie</strong> et l'<strong>excellence</strong> se rencontrent. Nous sommes fiers de notre <strong>histoire</strong> et des <strong>liens solides</strong> que nous avons tissés avec nos membres, des <strong>plus jeunes</strong> aux <strong>plus expérimentés</strong>.</p>
-                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                            <a href="{{ path('reservation_index') }}" class="btnABox">Réserver un terrain</a>
-                        {% else %}
-                            <a href="{{ path('account_login', {redirect: path('reservation_index')}) }}" class="btnABox">Réserver un terrain</a>
-                        {% endif %}
+                        <div class="btnMission">
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                <a href="{{ path('reservation_index') }}" class="btnABox">Réserver un terrain</a>
+                            {% else %}
+                                <a href="{{ path('account_login', {redirect: path('reservation_index')}) }}" class="btnABox">Réserver un terrain</a>
+                            {% endif %}
+                            <a href="{{ path('contact_index') }}" class="btnABox">Nous contacter</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -46,12 +49,14 @@
                         <p>Nous mettons un point d’honneur à offrir un <strong>enseignement de qualité</strong>, adapté à chacun, avec des <strong>méthodes pédagogiques modernes</strong> et <strong>ludiques</strong>. Nos moniteurs, tous animés par une véritable <strong>passion pour le tennis</strong>, sont là pour <strong>guider</strong> et <strong>motiver</strong> les joueurs, que ce soit dans le cadre d'un apprentissage progressif ou d'un perfectionnement pour la compétition. L’accent est mis sur le <strong>plaisir du jeu</strong>, l'<strong>esprit sportif</strong> et la <strong>progression</strong>, dans un cadre sécurisé et agréable.</p>
                         
                         <p>En plus des entraînements, notre club organise régulièrement des <strong>animations</strong>, des <strong>tournois</strong>, et des <strong>événements sociaux</strong> qui encouragent les membres à se rencontrer et à tisser des liens. Nous voulons que le Tennis Club Smash Ucclois soit un lieu de <strong>rencontre</strong>, de <strong>partage</strong> et de <strong>découvertes</strong>, où chaque joueur se sent chez lui, <strong>soutenu</strong> et <strong>inspiré</strong> à atteindre ses objectifs, tout en prenant plaisir à chaque instant passé sur le court.</p>
-                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                            <a href="{{ path('tournament_index') }}" class="btnABox">Voir les tournois</a>
-                        {% else %}
-                            <a href="{{ path('account_login', {redirect: path('tournament_index')}) }}" class="btnABox">Voir les tournois</a>
-                        {% endif %}
-                        <a href="{{ path('agenda_index') }}" class="btnABox">Voir les évenements</a>
+                        <div class="btnMission">
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                <a href="{{ path('tournament_index') }}" class="btnABox">Voir les tournois</a>
+                            {% else %}
+                                <a href="{{ path('account_login', {redirect: path('tournament_index')}) }}" class="btnABox">Voir les tournois</a>
+                            {% endif %}
+                            <a href="{{ path('agenda_index') }}" class="btnABox">Voir les évenements</a>
+                        </div>
                     </div>
                 </div>
             </div>
