@@ -222,7 +222,7 @@
             color: $white;
             padding: 20px;
             margin-bottom: 50px;
-            background-color: orange;
+            color: $black;
             h2{
                 font-family: $bebas;
                 font-size: 8vh;
@@ -236,7 +236,6 @@
             .cardCoachs{
                 width: 100%;
                 min-height: 20vh;
-                background-color: red;
                 @include flex(row);
                 flex-wrap: wrap;
                 gap: 50px;
@@ -244,12 +243,13 @@
                 .coach{
                     width: 300px;
                     min-height: 400px;
-                    background-color: orange;
-                    border-radius: 20px;
+                    border-radius: 40px;
                     .imgCoach{
                         width: 100%;
                         height: 200px;
                         padding: 15px;
+                        background-color: $black;
+                        border-radius: 20px 20px 0 0;
                         img{
                             width: 100%;
                             height: 100%;
@@ -259,13 +259,16 @@
                     .infoCoach{
                         width: 100%;
                         min-height: 300px;
-                        padding: 15px;
+                        padding: 25px 15px;
                         @include flex(column);
-                        gap: 5px;
+                        gap: 10px;
                         justify-content: start;
                         background-color: $white;
                         border-radius: 0 0 20px 20px;
                         color: $black;
+                        h3, h4{
+                            margin: 0;
+                        }
                         .languageCoach{
                             width: 100%;
                             height: 20px;
@@ -282,6 +285,26 @@
                             @include flex(row);
                             gap: 10px;
                         }
+                        p{
+                            font-size: 14px;
+                            margin: 0;
+                            text-align: start;
+                        }
+                        a{
+                            margin-top: 20px;
+                            @include btn($black, $yellow);
+                            
+                            svg{
+                                width: 25px;
+                                height: 25px;
+                                fill: $white;
+                            }
+                            &:hover{
+                                svg{
+                                    fill: $black;
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -297,6 +320,17 @@
             @media all and (max-width:500px) {
                 max-width: 400px;
                 gap: 50px;
+            }
+        }
+        .shapedividers_com-9608{
+            position: absolute;
+            width: 100%;
+            height: 100px;
+            bottom: 0;
+            z-index: 10;
+    
+            &::before{
+                background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.28 2.17" preserveAspectRatio="none"><path d="M35.28 1.16c-3.17-.8-7.3.4-10.04.56-2.76.17-9.25-1.47-12.68-1.3-3.42.16-4.64.84-7.04.86C3.12 1.31 0 .4 0 .4v1.77h35.28z" fill="%23FFFFF"/></svg>'); 
             }
         }
     }
