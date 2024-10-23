@@ -3,67 +3,72 @@
 {% block title %}Réservations des Terrains{% endblock %}
 
 {% block body %}
-<div class="containerReservation">
+<div class="reservationBox">
     <div class="containerTitleDate">
         <h1>RESERVATION DE TERRAIN</h1>
         <form method="GET" action="{{ path('reservation_index') }}">
                 <div class="dateReservation">
                     <label for="reservation_date">Sélectionnez une date</label>
-                    <input type="date" id="reservation_date" name="date"  value="{{ date|date('Y-m-d') }}">
+                    <input type="date" id="reservation_date" name="date" class="form-control" value="{{ date|date('Y-m-d') }}">
                 </div>
                 <div class="submitDateReservation">
                     <button type="submit" class="submitBDR">Valider</button>
                 </div>
         </form>
     </div>
-    
-    {% if courts|length > 0 %}
-        <div class="containerTableReservations">
-            <div class="ligneTableR">
-                <div class="hourTR">
-                    <span><strong>Horaire</strong></span>
-                </div>
-                {% for court in courts %}
-                    <div class="terrainTR"><strong>{{ court.name }}</strong></div>
-                {% endfor %}
-            </div>
-            {% for hour in 8..22 %}
-                <div class="ligneTableRH">
+    <div class="containerReservation">
+        {% if courts|length > 0 %}
+            <div class="containerTableReservations">
+                <div class="ligneTableR">
                     <div class="hourTR">
-                        <span><strong>{{ hour }}h - {{ hour + 1 }}h</strong></span>
+                        <span><strong>Horaire</strong></span>
                     </div>
                     {% for court in courts %}
-                        <div class="terrainTR">
-                            <div class="reservation">
-                                {% set reservation_found = false %}
-                                {% for reservation in reservations %}
-                                    {% if reservation.court.id == court.id and reservation.startTime|date('H') == hour %}
-                                        <div class="infoReservation">
-                                            <strong>{{ reservation.player1.fullName }}</strong>
-                                            <strong>{{ reservation.player2 ? reservation.player2.fullName : 'Aucun' }}</strong>
-                                        </div>
-                                    {% set reservation_found = true %}
-                                    {% endif %}
-                                {% endfor %}    
-                                {% if not reservation_found %}
-                                    <button class="btnReservation reserve-btn" data-hour="{{ hour }}" data-court="{{ court.id }}">Réserver</button>
-                                {% endif %}
-                            </div>
-                        </div>
+                        <div class="terrainTR"><strong>{{ court.name }}</strong></div>
                     {% endfor %}
                 </div>
-            
-            {% endfor %}
+                {% for hour in 8..22 %}
+                    <div class="ligneTableRH">
+                        <div class="hourTR">
+                            <span><strong>{{ hour }}h - {{ hour + 1 }}h</strong></span>
+                        </div>
+                        {% for court in courts %}
+                            <div class="terrainTR">
+                                <div class="reservation">
+                                    {% set reservation_found = false %}
+                                    {% for reservation in reservations %}
+                                        {% if reservation.court.id == court.id and reservation.startTime|date('H') == hour %}
+                                            <div class="infoReservation">
+                                                <strong>{{ reservation.player1.fullName }}</strong>
+                                                <strong>{{ reservation.player2 ? reservation.player2.fullName : 'Aucun' }}</strong>
+                                                {% if is_granted('ROLE_ADMIN') or reservation.player1 == app.user or reservation.player2 == app.user %}
+                                                    <a href="reservation_delete">Annuler</a>
+                                                {% endif %}
+                                            </div>
+                                        {% set reservation_found = true %}
+                                        {% endif %}
+                                    {% endfor %}    
+                                    {% if not reservation_found %}
+                                        <button class="btnReservation reserve-btn" data-hour="{{ hour }}" data-court="{{ court.id }}">Réserver</button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                
+                {% endfor %}
 
-            <input type="hidden" id="reservation_startTime" name="reservation[startTime]" value="">
-            <input type="hidden" id="reservation_endTime" name="reservation[endTime]" value="">
-            <input type="hidden" id="reservation_court" name="reservation[court]" value="">
-        </div>
-    {% else %}
-        <div class="alert alert-warning" role="alert">
-            Aucun court disponible.
-        </div>
-    {% endif %}
+                <input type="hidden" id="reservation_startTime" name="reservation[startTime]" value="">
+                <input type="hidden" id="reservation_endTime" name="reservation[endTime]" value="">
+                <input type="hidden" id="reservation_court" name="reservation[court]" value="">
+            </div>
+        {% else %}
+            <div class="alert alert-warning" role="alert">
+                Aucun court disponible.
+            </div>
+        {% endif %}
+    </div>
+    <div class="shapedividers_com-9608"></div>
 </div>
 {% endblock %}
 

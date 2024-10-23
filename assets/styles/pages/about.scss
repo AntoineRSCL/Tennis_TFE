@@ -85,7 +85,6 @@
         .aboutBox {
             width: 100%;
             height: calc(100vh - 125px);
-            background-color: red;
             @include flex(row);
             @media all and (max-width:1100px) {
                 height: auto;
