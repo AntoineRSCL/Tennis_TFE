@@ -1,10 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MyClubController!{% endblock %}
+{% block title %}MyClub - SmashUcclois{% endblock %}
 
 {% block body %}
-<div class="containerComponent">
-    <h1>Bonjour {{user.lastName}} {{user.firstName}}</h1>
-
-</div>
+    <div class="myClub">
+        <div class="myClubContainer">
+            <div class="infoProfil">
+                <div class="imgProfil">
+                    <img src="/uploads/pictures/{{ user.picture }}" alt="Photo de {{ user.fullName }}">
+                </div>
+                <div class="actionProfil">
+                    <h1>Bonjour {{user.firstName}} {{user.lastName|upper}}</h1>
+                    <div class="btnActions">
+                        <a href="{{ path('account_edit_profile') }}">Modifier le profil</a>
+                        <a href="{{ path('account_logout') }}" class='deconnectBtn'>Déconnexion</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
