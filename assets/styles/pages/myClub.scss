@@ -1,22 +1,24 @@
 @import '../variables/variable.scss';
 .myClub{
     width: 100%;
-    min-height: calc(100vh - 125px);
+    min-height: calc(60vh - 125px);
     background-color: $white;
     margin-top: 125px;
+    padding-bottom: 100px;
     @include flex(column);
     justify-content: start;
     font-family: $roboto;
+    position: relative;
     .myClubContainer{
         margin-top: 20px;
         width: 100%;
         max-width: 1200px;
-        min-height: 80vh;
+        min-height: 40vh;
         @include flex(column);
         align-items: start;
         justify-content: start;
         color: $black;
-        background-color: orange;
+        background-color: white;
         @media all and (max-width:1200px) {
             max-width: 900px;
         }
@@ -29,12 +31,24 @@
         @media all and (max-width:500px) {
             max-width: 400px;
         }
+        .alertContainer{
+            width: 100%;
+            margin-bottom: 25px;
+            p{
+                margin: 0;
+                text-align: center;
+                font-weight: bold;
+            }
+        }
         .infoProfil{
             width: 100%;
-            min-height: 25vh;
+            min-height: 300px;
             background-color: white;
             border-radius: 20px;
             @include flex(row);
+            align-items: start;
+            flex-wrap: wrap;
+            padding: 20px;
             .imgProfil{
                 width: 200px;
                 height: 200px;
@@ -45,10 +59,19 @@
                 }
             }
             .actionProfil{
-                width: 60%;
+                width: 40%;
                 min-height: 25vh;
-                background-color: red;
                 padding: 10px 20px;
+                @include flex(column);
+                align-items: start;
+                @media all and (max-width:1200px) {
+                    width: 60%;
+                }
+                @media all and (max-width:700px) {
+                    width: 100%;
+                    align-items: center;
+                    justify-content: start;
+                }
                 .btnActions{
                     height: 5vh;
                     @include flex(row);
@@ -66,7 +89,83 @@
         }
     }
     .formContainer{
-        background-color: red;
+        border-radius: 20px;
         padding: 20px;
+        h1{
+            margin: 0;
+        }
+        .otherActions{
+            margin-top: 25px;
+            @include flex(row);
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: start;
+            a{
+                @include btn(orange, $black);
+            }
+            .myClubBtn{
+                @include btn($black, $yellow);
+            }
+        }
+        form{
+            margin-top: 30px;
+            width: 100%;
+            @include flex(column);
+            align-items: start;
+            gap: 20px;
+            .inputForm{
+                width: 100%;
+                @include flex(column);
+                align-items: start;
+                gap: 3px;
+                label{
+                    width: 100%;
+                    margin: 0;
+                    padding: 0 10px;
+                }
+                ul{
+                    width: 100%;
+                    margin: 0;
+                    list-style: none;
+                    li{
+                        color: red;
+                    }
+                }
+                input[type="checkbox"] {
+                    width: 30px;
+                    height: 30px;
+                    /* Facultatif : ajouter une bordure pour la rendre plus visible */
+                    border: 2px solid #000;
+                    cursor: pointer;
+                }
+            }
+            .pictureBefore{
+                width: 300px;
+                height: 300px;
+                img{
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+            .removePicture{
+                @include btn(red, $black);  
+            }
+            .btnFormSubmit{
+                @include btn(rgb(23, 221, 23), $black);   
+                border: 0;
+            }
+        }
+    }
+    .shapedividers_com-9608{
+        position: absolute;
+        width: 100%;
+        height: 100px;
+        bottom: 0;
+        z-index: 10;
+
+        &::before{
+            background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.28 2.17" preserveAspectRatio="none"><path d="M35.28 1.16c-3.17-.8-7.3.4-10.04.56-2.76.17-9.25-1.47-12.68-1.3-3.42.16-4.64.84-7.04.86C3.12 1.31 0 .4 0 .4v1.77h35.28z" fill="%23FFFFF"/></svg>'); 
+        }
     }
 }

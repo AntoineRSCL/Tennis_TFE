@@ -5,9 +5,23 @@
 {% block body %}
     <div class="myClub">
         <div class="myClubContainer">
+            {# Ajout d'une div pour les messages flashs #}
+            <div class="alertContainer">
+                {% for label, messages in app.flashes %}
+                    <div class="alert alert-{{ label }}">
+                        {% for message in messages %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
             <div class="infoProfil">
                 <div class="imgProfil">
-                    <img src="/uploads/pictures/{{ user.picture }}" alt="Photo de {{ user.fullName }}">
+                    {% if user.picture %}
+                        <img src="/uploads/pictures/{{ user.picture }}" alt="Photo de {{ user.fullName }}">
+                    {% else %}
+                        <img src="/images/avatarvide.png" alt="Photo de {{ user.fullName }}">
+                    {% endif %}
                 </div>
                 <div class="actionProfil">
                     <h1>Bonjour {{user.firstName}} {{user.lastName|upper}}</h1>
@@ -18,5 +32,6 @@
                 </div>
             </div>
         </div>
+        <div class="shapedividers_com-9608"></div>
     </div>
 {% endblock %}

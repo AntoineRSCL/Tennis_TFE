@@ -4,8 +4,13 @@
 
 {% block body %}
     <div class="myClub">
-        <div class="myClubContainer">
-            <h1>Modifier votre avatar</h1>
+        <div class="myClubContainer formContainer">
+            <h1>Modifier votre image de profil</h1>
+            <div class="otherActions">
+                <a href="{{ path('account_profile') }}">Modifier les données</a>
+                <a href="{{ path('account_password') }}">Modifier le mot de passe</a>
+                <a href="{{ path('myclub_index') }}" class='myClubBtn'>Retour MyClub</a>
+            </div>
             {% if myForm.vars.errors|length > 0 %}
                 <div class="alert alert-danger">
                     <ul>
@@ -20,8 +25,18 @@
                     {{ form_label(myForm.newPicture) }}
                     {{ form_widget(myForm.newPicture, {'attr': {'class': 'form-control'}}) }}
                 </div>
-                <button type="submit" class="btn btn-primary">Valider</button>
+                <span>Image Actuelle :</span>
+                {% if picture %}
+                    <div class="pictureBefore">
+                        <img src="/uploads/pictures/{{ picture }}" alt="Image actuelle">
+                    </div>
+                    <a href="{{ path('account_delimg') }}" class="removePicture">Supprimer la photo</a>
+                {% else %}
+                    <span>Vous n'avez pas encore d'image de profil</span>
+                {% endif %}
+                <button type="submit" class="btnFormSubmit">Enregistrer</button>
             {{ form_end(myForm) }}
         </div>
+        <div class="shapedividers_com-9608"></div>
     </div>
 {% endblock %}

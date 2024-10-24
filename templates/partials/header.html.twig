@@ -11,13 +11,6 @@
                 {% if app.user %}
                     <div class="menuUserHeader">
                         <div class="infoUserHeader">
-                            <div class="containerPicture">
-                                {% if app.user.picture %}
-                                    <img src="/uploads/pictures/{{app.user.picture}}" alt="Image de Profil">
-                                {% else %}
-                                    <img src="/images/avatarvide.png" alt="Image de Profil vide">
-                                {% endif %}
-                            </div>
                             <span>
                                 {{app.user.fullName}}
                             </span>

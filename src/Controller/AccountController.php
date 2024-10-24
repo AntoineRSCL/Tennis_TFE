@@ -108,36 +108,36 @@ class AccountController extends AbstractController
     #[Route("/account/profile", name:"account_profile")]
     public function profile(Request $request, EntityManagerInterface $manager): Response
     {
-        $user = $this->getUser(); // permet de récup l'utilisateur connecté
-        $originalPicture = $user->getPicture();
+        $user = $this->getUser(); // Récupère l'utilisateur connecté
+        
+        $originalPicture = $user->getPicture(); // Récupère l'image existante
 
-        $fileName = $user->getPicture();
-        if (!empty($originalPicture) && file_exists($this->getParameter('pictures_directory').'/'.$originalPicture)) {
-            $user->setPicture(new File($this->getParameter('pictures_directory').'/'.$originalPicture));
+        // Ne tente de définir le fichier que si l'utilisateur a déjà une image
+        if (!empty($originalPicture) && file_exists($this->getParameter('pictures_directory') . '/' . $originalPicture)) {
+            $user->setPicture(new File($this->getParameter('pictures_directory') . '/' . $originalPicture));
         }
 
-        $form = $this->createForm(AccountType::class,$user);
+        $form = $this->createForm(AccountType::class, $user);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
-            $user->setPicture($fileName);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Réaffecte la même image à l'utilisateur si l'image n'a pas été modifiée
+            $user->setPicture($originalPicture);
 
             $manager->persist($user);
             $manager->flush();
 
             $this->addFlash(
                 'success',
-                "Les données ont été enregistrées avec succés"
+                "Les données ont été enregistrées avec succès"
             );
 
             return $this->redirectToRoute('myclub_index');
         }
 
-        return $this->render("account/profile.html.twig",[
+        return $this->render("account/profile.html.twig", [
             'form' => $form->createView()
         ]);
-
     }
 
     #[Route("/account/imgmodify", name:"account_imgmodif")]
@@ -192,6 +192,28 @@ class AccountController extends AbstractController
             'myForm' => $form->createView(),
             'picture'=> $picture
         ]);
+    }
+
+    #[Route("/account/delimg", name:"account_delimg")]
+    #[IsGranted('ROLE_USER')]
+    public function removeImg(EntityManagerInterface $manager): Response
+    {
+        $user = $this->getUser();
+        if(!empty($user->getPicture()))
+        {
+            unlink($this->getParameter('pictures_directory').'/'.$user->getPicture());
+            $user->setPicture('');
+            $manager->persist($user);
+            $manager->flush();
+            $this->addFlash(
+                'success',
+                'Votre photo de profil a bien été supprimée'
+            );
+        }
+
+        
+        return $this->redirectToRoute('myclub_index');
+
     }
 
     #[Route("/account/passwordupdate", name:"account_password")]
