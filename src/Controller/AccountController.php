@@ -3,15 +3,21 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\ImgModify;
+use App\Form\AccountType;
+use Cocur\Slugify\Slugify;
+use App\Form\ImgModifyType;
 use App\Form\EditAvatarType;
-use App\Form\EditProfileType;
+use App\Entity\PasswordUpdate;
 use App\Form\RegistrationType;
 use App\Form\ChangePasswordType;
+use App\Form\PasswordUpdateType;
 use Symfony\Component\Form\FormError;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -99,85 +105,134 @@ class AccountController extends AbstractController
         ]);
     }
 
-    #[Route('/account/edit-avatar', name: 'account_edit_avatar')]
-    public function editAvatar(Request $request, EntityManagerInterface $em, FileSystem $filesystem): Response
+    #[Route("/account/profile", name:"account_profile")]
+    public function profile(Request $request, EntityManagerInterface $manager): Response
     {
-        $user = $this->getUser(); // Récupère l'utilisateur connecté
-        $form = $this->createForm(EditAvatarType::class, $user);
+        $user = $this->getUser(); // permet de récup l'utilisateur connecté
+        $originalPicture = $user->getPicture();
 
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Gestion du fichier avatar
-            $pictureFile = $form->get('picture')->getData();
-            if ($pictureFile) {
-                // Supprimer l'ancien fichier avatar s'il existe
-                $oldPicture = $user->getPicture();
-                if ($oldPicture) {
-                    $filesystem->remove($this->getParameter('pictures_directory').'/'.$oldPicture);
-                }
-
-                // Générer un nouveau nom de fichier pour l'avatar
-                $newFilename = uniqid().'.'.$pictureFile->guessExtension();
-                
-                // Déplacer le fichier vers le répertoire d'avatars
-                $pictureFile->move(
-                    $this->getParameter('pictures_directory'),
-                    $newFilename
-                );
-
-                // Mettre à jour l'utilisateur avec le nouvel avatar
-                $user->setPicture($newFilename);
-            }
-
-            $em->persist($user);
-            $em->flush();
-
-            $this->addFlash('success', 'Votre avatar a bien été mis à jour.');
-
-            return $this->redirectToRoute('account_edit_avatar'); // Redirection après modification
+        $fileName = $user->getPicture();
+        if (!empty($originalPicture) && file_exists($this->getParameter('pictures_directory').'/'.$originalPicture)) {
+            $user->setPicture(new File($this->getParameter('pictures_directory').'/'.$originalPicture));
         }
 
-        return $this->render('account/edit_avatar.html.twig', [
-            'form' => $form->createView(),
+        $form = $this->createForm(AccountType::class,$user);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $user->setPicture($fileName);
+
+            $manager->persist($user);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                "Les données ont été enregistrées avec succés"
+            );
+
+            return $this->redirectToRoute('myclub_index');
+        }
+
+        return $this->render("account/profile.html.twig",[
+            'form' => $form->createView()
+        ]);
+
+    }
+
+    #[Route("/account/imgmodify", name:"account_imgmodif")]
+    #[IsGranted('ROLE_USER')]
+    public function imgModify(Request $request, EntityManagerInterface $manager): Response
+    {
+        $imgModify = new ImgModify();
+        $user = $this->getUser();
+        $picture = $user->getPicture();
+        $form = $this->createForm(ImgModifyType::class, $imgModify);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            //Permet de supprimer l'image dans le dossier
+            if(!empty($user->getPicture()))
+            {
+                unlink($this->getParameter('pictures_directory').'/'.$user->getPicture());
+            }
+
+                // gestion de l'image
+                $file = $form['newPicture']->getData();
+                if(!empty($file))
+                {
+                    $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                    $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                    $newFilename = $safeFilename."-".uniqid().'.'.$file->guessExtension();
+                    try{
+                        $file->move(
+                            $this->getParameter('pictures_directory'),
+                            $newFilename
+                        );
+                    }catch(FileException $e)
+                    {
+                        return $e->getMessage();
+                    }
+                    $user->setPicture($newFilename);
+                }
+                $manager->persist($user);
+                $manager->flush();
+
+                $this->addFlash(
+                'success',
+                'Votre photo a bien été modifiée'
+                );
+
+                return $this->redirectToRoute('myclub_index');
+
+        }
+
+        return $this->render("account/imgModify.html.twig",[
+            'myForm' => $form->createView(),
+            'picture'=> $picture
         ]);
     }
 
-    #[Route('/account/change-password', name: 'account_change_password')]
-    public function changePassword(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $em): Response
+    #[Route("/account/passwordupdate", name:"account_password")]
+    #[IsGranted('ROLE_USER')]
+    public function updatePassword(Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $hasher): Response
     {
+        $passwordUpdate = new PasswordUpdate();
         $user = $this->getUser();
-        $form = $this->createForm(ChangePasswordType::class);
+        $form = $this->createForm(PasswordUpdateType::class, $passwordUpdate);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $oldPassword = $form->get('old_password')->getData();
-            if ($passwordHasher->isPasswordValid($user, $oldPassword)) {
-                $newPassword = $form->get('new_password')->getData();
-                $hashedPassword = $passwordHasher->hashPassword($user, $newPassword);
-                $user->setPassword($hashedPassword);
-                $em->flush();
-                $this->addFlash('success', 'Mot de passe modifié avec succès.');
-            } else {
-                $form->addError(new FormError('L\'ancien mot de passe est incorrect.'));
+        if($form->isSubmitted() && $form->isValid())
+        {
+            // vérifier si le mot de passe correspond à l'ancien
+            if(!password_verify($passwordUpdate->getOldPassword(),$user->getPassword()))
+            {
+                // gestion de l'erreur
+                $form->get('oldPassword')->addError(new FormError("Le mot de passe que vous avez tapé n'est pas votre mot de passe actuel"));
+            }else{
+                $newPassword = $passwordUpdate->getNewPassword();
+                $hash = $hasher->hashPassword($user, $newPassword);
+
+                $user->setPassword($hash);
+                $manager->persist($user);
+                $manager->flush();
+
+                $this->addFlash(
+                    'success',
+                    'Votre mot de passe a bien été modifié'
+                );
+
+                return $this->redirectToRoute('myclub_index');
             }
+
         }
 
-        return $this->render('account/change_password.html.twig', ['form' => $form->createView()]);
+        return $this->render("account/password.html.twig", [
+            'myForm' => $form->createView()
+        ]);
+
     }
 
-    #[Route('/account/edit-profile', name: 'account_edit_profile')]
-    public function editProfile(Request $request, EntityManagerInterface $em): Response
-    {
-        $user = $this->getUser();
-        $form = $this->createForm(EditProfileType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em->flush();
-            $this->addFlash('success', 'Profil mis à jour avec succès.');
-        }
-
-        return $this->render('account/edit_profile.html.twig', ['form' => $form->createView()]);
-    }
+    
 }

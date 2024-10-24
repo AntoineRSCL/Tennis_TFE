@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier Profil{% endblock %}
+
+{% block body %}
+    <div class="myClub">
+        <div class="myClubContainer formContainer">
+            <h1>Modifier votre profil</h1>
+            <div class="otherActions">
+                <a href="{{ path('account_imgmodif') }}">Modifier l'avatar</a>
+                <a href="{{ path('account_password') }}">Modifier le mot de passe</a>
+            </div>
+            {% if form.vars.errors|length > 0 %}
+                <div class="alert alert-danger">
+                    <ul>
+                        {% for error in form.vars.errors %}
+                            <li>{{ error.message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            
+            <form method="post">
+                {{ form_start(form) }}
+                    <div class="form-group">
+                        {{ form_label(form.username) }}
+                        {{ form_widget(form.username, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.username) }} {# Affiche les erreurs pour le champ username #}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.firstname) }}
+                        {{ form_widget(form.firstname, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.firstname) }} {# Affiche les erreurs pour le champ firstname #}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.lastname) }}
+                        {{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.lastname) }} {# Affiche les erreurs pour le champ lastname #}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.birth_date) }}
+                        {{ form_widget(form.birth_date, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.birth_date) }} {# Affiche les erreurs pour le champ birth_date #}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.email) }}
+                        {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.email) }} {# Affiche les erreurs pour le champ email #}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.phone) }}
+                        {{ form_widget(form.phone, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.phone) }} {# Affiche les erreurs pour le champ phone #}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.private) }}
+                        {{ form_widget(form.private, {'attr': {'class': 'form-check-input'}}) }}
+                        {{ form_errors(form.private) }} {# Affiche les erreurs pour le champ private #}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.ranking) }}
+                        {{ form_widget(form.ranking, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.ranking) }} {# Affiche les erreurs pour le champ ranking #}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                {{ form_end(form) }}
+            </form>
+        </div>
+    </div>
+{% endblock %}

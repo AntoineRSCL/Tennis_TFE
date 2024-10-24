@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier Picture{% endblock %}
+
+{% block body %}
+    <div class="myClub">
+        <div class="myClubContainer">
+            <h1>Modifier votre avatar</h1>
+            {% if myForm.vars.errors|length > 0 %}
+                <div class="alert alert-danger">
+                    <ul>
+                        {% for error in myForm.vars.errors %}
+                            <li>{{ error.message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            {{ form_start(myForm) }}
+                <div class="form-group">
+                    {{ form_label(myForm.newPicture) }}
+                    {{ form_widget(myForm.newPicture, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <button type="submit" class="btn btn-primary">Valider</button>
+            {{ form_end(myForm) }}
+        </div>
+    </div>
+{% endblock %}

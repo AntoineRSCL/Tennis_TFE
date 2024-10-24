@@ -3,54 +3,42 @@
 namespace App\Form;
 
 use App\Entity\User;
+use App\Form\ApplicationType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\AbstractType;
 
-class EditProfileType extends AbstractType
+class AccountType extends ApplicationType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            // Informations de base
-            ->add('username', TextType::class, [
-                'label' => "Nom d'utilisateur",
-                'attr' => ['placeholder' => "Votre nom d'utilisateur ..."]
-            ])
-            ->add('firstname', TextType::class, [
-                'label' => 'Prénom',
-                'attr' => ['placeholder' => "Votre prénom ..."]
-            ])
-            ->add('lastname', TextType::class, [
-                'label' => 'Nom de famille',
-                'attr' => ['placeholder' => "Votre nom de famille ..."]
-            ])
+            //Etape 1: Information de Connexion
+            ->add('username', TextType::class, $this->getConfiguration("Nom d'utilisateur", "Votre nom d'utilisateur..."))
+
+            //Etape 2: Informations Personnelles
+            ->add('firstname', TextType::class, $this->getConfiguration("Prénom", "Votre prénom ..."))
+            ->add('lastname', TextType::class, $this->getConfiguration("Nom", "Votre nom de famille ..."))
             ->add('birth_date', DateType::class, [
-                'label' => 'Date de naissance',
                 'widget' => 'single_text',
             ])
 
-            // Informations de contact
-            ->add('email', EmailType::class, [
-                'label' => 'Email',
-                'attr' => ['placeholder' => "Votre adresse e-mail ..."]
-            ])
+            //Etape 3: Information de Contact
+            ->add('email', EmailType::class, $this->getConfiguration("Email", "Votre adresse e-mail ..."))
             ->add('phone', TextType::class, [
                 'label' => 'Téléphone',
-                'required' => false,
-                'attr' => ['placeholder' => "Votre numéro de téléphone ..."]
+                'required' => false, // Définir le champ comme non obligatoire
+                'attr' => ['placeholder' => "Votre numéro de téléphone ..."] // Placeholder pour indiquer le format attendu
             ])
             ->add('private', CheckboxType::class, [
-                'label' => 'Apparaître dans le carnet d\'adresse des membres ?',
+                'label' => 'Voulez-vous apparaître dans le carnet d\'adresse des membres ?',
                 'required' => false,
             ])
 
-            // Classement
             ->add('ranking', ChoiceType::class, [
                 'label' => 'Classement',
                 'choices' => [
@@ -63,9 +51,10 @@ class EditProfileType extends AbstractType
                     'B-15' => 'B-15', 'B-15.1' => 'B-15.1', 'B-15.2' => 'B-15.2', 
                     'B-15.4' => 'B-15.4', 'A.Nat' => 'A.Nat', 'A.Int' => 'A.Int'
                 ],
-                'expanded' => false,
-                'multiple' => false,
-            ]);
+                'expanded' => false, // Pour utiliser un menu déroulant
+                'multiple' => false,  // Un seul choix
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
