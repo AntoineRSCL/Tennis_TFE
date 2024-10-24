@@ -209,51 +209,53 @@ class PaginationService
      * @return array
      */
     public function getData(): array
-{
-    if (empty($this->entityClass)) {
-        throw new \Exception("Vous n'avez pas spécifié l'entité sur laquelle nous devons paginer! Utilisez la méthode setEntityClass() de votre objet PaginationService");
-    }
+    {
+        if (empty($this->entityClass)) {
+            throw new \Exception("Vous n'avez pas spécifié l'entité sur laquelle nous devons paginer! Utilisez la méthode setEntityClass() de votre objet PaginationService");
+        }
 
-    $offset = ($this->currentPage - 1) * $this->limit;
+        $offset = ($this->currentPage - 1) * $this->limit;
 
-    $queryBuilder = $this->manager
-        ->getRepository($this->entityClass)
-        ->createQueryBuilder('e');
+        $queryBuilder = $this->manager
+            ->getRepository($this->entityClass)
+            ->createQueryBuilder('e');
 
-    // Ajouter la recherche ici
-    if ($this->searchTerm) {
-        $queryBuilder->andWhere('e.lastname LIKE :searchTerm OR e.firstname LIKE :searchTerm')
-                     ->setParameter('searchTerm', '%' . $this->searchTerm . '%');
-    }
+        // Ajouter la recherche ici
+        if ($this->searchTerm) {
+            $queryBuilder->andWhere('e.lastname LIKE :searchTerm OR e.firstname LIKE :searchTerm')
+                        ->setParameter('searchTerm', '%' . $this->searchTerm . '%');
+        }
 
-    foreach ($this->criteria as $field => $value) {
-        if ($value === null) {
-            $queryBuilder->andWhere("e.$field IS NULL");
-        } else {
-            if (strpos($field, '.') !== false) {
-                list($relation, $relatedField) = explode('.', $field);
-                $queryBuilder->join("e.$relation", 'r')
-                            ->andWhere("r.$relatedField = :$relatedField")
-                            ->setParameter($relatedField, $value);
+        foreach ($this->criteria as $field => $value) {
+            if ($value === null) {
+                $queryBuilder->andWhere("e.$field IS NULL");
             } else {
-                $queryBuilder->andWhere("e.$field = :$field")
-                            ->setParameter($field, $value);
+                if (strpos($field, '.') !== false) {
+                    list($relation, $relatedField) = explode('.', $field);
+                    $queryBuilder->join("e.$relation", 'r')
+                                ->andWhere("r.$relatedField = :$relatedField")
+                                ->setParameter($relatedField, $value);
+                } else {
+                    $queryBuilder->andWhere("e.$field = :$field")
+                                ->setParameter($field, $value);
+                }
             }
         }
-    }
 
-    if ($this->order) {
-        foreach ($this->order as $sort => $order) {
-            $queryBuilder->addOrderBy("e.$sort", $order);
+        // Ajouter l'ordre
+        if ($this->order) {
+            foreach ($this->order as $sort => $order) {
+                $queryBuilder->addOrderBy("e.$sort", $order);
+            }
         }
+
+        // Pagination
+        $queryBuilder->setFirstResult($offset)
+                    ->setMaxResults($this->limit);
+
+        return $queryBuilder->getQuery()->getResult();
     }
 
-    // Pagination
-    $queryBuilder->setFirstResult($offset)
-                ->setMaxResults($this->limit);
-
-    return $queryBuilder->getQuery()->getResult();
-}
 
 
 

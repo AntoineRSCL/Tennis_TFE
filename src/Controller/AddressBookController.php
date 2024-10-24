@@ -16,9 +16,22 @@ class AddressBookController extends AbstractController
     {
         // Configurer le service de pagination pour l'entité User
         $paginationService->setEntityClass(User::class);
-
+        
         // Définir le critère pour ne récupérer que les utilisateurs privés
         $paginationService->setCriteria(['private' => true]);
+
+        // Récupérer les paramètres de tri et de recherche
+        $sortOrder = $request->query->get('sortOrder', 'asc'); // 'asc' ou 'desc'
+        $sortField = $request->query->get('sortField', 'lastname'); // champ par défaut à trier
+        $searchTerm = $request->query->get('searchTerm'); // terme de recherche
+
+        // Définir le critère de recherche
+        if ($searchTerm) {
+            $paginationService->setSearchTerm($searchTerm);
+        }
+
+        // Définir l'ordre de tri
+        $paginationService->setOrder([$sortField => $sortOrder]);
 
         // Récupérer la page actuelle
         $currentPage = $request->query->getInt('page', 1);
@@ -30,6 +43,9 @@ class AddressBookController extends AbstractController
         return $this->render('address_book/index.html.twig', [
             'users' => $pagination,      // Renvoie les utilisateurs
             'pagination' => $paginationService, // Renvoie les informations de pagination
+            'sortOrder' => $sortOrder,   // Ajout de la variable sortOrder
+            'sortField' => $sortField,    // Ajout de la variable sortField
+            'searchTerm' => $searchTerm,   // Ajout de la variable searchTerm
         ]);
     }
 }

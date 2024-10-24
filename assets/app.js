@@ -9,6 +9,7 @@ import './styles/app.css';
 import './styles/bootstrap.min.css';
 
 import './styles/pages/about.scss';
+import './styles/pages/addressBook.scss';
 import './styles/pages/agenda.scss';
 import './styles/pages/contact.scss';
 import './styles/pages/home.scss';

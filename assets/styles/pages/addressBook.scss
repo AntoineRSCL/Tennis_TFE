@@ -1,0 +1,23 @@
+@import '../variables/variable.scss';
+.addressBook{
+    width: 100%;
+    min-height: calc(60vh - 125px);
+    background-color: $white;
+    margin-top: 125px;
+    padding-bottom: 100px;
+    @include flex(column);
+    justify-content: start;
+    font-family: $roboto;
+    position: relative;
+    .shapedividers_com-9608{
+        position: absolute;
+        width: 100%;
+        height: 100px;
+        bottom: 0;
+        z-index: 10;
+
+        &::before{
+            background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.28 2.17" preserveAspectRatio="none"><path d="M35.28 1.16c-3.17-.8-7.3.4-10.04.56-2.76.17-9.25-1.47-12.68-1.3-3.42.16-4.64.84-7.04.86C3.12 1.31 0 .4 0 .4v1.77h35.28z" fill="%23FFFFF"/></svg>'); 
+        }
+    }
+}
