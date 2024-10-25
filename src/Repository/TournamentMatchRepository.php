@@ -28,6 +28,16 @@ class TournamentMatchRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function countTotalMatchesPlayedByUser($user)
+    {
+        return $this->createQueryBuilder('m')
+            ->select('COUNT(m.id)')
+            ->where('m.player1 = :user OR m.player2 = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
     public function countMatchesWonByUser(User $user): int
     {
         return $this->createQueryBuilder('m')

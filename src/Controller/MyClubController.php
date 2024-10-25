@@ -34,13 +34,17 @@ class MyClubController extends AbstractController
         // Nombre de tournois gagnés
         $tournamentsWon = $tournamentRepository->countTournamentsWonByUser($user);
 
+        // Nombre total de matchs joués
+        $totalMatchesPlayed = $tournamentMatchRepository->countTotalMatchesPlayedByUser($user);
+
         return $this->render('myclub/index.html.twig', [
             'user' => $user,
             'upcomingReservations' => $upcomingReservations,
             'upcomingMatches' => $upcomingMatches,
-            'upcomingEventsWithCount' => $upcomingEventsWithCount, // Ajout des événements
+            'upcomingEventsWithCount' => $upcomingEventsWithCount,
             'matchesWon' => $matchesWon,
             'tournamentsWon' => $tournamentsWon,
+            'totalMatchesPlayed' => $totalMatchesPlayed,
         ]);
     }
 }
