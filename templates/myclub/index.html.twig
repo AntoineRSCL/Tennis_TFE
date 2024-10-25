@@ -37,15 +37,133 @@
                     <h2>Vos prochaines réservations</h2>
                     {% if upcomingReservations is empty %}
                         <h4>Aucune réservation</h4>
-                        <a href="{{ path('reservation_index') }}">Créer une reservation</a>
+                        <a href="{{ path('reservation_index') }}">Réserver un terrain</a>
                     {% else %}
                         {% for item in upcomingReservations %}
-                            <h2>Coucou</h2>
+                            <div class="nextMatch">
+                                <div class="matchInfo">
+                                    <div class="tournamentRound">
+                                        <span class="tournamentMI">{{ item.court.name }}</span>
+                                        <span class="roundMI"> {{ item.startTime|date('d/m/Y')}} {{ item.startTime|date('H')}}H - {{ item.endTime|date('H')}}H</span>
+                                    </div>
+                                    {# Affichage du joueur 1 #}
+                                    {% if item.player1.fullName == app.user.fullName %}
+                                        <div class="infoPlayerMI">
+                                            <div class="photoMI">
+                                                {% if item.player2.picture %}
+                                                    <img src="/uploads/pictures/{{ item.player2.picture }}" alt="{{ item.player2.fullName }}" />
+                                                {% else %}
+                                                    <img src="/images/avatarvide.png" alt="">
+                                                {% endif %}
+                                            </div>
+                                            <span>{{ item.player2.fullName }}</span>
+                                            <a href="{{ path('reservation_delete', { id: item.id }) }}" class='cancelReserve'>Annuler la réservation</a>
+                                        </div>
+                                    {% else %}
+                                        <div class="infoPlayerMI">
+                                            <div class="photoMI">
+                                                {% if item.player1.picture %}
+                                                    <img src="/uploads/pictures/{{ item.player1.picture }}" alt="{{ item.player1.fullName }}" />
+                                                {% else %}
+                                                    <img src="/images/avatarvide.png" alt="">
+                                                {% endif %}
+                                            </div>
+                                            <span>{{ item.player1.fullName }}</span>
+                                            <a href="{{ path('reservation_delete', { id: item.id }) }}" class='cancelReserve'>Annuler la réservation</a>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
                         {% endfor %}
+                        <a href="{{ path('reservation_index') }}">Nouvelle Réservation</a>
                     {% endif %}
                 </swiper-slide>
-                <swiper-slide>Vos prochains matchs</swiper-slide>
-                <swiper-slide>Slide 3</swiper-slide>
+                <swiper-slide>
+                    <h2>Vos prochains matchs</h2>
+                    {% if upcomingMatches is empty %}
+                        <h4>Aucune réservation</h4>
+                        <a href="{{ path('tournament_index') }}">S'inscrire aux tournois</a>
+                    {% else %}
+                        {% for item in upcomingMatches %}
+                            <div class="nextMatch">
+                                <div class="matchInfo">
+                                    <div class="tournamentRound">
+                                        <span class="tournamentMI">{{ item.tournament.name }}</span>
+                                        <span class="roundMI">{{ item.round }}</span>
+                                    </div>
+
+                                    {# Affichage du joueur 1 #}
+                                    {% if item.player1.fullName == app.user.fullName %}
+                                        <div class="infoPlayerMI">
+                                            <div class="photoMI">
+                                                {% if item.player2.picture %}
+                                                    <img src="/uploads/pictures/{{ item.player2.picture }}" alt="{{ item.player2.fullName }}" />
+                                                {% else %}
+                                                    <img src="/images/avatarvide.png" alt="">
+                                                {% endif %}
+                                            </div>
+                                            <span>{{ item.player2.fullName }}</span>
+                                            <span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/></svg> 
+                                                {{ item.player2.phone }}
+                                            </span>
+                                            <span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48L48 64zM0 176L0 384c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-208L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/></svg>
+                                                {{ item.player2.email }}
+                                            </span>
+                                        </div>
+                                    {% else %}
+                                        <div class="infoPlayerMI">
+                                            <div class="photoMI">
+                                                {% if item.player1.picture %}
+                                                    <img src="/uploads/pictures/{{ item.player1.picture }}" alt="{{ item.player1.fullName }}" />
+                                                {% else %}
+                                                    <img src="/images/avatarvide.png" alt="">
+                                                {% endif %}
+                                            </div>
+                                            <span>{{ item.player1.fullName }}</span>
+                                            <span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/></svg> 
+                                                {{ item.player1.phone }}
+                                            </span>
+                                            <span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48L48 64zM0 176L0 384c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-208L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/></svg>
+                                                {{ item.player1.email }}
+                                            </span>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <a href="{{ path('tournament_index') }}">Nouvelle Inscription</a>
+                    {% endif %}
+                </swiper-slide>
+                <swiper-slide>
+                    <h2>Vos prochains événements</h2>
+                    {% if upcomingEventsWithCount is empty %}
+                        <h4>Aucun événement à venir</h4>
+                        <a href="{{ path('agenda_index') }}">S'inscrire à des événements</a>
+                    {% else %}
+                        {% for event in upcomingEventsWithCount %}
+                            <div class="nextMatch">
+                                <div class="matchInfo">
+                                    <div class="tournamentRound">
+                                        <span class="tournamentMI">{{ event.title }}</span>
+                                    </div>
+                                    <div class="infoPlayerMI">
+                                        <div class="photoMI">
+                                            <img src="/uploads/pictures/{{ event.picture }}" alt="Image de {{event.title}}">
+                                        </div>
+                                        <span>Date: {{ event.date|date('d/m/Y') }}</span>
+                                        <span>{{ event.registrationCount }} Places</span>
+                                    <a href="{{ path('agenda_show', {slug: event.slug}) }}">Voir l'évenement</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <a href="{{ path('agenda_index') }}">Participez à un autre évenement</a>
+                    {% endif %}
+                </swiper-slide>
             </swiper-container>
         </div>
         <div class="shapedividers_com-9608"></div>
@@ -86,7 +204,7 @@
             pagination: {
                 clickable: true,
                 renderBullet: function (index, className) {
-                    const labels = ["Reservation", "Tournament", "Event"];
+                    const labels = ["Réservation", "Tournoi", "Évenements"];
                     return '<span class="' + className + '">' + labels[index] + "</span>";
                 },
             },

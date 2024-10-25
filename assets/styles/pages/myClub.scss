@@ -19,6 +19,7 @@
         justify-content: start;
         color: $black;
         background-color: white;
+        border-radius: 20px;
         @media all and (max-width:1200px) {
             max-width: 900px;
         }
@@ -95,17 +96,104 @@
         }
         swiper-container{
             width: 100%;
-            min-height: 50vh;
+            min-height: 10vh;
             position: relative;
             display: flex;
             flex-direction: column;
             justify-content: flex-end; /* Aligne les slides en bas */
             swiper-slide{
                 width: 100%;
-                min-height: 45vh;
-                background-color: orange;
+                min-height: 5vh;
                 margin-top: 40px;
                 @include flex(column);
+                justify-content: start;
+                padding: 10px;
+                gap: 10px;
+                h2{
+                    font-family: $bebas;
+                    font-size: 40px;
+                    margin: 0;
+                    text-align: center;
+                }
+                a{
+                    @include btn($black, $yellow);
+                }
+                .nextMatch {
+                    width: 100%;
+                    min-height: 75px;
+                    border-radius: 10px;
+                    @include flex(row);
+                    padding: 0 20px;
+                    flex-wrap: wrap;
+                    gap: 20px;
+                
+                    .matchInfo {
+                        width: 100%;
+                        min-height: 50px;
+                        @include flex(row);
+                        justify-content: space-between; // Pour espacer les blocs
+                        background-color: $white;
+                        border-radius: 10px;
+                
+                        .tournamentRound {
+                            flex: 1; // Prend tout l'espace disponible
+                            @include flex(column); // Aligne verticalement le contenu
+                            .tournamentMI{
+                                font-family: $bebas;
+                                font-size: 30px;
+                                text-align: center;
+                                @media all and (max-width: 900px) {
+                                    font-size: 20px;
+                                }
+                            }
+                        }
+                
+                        .infoPlayerMI {
+                            width: 60%;
+                            @include flex(row);
+                            gap: 15px;
+                            padding: 10px;
+                            justify-content: start;
+                            gap: 10px;
+                
+                            @media all and (max-width: 900px) {
+                                width: 60%; // Prend toute la largeur sous 900px
+                                @include flex(column); // Aligne verticalement
+                                align-items: start;
+                            }
+                
+                            .photoMI {
+                                width: 50px;
+                                height: 50px;
+                
+                                img {
+                                    width: 100%;
+                                    height: 100%;
+                                    object-fit: cover;
+                                }
+                            }
+                
+                            span {
+                                flex: 1;
+                                @include flex(row);
+                                gap: 5px;
+                
+                                svg {
+                                    width: 20px;
+                                    height: 20px;
+                                }
+                            }
+                            .cancelReserve{
+                                @include btn( red, $black);
+                                font-size: 14px;
+                            }
+                        }
+                    }
+                
+                    @media all and (max-width: 900px) {
+                        flex-direction: column; // Aligne verticalement les sections
+                    }
+                }
             }
         }
     }

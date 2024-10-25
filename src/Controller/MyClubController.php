@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Repository\ReservationRepository;
 use App\Repository\TournamentRepository;
 use App\Repository\TournamentMatchRepository;
+use App\Repository\AgendaRepository; // Importer le repository
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -14,7 +15,7 @@ class MyClubController extends AbstractController
 {
     #[Route('/myclub', name: 'myclub_index')]
     #[IsGranted('ROLE_USER')]
-    public function index(ReservationRepository $reservationRepository, TournamentRepository $tournamentRepository, TournamentMatchRepository $tournamentMatchRepository): Response 
+    public function index(ReservationRepository $reservationRepository, TournamentRepository $tournamentRepository, TournamentMatchRepository $tournamentMatchRepository, AgendaRepository $agendaRepository): Response 
     {
         $user = $this->getUser();
 
@@ -23,6 +24,9 @@ class MyClubController extends AbstractController
 
         // Récupération des prochains matchs de tournoi de l'utilisateur
         $upcomingMatches = $tournamentMatchRepository->findUpcomingMatchesForUser($user);
+
+        // Récupération des événements à venir avec le nombre d'inscriptions
+        $upcomingEventsWithCount = $agendaRepository->findUpcomingEventsWithCountForUser($user);
 
         // Nombre de matchs gagnés
         $matchesWon = $tournamentMatchRepository->countMatchesWonByUser($user);
@@ -34,6 +38,7 @@ class MyClubController extends AbstractController
             'user' => $user,
             'upcomingReservations' => $upcomingReservations,
             'upcomingMatches' => $upcomingMatches,
+            'upcomingEventsWithCount' => $upcomingEventsWithCount, // Ajout des événements
             'matchesWon' => $matchesWon,
             'tournamentsWon' => $tournamentsWon,
         ]);

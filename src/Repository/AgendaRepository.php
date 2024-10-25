@@ -51,6 +51,22 @@ class AgendaRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    // Ajouter cette méthode
+    public function findUpcomingEventsWithCountForUser($user)
+    {
+        return $this->createQueryBuilder('e')
+            ->select('e.id, e.title, e.date, e.picture, e.slug, COUNT(r.id) AS registrationCount')
+            ->leftJoin('e.agendaReservations', 'r')
+            ->where('e.date > :now')
+            ->setParameter('now', new \DateTime())
+            ->andWhere('r.user = :user')
+            ->setParameter('user', $user)
+            ->groupBy('e.id')
+            ->having('COUNT(r.id) > 0') // Ajoutez cette ligne
+            ->getQuery()
+            ->getArrayResult(); // Cela retourne un tableau associatif
+    }
+
 //    /**
 //     * @return Agenda[] Returns an array of Agenda objects
 //     */
