@@ -118,6 +118,35 @@
                         outline: none;
                         border: none;
                     }
+                    input[type="checkbox"] {
+                        width: 30px;
+                        height: 30px;
+                        /* Facultatif : ajouter une bordure pour la rendre plus visible */
+                        border: 2px solid #000;
+                        cursor: pointer;
+                    }
+                    input[type="file"] {
+                        width: 100%; /* Cible l'input de type file */
+                        padding: 10px; /* Ajoute du padding pour un meilleur aspect visuel */
+                        border-radius: 5px; /* Coins arrondis */
+                        outline: none; /* Enlève le contour par défaut */
+                        border: 1px solid #ccc; /* Bordure grise pour un look propre */
+                        background-color: #f8f9fa; /* Couleur de fond légère */
+                        cursor: pointer; /* Changer le curseur pour indiquer que c'est cliquable */
+                        color: $black;
+                    }
+                    select {
+                        width: 100%; /* Cible le select du ChoiceType */
+                        padding: 5px; /* Ajoute du padding pour un meilleur aspect visuel */
+                        border-radius: 5px; /* Coins arrondis */
+                        outline: none; /* Enlève le contour par défaut */
+                        border: 1px solid #ccc; /* Bordure grise pour un look propre */
+                        appearance: none; /* Enlève le style par défaut du select (facultatif) */
+                        label {
+                            display: block; /* S'assure que le label est en bloc pour éviter les chevauchements */
+                            margin-bottom: 5px; /* Un peu d'espace entre le label et le select */
+                        }
+                    }
                     .text-danger{
                         width: 100%;
                         padding: 5px;
