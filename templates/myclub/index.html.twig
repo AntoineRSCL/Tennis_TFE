@@ -31,7 +31,69 @@
                     </div>
                 </div>
             </div>
+            <hr>
+            <swiper-container class="mySwiper" init="false">
+                <swiper-slide>
+                    <h2>Vos prochaines réservations</h2>
+                    {% if upcomingReservations is empty %}
+                        <h4>Aucune réservation</h4>
+                        <a href="{{ path('reservation_index') }}">Créer une reservation</a>
+                    {% else %}
+                        {% for item in upcomingReservations %}
+                            <h2>Coucou</h2>
+                        {% endfor %}
+                    {% endif %}
+                </swiper-slide>
+                <swiper-slide>Vos prochains matchs</swiper-slide>
+                <swiper-slide>Slide 3</swiper-slide>
+            </swiper-container>
         </div>
         <div class="shapedividers_com-9608"></div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+    <script>
+        const swiperEl = document.querySelector('swiper-container');
+
+        const params = {
+            injectStyles: [`
+                .swiper-pagination{
+                    bottom: auto !important;
+                    top: 0 !important;
+                }
+
+                .swiper-pagination-bullet {
+                    width: auto;
+                    padding: 10px 15px;
+                    font-size: 14px;
+                    color: #000000;
+                    background-color: rgba(0, 0, 0, 0.4);
+                    border-radius: 4px; /* coins légèrement arrondis pour un effet carré */
+                    display: inline-flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin: 0 5px;
+                    text-align: center;
+                }
+
+                .swiper-pagination-bullet-active {
+                    color: #CCF201;
+                    background: #000000;
+                }
+            `],
+            pagination: {
+                clickable: true,
+                renderBullet: function (index, className) {
+                    const labels = ["Reservation", "Tournament", "Event"];
+                    return '<span class="' + className + '">' + labels[index] + "</span>";
+                },
+            },
+        };
+
+        Object.assign(swiperEl, params);
+
+        swiperEl.initialize();
+    </script>
 {% endblock %}

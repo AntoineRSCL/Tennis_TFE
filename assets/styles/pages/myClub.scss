@@ -42,7 +42,7 @@
         }
         .infoProfil{
             width: 100%;
-            min-height: 300px;
+            min-height: 200px;
             background-color: white;
             border-radius: 20px;
             @include flex(row);
@@ -85,6 +85,27 @@
                     }
                     
                 }
+            }
+        }
+        hr{
+            width: 100%;
+            border-top: 1px solid black;
+            color: black;
+            height: 1px;
+        }
+        swiper-container{
+            width: 100%;
+            min-height: 50vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end; /* Aligne les slides en bas */
+            swiper-slide{
+                width: 100%;
+                min-height: 45vh;
+                background-color: orange;
+                margin-top: 40px;
+                @include flex(column);
             }
         }
     }
