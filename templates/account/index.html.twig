@@ -7,6 +7,13 @@
     <div class="loginContainer">
         <div class="formLogin">
             <div class="formLoginContainer">
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                            <div class="alert alert-{{ label }}">
+                            <span>{{ message }}</span>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
                 <h1>CONNECTEZ-VOUS</h1>
                 <h4>Bon retour parmi-nous !</h4>
                 {% if hasError %}

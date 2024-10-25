@@ -10,7 +10,7 @@
             <div class="formLoginContainer">
                 {% for label, messages in app.flashes %}
                     {% for message in messages %}
-                        <div class="flash-message {{ label }}">
+                            <div class="alert alert-{{ label }}">
                             <span>{{ message }}</span>
                         </div>
                     {% endfor %}
@@ -24,15 +24,16 @@
                     </div>
                 {% endif %}
 
-                <form action="{{ path('reset_password_request') }}" method="post">
+                {{form_start(form)}}
                     <div class="groupLogin">
-                        <label for="username" class="labelLogin">Nom d'utilisateur</label>
-                        <input type="text" class="inputLogin" id="username" name="username" placeholder="Votre nom d'utilisateur" required>
+                        {{ form_label(form.username, null, {'label_attr': {'class': 'labelLogin'}}) }}
+                        {{ form_widget(form.username) }}
+                        {{ form_errors(form.username) }}
                     </div>
-                    <button type="submit" class="submitLogin">Envoyer le lien de réinitialisation</button>
-                </form>
+                    <button class="submitLogin">Envoyer le mail</button>
+                {{form_end(form)}}
 
-                <div class="backToLogin">
+                <div class="mdpOublie">
                     <a href="{{ path('account_login') }}">Retour à la connexion</a>
                 </div>
             </div>

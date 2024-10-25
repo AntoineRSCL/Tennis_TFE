@@ -8,18 +8,31 @@
     <div class="loginContainer">
         <div class="formLogin">
             <div class="formLoginContainer">
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                            <div class="alert alert-{{ label }}">
+                            <span>{{ message }}</span>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
                 <h1>RÉINITIALISER LE MOT DE PASSE</h1>
                 <h4>Choisissez un nouveau mot de passe pour accéder à votre compte.</h4>
 
-                <form method="post">
+                {{form_start(form)}}
                     <div class="groupLogin">
-                        <label for="new_password" class="labelLogin">Nouveau mot de passe</label>
-                        <input type="password" class="inputLogin" id="new_password" name="new_password" placeholder="Votre nouveau mot de passe" required>
+                        {{ form_label(form.new_password, null, {'label_attr': {'class': 'labelLogin'}}) }}
+                        {{ form_widget(form.new_password) }}
+                        {{ form_errors(form.new_password) }}
                     </div>
-                    <button type="submit" class="submitLogin">Réinitialiser le mot de passe</button>
-                </form>
+                    <div class="groupLogin">
+                        {{ form_label(form.confirm_password, null, {'label_attr': {'class': 'labelLogin'}}) }}
+                        {{ form_widget(form.confirm_password) }}
+                        {{ form_errors(form.confirm_password) }}
+                    </div>
+                    <button class="submitLogin">Confirmer le nouveau mot de passe</button>
+                {{form_end(form)}}
 
-                <div class="backToLogin">
+                <div class="mdpOublie">
                     <a href="{{ path('account_login') }}">Retour à la connexion</a>
                 </div>
             </div>

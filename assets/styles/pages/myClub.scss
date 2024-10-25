@@ -82,7 +82,8 @@
                         @include btn($black, $yellow);
                     }
                     .deconnectBtn{
-                        @include btn(red, $black);
+                        @include btn(white, red);
+                        border: 1px solid red;
                     }
                 }
                 .statsMatchs{
@@ -228,7 +229,8 @@
                                 }
                             }
                             .cancelReserve{
-                                @include btn( red, $black);
+                                @include btn(white, red);
+                                border: 1px solid red;
                                 font-size: 14px;
                             }
                         }
