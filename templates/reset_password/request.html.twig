@@ -1,0 +1,53 @@
+{# templates/reset_password/request.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Mot de passe oublié | Le Smash Ucclois{% endblock %}
+
+{% block body %}
+<div class="containerComponent">
+    <div class="loginContainer">
+        <div class="formLogin">
+            <div class="formLoginContainer">
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="flash-message {{ label }}">
+                            <span>{{ message }}</span>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                <h1>MOT DE PASSE OUBLIÉ</h1>
+                <h4>Entrez votre nom d'utilisateur pour recevoir un lien de réinitialisation.</h4>
+                
+                {% if app.flashes('success') %}
+                    <div class="successMessage">
+                        <span>{{ app.flashes('success')|first }}</span>
+                    </div>
+                {% endif %}
+
+                <form action="{{ path('reset_password_request') }}" method="post">
+                    <div class="groupLogin">
+                        <label for="username" class="labelLogin">Nom d'utilisateur</label>
+                        <input type="text" class="inputLogin" id="username" name="username" placeholder="Votre nom d'utilisateur" required>
+                    </div>
+                    <button type="submit" class="submitLogin">Envoyer le lien de réinitialisation</button>
+                </form>
+
+                <div class="backToLogin">
+                    <a href="{{ path('account_login') }}">Retour à la connexion</a>
+                </div>
+            </div>
+        </div>
+        <div class="imgLogin">
+            <div class="imgLoginContainer">
+                <div class="textImgLogin">
+                    <span>Un contretemps ? Ne vous inquiétez pas.</span>
+                    <span>Récupérez l'accès à votre compte.</span>
+                </div>
+            </div>
+            <div class="containerImgLogin">
+                <img src="/images/tennisCourt.jpg" alt="Image d'un court de tennis">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
