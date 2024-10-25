@@ -1,0 +1,34 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Créer un Nouveau Sponsor{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <h1 class="my-4">Créer un Nouveau Sponsor</h1>
+
+        {{ form_start(form) }}
+        <div class="form-group">
+            {{ form_label(form.name, 'Nom', {'label_attr': {'class': 'control-label'}}) }}
+            {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.name) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.logo, 'Logo', {'label_attr': {'class': 'control-label'}}) }}
+            {{ form_widget(form.logo, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.logo) }}
+        </div>
+
+        {# Champ lien #}
+            <div class="form-group">
+                {{ form_label(form.link, 'Lien vers le site internet', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.link, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.link) }}
+            </div>
+
+        <button type="submit" class="btn btn-primary">Créer</button>
+        {{ form_end(form) }}
+
+        <a href="{{ path('admin_sponsor_index') }}" class="btn btn-secondary mt-3">Retour à la liste</a>
+    </div>
+{% endblock %}

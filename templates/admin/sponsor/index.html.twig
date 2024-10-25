@@ -1,0 +1,45 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Liste des Sponsors{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <h1 class="my-4">Liste des Sponsors</h1>
+
+        <a href="{{ path('admin_sponsor_new') }}" class="btn btn-primary mb-3">Ajouter un Sponsor</a>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Logo</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sponsor in sponsors %}
+                    <tr>
+                        <td>{{ sponsor.id }}</td>
+                        <td>{{ sponsor.name }}</td>
+                        <td>
+                            {% if sponsor.logo %}
+                                <img src="{{ asset('uploads/pictures/' ~ sponsor.logo) }}" alt="{{ sponsor.name }}" style="width: 100px;">
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ path('admin_sponsor_edit', {id: sponsor.id}) }}" class="btn btn-warning">Modifier</a>
+                            <form action="{{ path('admin_sponsor_delete', {id: sponsor.id}) }}" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce sponsor ?');">Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4">Aucun sponsor trouvé.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
