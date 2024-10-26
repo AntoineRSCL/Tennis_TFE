@@ -7,6 +7,7 @@ use App\Repository\UserRepository;
 use App\Repository\CoachRepository;
 use App\Repository\CourtRepository;
 use App\Repository\AgendaRepository;
+use App\Repository\SponsorRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'homepage')]
-    public function index(CoachRepository $coachRepo, UserRepository $userRepo, CourtRepository $courtRepo, NewsRepository $newsRepo, AgendaRepository $agendaRepo): Response
+    public function index(CoachRepository $coachRepo, UserRepository $userRepo, CourtRepository $courtRepo, NewsRepository $newsRepo, AgendaRepository $agendaRepo, SponsorRepository $sponsorsRepo): Response
     {
         // Récupérer le nombre total de membres, de coachs et de courts
         $totalMembers = $userRepo->count([]);
@@ -26,6 +27,7 @@ class HomeController extends AbstractController
 
         $lastNews = $newsRepo->findLastFourNews();
         $upcomingEvents = $agendaRepo->findUpcomingEvents();
+        $listSponsors = $sponsorsRepo->findAll();
 
 
         return $this->render('home.html.twig', [
@@ -34,6 +36,7 @@ class HomeController extends AbstractController
             'totalCourts' => $totalCourts,
             'lastNews' => $lastNews,
             'upcomingEvents' => $upcomingEvents,
+            'listSponsors' => $listSponsors,
         ]);
     }
 

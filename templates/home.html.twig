@@ -149,6 +149,21 @@
                 </swiper-container>
             </div>
             <a class="allEvent" href="{{ path('agenda_index') }}">Tous les évenements</a>
+            <div class="shapedividers_com-9608 bottomForm"></div>
+        </div>
+        <div class="sponsorsHome">
+            <div class="sponsorsContainer">
+                <h2>Nos Partenaires</h2>
+                <swiper-container class="mySwiperSponsors" init="false" autoplay-delay="2500" autoplay-disable-on-interaction="false" loop="true">
+                    {% for sponsor in listSponsors %}
+                        <swiper-slide>
+                            <a href="{{sponsor.link}}"></a>
+                            <img src="/uploads/pictures/{{sponsor.logo}}" alt="Image de {{sponsor.name}}">
+                        </swiper-slide>
+                    {% endfor %}
+                </swiper-container>
+            </div>
+            <div class="shapedividers_com-9608"></div>
         </div>
     </div>
 {% endblock %}
@@ -158,7 +173,7 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
 
   <script>
-    const swiperEl = document.querySelector('swiper-container')
+    const swiperEl = document.querySelector('.mySwiper')
     Object.assign(swiperEl, {
       slidesPerView: 1,
       spaceBetween: 10,
@@ -181,6 +196,46 @@
       },
     });
     swiperEl.initialize();
+
+    const swiperElSponsors = document.querySelector('.mySwiperSponsors')
+    Object.assign(swiperElSponsors, {
+      slidesPerView: 1,
+      spaceBetween: 10,
+      pagination: {
+        clickable: true,
+      },
+      breakpoints: {
+        300: {
+          slidesPerView: 2,
+          spaceBetween: 20,
+        },
+        400: {
+          slidesPerView: 3,
+          spaceBetween: 20,
+        },
+        640: {
+          slidesPerView: 4,
+          spaceBetween: 20,
+        },
+        768: {
+          slidesPerView: 5,
+          spaceBetween: 40,
+        },
+        900: {
+          slidesPerView: 6,
+          spaceBetween: 50,
+        },
+        1250: {
+          slidesPerView: 7,
+          spaceBetween: 50,
+        },
+        1400: {
+          slidesPerView: 8,
+          spaceBetween: 50,
+        },
+      },
+    });
+    swiperElSponsors.initialize();
   </script>
 
 {% endblock %}
