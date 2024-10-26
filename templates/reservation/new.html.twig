@@ -4,32 +4,56 @@
 
 {% block body %}
 <div class="containerComponent">
-    <div class="container">
-        <h1>Nouvelle Réservation</h1>
+    <div class="loginContainer">
+        <div class="formLogin reservationType">
+            <div class="formLoginContainer">
+                <h1>NOUVELLE RÉSERVATION</h1>
 
-        {{ form_start(form) }}
-            {{ form_row(form.player2) }} {# Champ pour choisir un adversaire #}
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Créer</button>
+                {{ form_start(form) }}
+                    <div class="groupLogin">
+                        {{ form_label(form.player2, "Joueur 2", {'label_attr': {'class': 'labelLogin'}}) }}
+                        {{ form_widget(form.player2, {'attr': {'class': 'inputLogin select2'}}) }}
+                        {{ form_errors(form.player2) }}
+                    </div>
+                    <div class="reservationTimes">
+                        <p>Heure: <strong>{{ reservation.startTime|date('H:i') }}H - {{ reservation.endTime|date('H:i') }}H</strong></p>
+                        <p>Terrain: <strong>{{ reservation.court.name }}</strong></p>
+                        <a href="{{ path('reservation_index') }}">Retour</a>
+                    </div>
+                    <button type="submit" class="submitLogin">Réserver</button>
+                {{ form_end(form) }}
+
             </div>
-        {{ form_end(form) }}
-
-        <p>Heure de début: {{ reservation.startTime|date('H:i') }}</p>
-        <p>Heure de fin: {{ reservation.endTime|date('H:i') }}</p>
+        </div>
+        <div class="imgLogin">
+            <div class="imgLoginContainer">
+                <div class="textImgLogin">
+                    <span>Prêt pour un match ?</span>
+                    <span>Réservez votre terrain dès maintenant.</span>
+                </div>
+            </div>
+            <div class="containerImgLogin">
+                <img src="/images/tennisCourt.jpg" alt="Image d'un court de tennis">
+            </div>
+        </div>
     </div>
+    <div class="shapedividers_com-9608"></div>
 </div>
 {% endblock %}
+
 {% block javascripts %}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/i18n/fr.min.js"></script>
+
 
     <script>
         $(document).ready(function() {
             $('.select2').select2({
-                // Options supplémentaires pour Select2 peuvent être ajoutées ici
-                width: '100%', // Pour que le champ prenne toute la largeur
-                minimumInputLength: 1 // Nombre de caractères avant de commencer la recherche
+                width: '100%', // Champ pleine largeur
+                minimumInputLength: 1, // Caractères avant recherche
+                language: 'fr' // Langue en français
             });
         });
     </script>

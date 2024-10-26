@@ -20,11 +20,21 @@ class ReservationController extends AbstractController
     {
         $date = $request->query->get('date', (new \DateTime())->format('Y-m-d'));
 
+        // Définir le fuseau horaire
+        $timezone = new \DateTimeZone('Europe/Brussels');
+        $currentDate = new \DateTime('now', $timezone);
+
+        // Vérifier si la date choisie est antérieure à aujourd'hui
+        if (new \DateTime($date, $timezone) < $currentDate->setTime(0, 0, 0)) {
+            $this->addFlash('danger', 'Vous ne pouvez pas réserver pour une date antérieure à aujourd\'hui.');
+            return $this->redirectToRoute('reservation_index');
+        }
+
         // Récupérer tous les terrains
         $terrains = $terrainRepository->findAll();
 
         // Récupérer toutes les réservations pour la date sélectionnée
-        $startDate = new \DateTime($date);
+        $startDate = new \DateTime($date, $timezone);
         $endDate = (clone $startDate)->setTime(23, 59, 59);
         $reservations = $reservationRepository->createQueryBuilder('r')
             ->where('r.startTime BETWEEN :start AND :end')
@@ -44,6 +54,7 @@ class ReservationController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager, ReservationRepository $reservationRepository): Response
     {
         $user = $this->getUser();
+        $timezone = new \DateTimeZone('Europe/Brussels'); // Définir le fuseau horaire
 
         // Récupérer les réservations où l'utilisateur est player1 ou player2
         $userReservations = $reservationRepository->createQueryBuilder('r')
@@ -54,7 +65,7 @@ class ReservationController extends AbstractController
 
         // Si l'utilisateur n'a pas le rôle "ROLE_USER" et qu'il a 5 réservations ou plus, on bloque
         if (!$this->isGranted('ROLE_USER') && count($userReservations) >= 5) {
-            $this->addFlash('error', 'Vous avez atteint le nombre maximum de 5 réservations.');
+            $this->addFlash('danger', 'Vous avez atteint le nombre maximum de 5 réservations.');
             return $this->redirectToRoute('reservation_index');
         }
 
@@ -68,9 +79,18 @@ class ReservationController extends AbstractController
             throw $this->createNotFoundException('Court not found');
         }
 
+        // Vérifier si l'heure de début est dans le passé
+        $currentDateTime = new \DateTime('now', $timezone);
+        $reservationStartTime = new \DateTime($startTime, $timezone);
+
+        if ($reservationStartTime < $currentDateTime) {
+            $this->addFlash('danger', 'Vous ne pouvez pas réserver une heure qui est déjà passée.');
+            return $this->redirectToRoute('reservation_index');
+        }
+
         $reservation = new Reservation();
-        $reservation->setStartTime(new \DateTime($startTime));
-        $reservation->setEndTime(new \DateTime($endTime));
+        $reservation->setStartTime($reservationStartTime);
+        $reservation->setEndTime(new \DateTime($endTime, $timezone));
         $reservation->setCourt($court);
         $reservation->setPlayer1($user);
 
@@ -80,6 +100,9 @@ class ReservationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($reservation);
             $entityManager->flush();
+            
+            // Ajouter un message flash de succès
+            $this->addFlash('success', 'Votre réservation a été créée avec succès.');
             return $this->redirectToRoute('reservation_index');
         }
 
@@ -92,7 +115,8 @@ class ReservationController extends AbstractController
         ]);
     }
 
-    #[Route('/myclub/reservation/{id}/delete', name: 'reservation_delete', methods: ['POST'])]
+
+    #[Route('/myclub/reservation/{id}/delete', name: 'reservation_delete')]
     public function deleteReservation(Reservation $reservation, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();

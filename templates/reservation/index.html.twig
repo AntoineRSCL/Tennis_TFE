@@ -5,6 +5,13 @@
 {% block body %}
 <div class="reservationBox">
     <div class="containerTitleDate">
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                    <div class="alert alert-{{ label }}">
+                    <span>{{ message }}</span>
+                </div>
+            {% endfor %}
+        {% endfor %}
         <h1>RESERVATION DE TERRAIN</h1>
         <form method="GET" action="{{ path('reservation_index') }}">
                 <div class="dateReservation">
@@ -42,14 +49,14 @@
                                                 <strong>{{ reservation.player1.fullName }}</strong>
                                                 <strong>{{ reservation.player2 ? reservation.player2.fullName : 'Aucun' }}</strong>
                                                 {% if is_granted('ROLE_ADMIN') or reservation.player1 == app.user or reservation.player2 == app.user %}
-                                                    <a href="reservation_delete">Annuler</a>
+                                                    <a href="{{ path('reservation_delete', {'id': reservation.id}) }}">Annuler</a>
                                                 {% endif %}
                                             </div>
                                         {% set reservation_found = true %}
                                         {% endif %}
                                     {% endfor %}    
                                     {% if not reservation_found %}
-                                        <button class="btnReservation reserve-btn" data-hour="{{ hour }}" data-court="{{ court.id }}">Réserver</button>
+                                        <button class="btnReservation reserve-btn" data-hour="{{ hour }}" data-court="{{ court.id }}">Réserver </br> {{court.name}} </br> {{hour}}H-{{hour + 1}}H</button>
                                     {% endif %}
                                 </div>
                             </div>
