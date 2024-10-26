@@ -51,4 +51,18 @@ class HomeController extends AbstractController
             'totalCoaches' => $totalCoaches,
         ]);
     }
+
+    #[Route('/legals', name: 'legals')]
+    public function legals(): Response
+    {
+        return $this->render('legals/legals.html.twig', [
+        ]);
+    }
+
+    #[Route('/reglement', name: 'reglement')]
+    public function reglement(): Response
+    {
+        return $this->render('legals/reglement.html.twig', [
+        ]);
+    }
 }
