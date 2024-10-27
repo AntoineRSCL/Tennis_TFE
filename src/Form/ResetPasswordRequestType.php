@@ -16,7 +16,7 @@ class ResetPasswordRequestType extends AbstractType
             'label' => 'Nom d\'utilisateur',
             'attr' => [
                 'class' => 'inputLogin',
-                'placeholder' => 'Votre username',
+                'placeholder' => 'Votre nom d\'utilisateur',
                 'required' => 'required'
             ],
         ]);

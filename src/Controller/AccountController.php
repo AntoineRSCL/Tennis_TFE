@@ -68,6 +68,11 @@ class AccountController extends AbstractController
     #[Route('/register', name: 'account_register')]
     public function register(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher): Response
     {
+        // Si l'utilisateur est déjà connecté, redirection vers l'accueil
+        if ($this->getUser()) {
+            return $this->redirectToRoute('myclub_index');
+        }
+
         $user = new User();
         $form = $this->createForm(RegistrationType::class, $user);
 

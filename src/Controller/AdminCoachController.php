@@ -41,7 +41,7 @@ class AdminCoachController extends AbstractController
             // Création du User
             $user = new User();
             $user->setUsername($dto->getUsername());
-            $user->setRoles(['ROLE_COACH']);
+            $user->setRoles(['ROLE_COACH', 'ROLE_USER']);
             $user->setPrivate(true);
             $user->setAddressVerified(true);
             $user->setFirstname($dto->getFirstname());

@@ -65,6 +65,12 @@ class AgendaController extends AbstractController
         // Compter le nombre de réservations actuelles de l'utilisateur
         $currentReservationsCount = count($currentReservations);
 
+        // Compter le nombre total de réservations pour l'agenda
+        $totalReservationsCount = count($agenda->getAgendaReservations());
+        
+        // Calculer le nombre de places restantes
+        $remainingPlaces = $agenda->getLimitNumber() !== null ? $agenda->getLimitNumber() - $totalReservationsCount : PHP_INT_MAX;
+
         if ($form->isSubmitted() && $form->isValid()) {
             $nbPlaces = $form->get('nb_places')->getData(); // Récupérer le nombre de places depuis le formulaire
 
@@ -72,8 +78,8 @@ class AgendaController extends AbstractController
             $totalReservedPlaces = $currentReservationsCount + $nbPlaces;
 
             // Vérifier si le nombre total de réservations dépasse la limite
-            if ($agenda->getLimitNumber() !== null && $totalReservedPlaces > $agenda->getLimitNumber()) {
-                $this->addFlash('danger', 'Il ne reste que ' . ($agenda->getLimitNumber() - $currentReservationsCount) . ' places disponibles.');
+            if ($remainingPlaces < $nbPlaces) {
+                $this->addFlash('danger', 'Il ne reste que ' . $remainingPlaces . ' place' . ($remainingPlaces > 1 ? 's' : '') . ' disponibles.');
                 return $this->redirectToRoute('agenda_reserve', ['slug' => $agenda->getSlug()]);
             }
 
