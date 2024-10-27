@@ -93,6 +93,7 @@
             height: 250px;
             @include flex(column);
             justify-content: start;
+            z-index: 100;
             h4{
                 color: $yellow;
             }
