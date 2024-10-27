@@ -1,0 +1,29 @@
+{% block body %}
+    <h1>Liste des inscrits pour : {{ agenda.title }}</h1>
+    <p>Date de l'événement : {{ agenda.date|date('d-m-Y') }}</p>
+
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th style="border: 1px solid black; padding: 5px;">Nom</th>
+                <th style="border: 1px solid black; padding: 5px;">Prénom</th>
+                <th style="border: 1px solid black; padding: 5px;">Email</th>
+                <th style="border: 1px solid black; padding: 5px;">Nombre de places</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for inscrit in inscriptions %}
+                <tr>
+                    <td style="border: 1px solid black; padding: 5px;">{{ inscrit.nom }}</td>
+                    <td style="border: 1px solid black; padding: 5px;">{{ inscrit.prenom }}</td>
+                    <td style="border: 1px solid black; padding: 5px;">{{ inscrit.email }}</td>
+                    <td style="border: 1px solid black; padding: 5px;">{{ inscrit.nombrePlaces }}</td> {# Affiche le nombre de places réservées #}
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4" style="text-align: center;">Aucun inscrit</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

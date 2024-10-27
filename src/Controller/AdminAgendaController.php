@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use App\Entity\Agenda;
 use App\Form\AgendaType;
 use Cocur\Slugify\Slugify;
@@ -10,6 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Repository\AgendaReservationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminAgendaController extends AbstractController
@@ -157,4 +160,66 @@ class AdminAgendaController extends AbstractController
 
         return $this->redirectToRoute('admin_agenda_index');
     }
+
+    #[Route('/admin/agenda/{id}/pdf', name: 'admin_agenda_pdf')]
+    public function generatePdf(Agenda $agenda, AgendaReservationRepository $reservationRepository): Response
+    {
+        // Récupérer toutes les réservations pour cet agenda
+        $reservations = $reservationRepository->findBy(['agenda' => $agenda]);
+
+        // Préparer les données pour le template
+        $inscriptions = [];
+        foreach ($reservations as $reservation) {
+            $user = $reservation->getUser(); // Assurez-vous que cette méthode existe
+            $userId = $user->getId(); // Récupérer l'ID de l'utilisateur
+
+            // Vérifiez si l'utilisateur est déjà dans la liste
+            if (!isset($inscriptions[$userId])) {
+                $inscriptions[$userId] = [
+                    'nom' => $user->getLastname(),
+                    'prenom' => $user->getFirstname(),
+                    'email' => $user->getEmail(),
+                    'nombrePlaces' => 1, // Initialiser le compteur de places
+                ];
+            } else {
+                // Si l'utilisateur existe déjà, incrémentez le nombre de places
+                $inscriptions[$userId]['nombrePlaces']++;
+            }
+        }
+
+        // Réindexer le tableau pour obtenir une liste simple
+        $inscriptions = array_values($inscriptions);
+
+        // Configurez Dompdf selon vos besoins
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+
+        $dompdf = new Dompdf($pdfOptions);
+
+        // Générez le HTML de la liste des inscrits
+        $html = $this->renderView('admin/agenda/inscriptions_pdf.html.twig', [
+            'agenda' => $agenda,
+            'inscriptions' => $inscriptions,
+        ]);
+
+        // Chargez le HTML dans Dompdf
+        $dompdf->loadHtml($html);
+
+        // Configurez le format et l'orientation de la page
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render le PDF
+        $dompdf->render();
+
+        // Retourne le PDF sous forme de réponse
+        return new Response(
+            $dompdf->output(),
+            200,
+            [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'inline; filename="liste_inscrits_' . $agenda->getTitle() . '.pdf"'
+            ]
+        );
+    }
+
 }

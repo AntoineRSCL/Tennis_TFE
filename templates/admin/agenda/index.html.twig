@@ -37,6 +37,7 @@
                             <td class="text-center">
                                 <a href="{{path("admin_agenda_edit",{"id":agenda.id})}}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
                                 <a href="{{path("admin_agenda_delete",{"id":agenda.id})}}" class="btn btn-danger delete-event"><i class="fas fa-trash"></i></a>
+                                <a href="{{ path('admin_agenda_pdf', { id: agenda.id }) }}" class="btn btn-primary btn-sm" target="_blank">Générer PDF</a>
                             </td>
                         </tr>
                     {% endfor %}

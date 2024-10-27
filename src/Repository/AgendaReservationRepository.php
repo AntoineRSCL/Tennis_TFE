@@ -16,6 +16,15 @@ class AgendaReservationRepository extends ServiceEntityRepository
         parent::__construct($registry, AgendaReservation::class);
     }
 
+    public function findByAgenda($agendaId)
+    {
+        return $this->createQueryBuilder('ar')
+            ->andWhere('ar.agenda = :agendaId')
+            ->setParameter('agendaId', $agendaId)
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return AgendaReservation[] Returns an array of AgendaReservation objects
     //     */
