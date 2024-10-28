@@ -7,11 +7,9 @@
     <div class="container mt-5">
         <h1 class="mb-4 text-center">Carnet d'Adresses</h1>
 
-        <form method="get" action="{{ path('addressbook_index') }}">
-            <div class="input-group mb-3">
-                <input type="text" name="searchTerm" value="{{ searchTerm }}" class="form-control" placeholder="Rechercher par nom">
-                <button class="btn btn-outline-secondary" type="submit">Rechercher</button>
-            </div>
+        <form method="get" action="{{ path('addressbook_index') }}" class="search-form">
+            <input type="text" name="searchTerm" value="{{ searchTerm }}" class="form-input" placeholder="Rechercher par nom">
+            <button class="btn btn-outline-secondary" type="submit">Rechercher</button>
         </form>
 
         {% if users is empty %}
@@ -19,62 +17,21 @@
                 Aucun utilisateur trouvé.
             </div>
         {% else %}
-            <div class="table-responsive">
-                <table class="table table-striped table-bordered">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">
-                                <a href="{{ path('addressbook_index', { sortField: 'lastname', sortOrder: sortOrder == 'asc' ? 'desc' : 'asc', searchTerm: searchTerm }) }}">
-                                    Nom
-                                    {% if sortField == 'lastname' %}
-                                        <span>{{ sortOrder == 'asc' ? '▲' : '▼' }}</span>
-                                    {% endif %}
-                                </a>
-                            </th>
-                            <th scope="col">
-                                <a href="{{ path('addressbook_index', { sortField: 'email', sortOrder: sortOrder == 'asc' ? 'desc' : 'asc', searchTerm: searchTerm }) }}">
-                                    Email
-                                    {% if sortField == 'email' %}
-                                        <span>{{ sortOrder == 'asc' ? '▲' : '▼' }}</span>
-                                    {% endif %}
-                                </a>
-                            </th>
-                            <th scope="col">
-                                <a href="{{ path('addressbook_index', { sortField: 'phone', sortOrder: sortOrder == 'asc' ? 'desc' : 'asc', searchTerm: searchTerm }) }}">
-                                    Téléphone
-                                    {% if sortField == 'phone' %}
-                                        <span>{{ sortOrder == 'asc' ? '▲' : '▼' }}</span>
-                                    {% endif %}
-                                </a>
-                            </th>
-                            <th scope="col">
-                                <a href="{{ path('addressbook_index', { sortField: 'ranking', sortOrder: sortOrder == 'asc' ? 'desc' : 'asc', searchTerm: searchTerm }) }}">
-                                    Classement
-                                    {% if sortField == 'ranking' %}
-                                        <span>{{ sortOrder == 'asc' ? '▲' : '▼' }}</span>
-                                    {% endif %}
-                                </a>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for user in users %}
-                            <tr>
-                                <td>{{ user.lastname }}, {{ user.firstname }}</td>
-                                <td>{{ user.email }}</td>
-                                <td>{{ user.phone }}</td>
-                                <td>{{ user.ranking }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+            <div class="user-cards">
+                {% for user in users %}
+                    <div class="user-card">
+                        <h2>{{ user.lastname }}, {{ user.firstname }}</h2>
+                        <p>Email : {{ user.email }}</p>
+                        <p>Téléphone : {{ user.phone }}</p>
+                        <p>Classement : {{ user.ranking }} ({{ user.doubleRanking }})</p>
+                    </div>
+                {% endfor %}
             </div>
         {% endif %}
 
-        <div class="d-flex justify-content-center">
+        <div class="pagination">
             {{ pagination.display() }}
         </div>
     </div>
-    <div class="shapedividers_com-9608"></div>
 </div>
 {% endblock %}

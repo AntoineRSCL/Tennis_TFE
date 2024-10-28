@@ -276,6 +276,7 @@ class PaginationService
             ->createQueryBuilder('e')
             ->select('COUNT(e.id)');
 
+        // Appliquer les critères de filtrage
         foreach ($this->criteria as $field => $value) {
             if ($value === null) {
                 $queryBuilder->andWhere("e.$field IS NULL");
@@ -283,17 +284,19 @@ class PaginationService
                 if (strpos($field, '.') !== false) {
                     list($relation, $relatedField) = explode('.', $field);
                     $queryBuilder->join("e.$relation", 'r')
-                                ->andWhere("r.$relatedField = :$relatedField")
-                                ->setParameter($relatedField, $value);
+                                 ->andWhere("r.$relatedField = :$relatedField")
+                                 ->setParameter($relatedField, $value);
                 } else {
                     $queryBuilder->andWhere("e.$field = :$field")
-                                ->setParameter($field, $value);
+                                 ->setParameter($field, $value);
                 }
             }
         }
 
+        // Compter le nombre total d'enregistrements
         $total = $queryBuilder->getQuery()->getSingleScalarResult();
 
+        // Retourner le nombre total de pages
         return ceil($total / $this->limit);
     }
     
