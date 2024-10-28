@@ -15,6 +15,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TournamentController extends AbstractController
 {
+    /**
+     * Fonction pour afficher la liste des tournois
+     *
+     * @param TournamentRepository $tournamentRepository
+     * @param TournamentRegistrationRepository $tournamentRegistrationRepository
+     * @return Response
+     */
     #[Route('/myclub/tournaments', name: 'tournament_index')]
     public function index(TournamentRepository $tournamentRepository, TournamentRegistrationRepository $tournamentRegistrationRepository): Response
     {
@@ -42,6 +49,9 @@ class TournamentController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour s'inscrire a un tournoi
+     */
     #[Route('/myclub/tournament/{id}/register', name: 'tournament_register')]
     public function register(int $id, TournamentRepository $tournamentRepository, TournamentRegistrationRepository $tournamentRegistrationRepository, EntityManagerInterface $entityManager): Response {
         $user = $this->getUser(); // Récupérer l'utilisateur connecté
@@ -95,7 +105,9 @@ class TournamentController extends AbstractController
         return $this->redirectToRoute('tournament_index');
     }
     
-
+    /**
+     * Fonction pour se desinscrire d'un tournoi
+     */
     #[Route('/myclub/tournament/{id}/unregister', name: 'tournament_unregister')]
     public function unregister(Tournament $tournament, TournamentRegistrationRepository $registrationRepo, EntityManagerInterface $em): Response
     {
@@ -114,6 +126,9 @@ class TournamentController extends AbstractController
         return $this->redirectToRoute('tournament_index');
     }
 
+    /**
+     * Fonction pour voir le tableau d'un tournoi
+     */
     #[Route('/myclub/tournament/{id}/bracket', name: 'tournament_view_bracket')]
     public function viewBracket(Tournament $tournament): Response
     {

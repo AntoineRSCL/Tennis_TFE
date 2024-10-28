@@ -161,6 +161,9 @@ class AdminAgendaController extends AbstractController
         return $this->redirectToRoute('admin_agenda_index');
     }
 
+    /**
+     * Fonction pour generer un pdf avec la liste des inscrits
+     */
     #[Route('/admin/agenda/{id}/pdf', name: 'admin_agenda_pdf')]
     public function generatePdf(Agenda $agenda, AgendaReservationRepository $reservationRepository): Response
     {

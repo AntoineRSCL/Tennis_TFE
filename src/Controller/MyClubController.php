@@ -13,6 +13,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class MyClubController extends AbstractController
 {
+    /**
+     * Fonction pour afficher les choses a faire pour l'user connecte
+     *
+     * @param ReservationRepository $reservationRepository
+     * @param TournamentRepository $tournamentRepository
+     * @param TournamentMatchRepository $tournamentMatchRepository
+     * @param AgendaRepository $agendaRepository
+     * @return Response
+     */
     #[Route('/myclub', name: 'myclub_index')]
     #[IsGranted('ROLE_USER')]
     public function index(ReservationRepository $reservationRepository, TournamentRepository $tournamentRepository, TournamentMatchRepository $tournamentMatchRepository, AgendaRepository $agendaRepository): Response 

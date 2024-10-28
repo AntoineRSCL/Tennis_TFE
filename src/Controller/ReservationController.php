@@ -15,6 +15,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ReservationController extends AbstractController
 {
+    /**
+     * Fonction pour voir les reservations de terrain
+     *
+     * @param Request $request
+     * @param CourtRepository $terrainRepository
+     * @param ReservationRepository $reservationRepository
+     * @return Response
+     */
     #[Route('/myclub/reservation', name: 'reservation_index')]
     public function list(Request $request, CourtRepository $terrainRepository, ReservationRepository $reservationRepository): Response 
     {
@@ -50,6 +58,14 @@ class ReservationController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour creer une reservation
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @param ReservationRepository $reservationRepository
+     * @return Response
+     */
     #[Route('/myclub/reservation/new', name: 'reservation_new')]
     public function new(Request $request, EntityManagerInterface $entityManager, ReservationRepository $reservationRepository): Response
     {
@@ -115,7 +131,7 @@ class ReservationController extends AbstractController
         ]);
     }
 
-
+    /**Fonction pour supprimer une reservation de terrain */
     #[Route('/myclub/reservation/{id}/delete', name: 'reservation_delete')]
     public function deleteReservation(Reservation $reservation, EntityManagerInterface $entityManager): Response
     {

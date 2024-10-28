@@ -17,6 +17,12 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AdminCoachController extends AbstractController
 {
+    /**
+     * Fonction pour afficher la liste des coachs
+     *
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
     #[Route('/admin/coach', name: 'admin_coach_index')]
     public function index(EntityManagerInterface $entityManager): Response
     {
@@ -28,6 +34,14 @@ class AdminCoachController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour créer un coach
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @param UserPasswordHasherInterface $passwordHasher
+     * @return Response
+     */
     #[Route('/admin/coach/new', name: 'admin_coach_new')]
     public function new(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
@@ -101,6 +115,9 @@ class AdminCoachController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour éditer un coach
+     */
     #[Route('/admin/coach/{id}/edit', name: 'admin_coach_edit')]
     public function edit(Request $request, Coach $coach, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
@@ -182,6 +199,9 @@ class AdminCoachController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour supprimer un coach
+     */
     #[Route('/admin/coach/{id}/delete', name: 'admin_coach_delete', methods: ['POST'])]
     public function delete(Request $request, Coach $coach, EntityManagerInterface $entityManager): Response
     {

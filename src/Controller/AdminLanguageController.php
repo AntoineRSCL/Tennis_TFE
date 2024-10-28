@@ -14,6 +14,12 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class AdminLanguageController extends AbstractController
 {
+    /**
+     * Fonction pour voir les language
+     *
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     #[Route('/admin/language', name: 'admin_language_index')]
     public function index(EntityManagerInterface $manager): Response
     {
@@ -24,6 +30,13 @@ class AdminLanguageController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour creer un language
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     #[Route('/admin/language/new', name: 'admin_language_new')]
     public function new(Request $request, EntityManagerInterface $manager): Response
     {
@@ -68,6 +81,9 @@ class AdminLanguageController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour modifier un language
+     */
     #[Route('/admin/language/{id}/edit', name: 'admin_language_edit')]
     public function edit(Language $language, Request $request, EntityManagerInterface $manager): Response
     {
@@ -120,6 +136,9 @@ class AdminLanguageController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour supprimer un language
+     */
     #[Route('/admin/language/{id}/delete', name: 'admin_language_delete')]
     public function delete(Language $language, EntityManagerInterface $manager): Response
     {

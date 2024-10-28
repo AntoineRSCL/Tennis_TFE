@@ -25,6 +25,13 @@ use Symfony\Component\Security\Core\Exception\TooManyLoginAttemptsAuthentication
 
 class AccountController extends AbstractController
 {
+    /**
+     * Fonction pour la connexion
+     *
+     * @param Request $request
+     * @param AuthenticationUtils $utils
+     * @return Response
+     */
     #[Route('/login', name: 'account_login')]
     public function index(Request $request, AuthenticationUtils $utils): Response
     {
@@ -65,6 +72,14 @@ class AccountController extends AbstractController
 
     }
 
+    /**
+     * Fonction pour créer un compte
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @param UserPasswordHasherInterface $passwordHasher
+     * @return Response
+     */
     #[Route('/register', name: 'account_register')]
     public function register(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher): Response
     {
@@ -110,6 +125,13 @@ class AccountController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour modifer le profil
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     #[Route("/account/profile", name:"account_profile")]
     public function profile(Request $request, EntityManagerInterface $manager): Response
     {
@@ -145,6 +167,13 @@ class AccountController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour modifier l'image de profil
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     #[Route("/account/imgmodify", name:"account_imgmodif")]
     #[IsGranted('ROLE_USER')]
     public function imgModify(Request $request, EntityManagerInterface $manager): Response
@@ -199,6 +228,12 @@ class AccountController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour supprimer l'image de profil
+     *
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     #[Route("/account/delimg", name:"account_delimg")]
     #[IsGranted('ROLE_USER')]
     public function removeImg(EntityManagerInterface $manager): Response
@@ -221,6 +256,14 @@ class AccountController extends AbstractController
 
     }
 
+    /**
+     * Fonction pour modifier son mot de passe
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @param UserPasswordHasherInterface $hasher
+     * @return Response
+     */
     #[Route("/account/passwordupdate", name:"account_password")]
     #[IsGranted('ROLE_USER')]
     public function updatePassword(Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $hasher): Response

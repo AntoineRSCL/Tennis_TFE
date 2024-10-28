@@ -11,6 +11,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class NewsController extends AbstractController
 {
+    /**
+     * Fonction pour afficher toutes les news
+     */
     #[Route('/news/{page<\d+>?1}', name: 'news_index')]
     public function index(NewsRepository $newsRepo, PaginationService $pagination, int $page = 1): Response
     {
@@ -24,6 +27,9 @@ class NewsController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour une news en particulier
+     */
     #[Route('/news/{slug}', name: 'news_show')]
     public function show(News $news): Response
     {

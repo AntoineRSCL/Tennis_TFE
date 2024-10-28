@@ -10,6 +10,12 @@ use Symfony\Component\Security\Core\Exception\TooManyLoginAttemptsAuthentication
 
 class AdminAccountController extends AbstractController
 {
+    /**
+     * Fonction pour se connecter à l'admin
+     *
+     * @param AuthenticationUtils $utils
+     * @return Response
+     */
     #[Route('/admin/login', name: 'admin_account_login')]
     public function index(AuthenticationUtils $utils): Response
     {
@@ -31,6 +37,11 @@ class AdminAccountController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour se déconnecter de l'admin
+     *
+     * @return Response
+     */
     #[Route('/admin/logout', name: 'admin_account_logout')]
     public function logout(): Response
     {

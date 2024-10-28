@@ -12,6 +12,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ContactController extends AbstractController
 {
+    /**
+     * Fonction pour le form de contact
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     #[Route('/contact', name: 'contact_index')]
     public function index(Request $request, EntityManagerInterface $manager): Response
     {

@@ -22,6 +22,15 @@ use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 class ResetPasswordController extends AbstractController
 {
+    /**
+     * Fonction pour envoyer un mail pour reset le mdp 
+     *
+     * @param Request $request
+     * @param UserRepository $userRepo
+     * @param TokenGeneratorInterface $tokenGenerator
+     * @param MailerInterface $mailer
+     * @return Response
+     */
     #[Route('/reset-password', name: 'reset_password_request')]
     public function request(Request $request, UserRepository $userRepo, TokenGeneratorInterface $tokenGenerator, MailerInterface $mailer): Response
     {
@@ -68,6 +77,9 @@ class ResetPasswordController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour verifier que le token est le bon et choisir le nouveau mot de passe
+     */
     #[Route('/reset-password/{token}', name: 'reset_password')]
     public function reset(Request $request, UserRepository $userRepo, EntityManagerInterface $manager, UserPasswordHasherInterface $hasher, string $token): Response
     {

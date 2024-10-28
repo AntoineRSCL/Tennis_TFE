@@ -14,6 +14,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminTournamentController extends AbstractController
 {
+    /**
+     * Fonction pour afficher un tournoi
+     *
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
     #[Route('/admin/tournament', name: 'admin_tournament_index')]
     public function index(EntityManagerInterface $entityManager): Response
     {
@@ -25,6 +31,13 @@ class AdminTournamentController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour creer un tournoi
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
     #[Route('/admin/tournament/new', name: 'admin_tournament_new')]
     public function createTournament(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -61,6 +74,13 @@ class AdminTournamentController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour geerer les matchs
+     *
+     * @param Tournament $tournament
+     * @param EntityManagerInterface $entityManager
+     * @return void
+     */
     private function generateMatches(Tournament $tournament, EntityManagerInterface $entityManager)
     {
         $maxParticipants = $tournament->getParticipantsMax();
@@ -96,6 +116,9 @@ class AdminTournamentController extends AbstractController
     }
 
 
+    /**
+     * Fonction pour lancer un tournoi
+     */
     #[Route('/admin/tournament/start/{id}', name: 'admin_tournament_start')]
     public function startTournament(Tournament $tournament, EntityManagerInterface $entityManager): Response
     {
@@ -122,6 +145,9 @@ class AdminTournamentController extends AbstractController
         return $this->redirectToRoute('admin_tournament_index');
     }
 
+    /**
+     * Fonction pour generer le prochain tour d'un tournoi
+     */
     #[Route('/admin/tournament/generate-next-round/{id}', name: 'admin_tournament_generate_next_round')]
     public function generateNextRound(Tournament $tournament, EntityManagerInterface $entityManager): Response
     {
@@ -175,6 +201,12 @@ class AdminTournamentController extends AbstractController
     }
 
 
+    /**
+     * Fonction pour connaitre le nombre de tour
+     *
+     * @param integer $participantsMax
+     * @return integer
+     */
     private function calculateTotalRounds(int $participantsMax): int
     {
         if ($participantsMax == 4) {
@@ -189,8 +221,9 @@ class AdminTournamentController extends AbstractController
         return 0; // Pas de tours pour un nombre non pris en charge
     }
 
-
-
+    /**
+     * Fonction pour voir la liste des matchs du tournoi
+     */
     #[Route('/admin/tournament/{id}/matches', name: 'admin_tournament_matches')]
     public function tournamentMatches(Tournament $tournament, EntityManagerInterface $entityManager, Request $request): Response
     {
@@ -202,6 +235,9 @@ class AdminTournamentController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour choisir le vainqueur des matchs du tournoi
+     */
     #[Route('/admin/match/{id}/winner', name: 'admin_match_winner')]
     public function setWinner(TournamentMatch $match, Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -235,6 +271,9 @@ class AdminTournamentController extends AbstractController
         return $this->redirectToRoute('admin_tournament_matches', ['id' => $tournament->getId()]);
     }
 
+    /**
+     * Fonction pour supprimer un tournoi
+     */
     #[Route('/admin/tournament/delete/{id}', name: 'admin_tournament_delete')]
     public function deleteTournament(Tournament $tournament, EntityManagerInterface $entityManager): Response
     {

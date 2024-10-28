@@ -15,6 +15,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted; // Assurez-vous 
 
 class AgendaController extends AbstractController
 {
+    /**
+     * Fonction pour voir les evenements
+     *
+     * @param AgendaRepository $agendaRepo
+     * @return Response
+     */
     #[Route('/agenda', name: 'agenda_index')]
     public function index(AgendaRepository $agendaRepo): Response
     {
@@ -25,6 +31,9 @@ class AgendaController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour voir un eveneemnt en particulier
+     */
     #[Route('/agenda/{slug}', name: 'agenda_show')]
     public function show(Agenda $agenda): Response
     {
@@ -45,6 +54,9 @@ class AgendaController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour reserver des places
+     */
     #[Route('/agenda/{slug}/reserve', name: 'agenda_reserve')]
     public function reserve(Request $request, EntityManagerInterface $em, Agenda $agenda): Response
     {
@@ -114,6 +126,9 @@ class AgendaController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour annuler une reservation
+     */
     #[Route('/agenda/{slug}/cancel', name: 'agenda_cancel')]
     public function cancel(Request $request, EntityManagerInterface $em, Agenda $agenda): Response
     {

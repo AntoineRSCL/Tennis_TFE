@@ -13,6 +13,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminCourtController extends AbstractController
 {
+    /**
+     * Fonction pour afficher les terrains
+     */
     #[Route('/admin/court/{page<\d+>?1}', name: 'admin_court_index')]
     public function index(PaginationService $pagination, int $page): Response
     {
@@ -26,6 +29,13 @@ class AdminCourtController extends AbstractController
     }
 
 
+    /**
+     * Fonction pour créer un terrain
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     #[Route('/admin/court/new', name: 'admin_court_new')]
     public function new(Request $request, EntityManagerInterface $manager): Response
     {
@@ -48,6 +58,9 @@ class AdminCourtController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour modifier un terrain
+     */
     #[Route('/admin/court/{id}/edit', name: 'admin_court_edit')]
     public function edit(Court $court, Request $request, EntityManagerInterface $manager): Response
     {
@@ -67,6 +80,9 @@ class AdminCourtController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour supprimer un terrain
+     */
     #[Route('/admin/court/{id}/delete', name: 'admin_court_delete')]
     public function delete(Court $court, EntityManagerInterface $manager, Request $request): Response
     {

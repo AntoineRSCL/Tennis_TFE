@@ -11,6 +11,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AddressBookController extends AbstractController
 {
+    /**
+     * Fonction pour afficher l'adresse book
+     */
     #[Route('/myclub/addressbook/{page<\d+>?1}', name: 'addressbook_index')]
     public function index(Request $request, PaginationService $paginationService, int $page): Response
     {

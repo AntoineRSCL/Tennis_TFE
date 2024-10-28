@@ -14,6 +14,12 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class AdminSponsorController extends AbstractController
 {
+    /**
+     * Fonction pour voir les sponsors
+     *
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     #[Route('/admin/sponsor', name: 'admin_sponsor_index')]
     public function index(EntityManagerInterface $manager): Response
     {
@@ -24,6 +30,13 @@ class AdminSponsorController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour créer un sponsor
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     #[Route('/admin/sponsor/new', name: 'admin_sponsor_new')]
     public function new(Request $request, EntityManagerInterface $manager): Response
     {
@@ -68,6 +81,9 @@ class AdminSponsorController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour modifier un sponsor
+     */
     #[Route('/admin/sponsor/{id}/edit', name: 'admin_sponsor_edit')]
     public function edit(Sponsor $sponsor, Request $request, EntityManagerInterface $manager): Response
     {
@@ -120,6 +136,9 @@ class AdminSponsorController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour supprimer un sponsor
+     */
     #[Route('/admin/sponsor/{id}/delete', name: 'admin_sponsor_delete')]
     public function delete(Sponsor $sponsor, EntityManagerInterface $manager): Response
     {

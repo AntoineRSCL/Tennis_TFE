@@ -14,6 +14,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminNewsController extends AbstractController
 {
+    /**
+     * Fonction pour afficher les actualités
+     */
     #[Route('/admin/news/{page<\d+>?1}', name: 'admin_news_index')]
     public function index(PaginationService $pagination, int $page): Response
     {
@@ -26,6 +29,13 @@ class AdminNewsController extends AbstractController
         ]);
     }
 
+    /**
+     * Fonction pour créer une actualité
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     #[Route('/admin/news/new', name: 'admin_news_new')]
     public function new(Request $request, EntityManagerInterface $manager): Response
     {
