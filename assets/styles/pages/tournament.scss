@@ -246,8 +246,9 @@
                             height: 75px;
                             @include flex(row);
                             gap: 5px;
-                            background-color: $black;
-                            color: $white;
+                            background-color: $white;
+                            color: $black;
+                            border-radius: 5px;
                             padding: 10px;
                             .loser{
                                 opacity: 0.5 !important;
