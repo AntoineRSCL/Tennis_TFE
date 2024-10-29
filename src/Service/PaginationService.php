@@ -284,13 +284,19 @@ class PaginationService
                 if (strpos($field, '.') !== false) {
                     list($relation, $relatedField) = explode('.', $field);
                     $queryBuilder->join("e.$relation", 'r')
-                                 ->andWhere("r.$relatedField = :$relatedField")
-                                 ->setParameter($relatedField, $value);
+                                ->andWhere("r.$relatedField = :$relatedField")
+                                ->setParameter($relatedField, $value);
                 } else {
                     $queryBuilder->andWhere("e.$field = :$field")
-                                 ->setParameter($field, $value);
+                                ->setParameter($field, $value);
                 }
             }
+        }
+
+        // Ajouter la recherche ici
+        if ($this->searchTerm) {
+            $queryBuilder->andWhere('e.lastname LIKE :searchTerm OR e.firstname LIKE :searchTerm')
+                        ->setParameter('searchTerm', '%' . $this->searchTerm . '%');
         }
 
         // Compter le nombre total d'enregistrements

@@ -3,35 +3,47 @@
 {% block title %}Carnet d'Adresses{% endblock %}
 
 {% block body %}
-<div class="addressBook">
-    <div class="container mt-5">
-        <h1 class="mb-4 text-center">Carnet d'Adresses</h1>
+    <div class="myClub">
+        <div class="myClubContainer">
+            <div class="addressBook">
+                <h1 class="mb-4 text-center">Carnet d'Adresses</h1>
 
-        <form method="get" action="{{ path('addressbook_index') }}" class="search-form">
-            <input type="text" name="searchTerm" value="{{ searchTerm }}" class="form-input" placeholder="Rechercher par nom">
-            <button class="btn btn-outline-secondary" type="submit">Rechercher</button>
-        </form>
+                <form method="get" action="{{ path('addressbook_index') }}" class="search-form">
+                    <input type="text" name="searchTerm" value="{{ searchTerm }}" class="form-input" placeholder="Rechercher par nom, prénom">
+                    <button class="btn btn-outline-secondary" type="submit">Rechercher</button>
+                </form>
 
-        {% if users is empty %}
-            <div class="alert alert-warning text-center" role="alert">
-                Aucun utilisateur trouvé.
-            </div>
-        {% else %}
-            <div class="user-cards">
-                {% for user in users %}
-                    <div class="user-card">
-                        <h2>{{ user.lastname }}, {{ user.firstname }}</h2>
-                        <p>Email : {{ user.email }}</p>
-                        <p>Téléphone : {{ user.phone }}</p>
-                        <p>Classement : {{ user.ranking }} ({{ user.doubleRanking }})</p>
+                {% if users is empty %}
+                    <div class="alert alert-warning text-center" role="alert">
+                        Aucun utilisateur trouvé.
                     </div>
-                {% endfor %}
+                {% else %}
+                    <div class="user-cards">
+                        {% for user in users %}
+                            <div class="user-card">
+                                {% if user.picture %}
+                                    <img src="/uploads/pictures/{{ user.picture }}" alt="Image de profil" class="profile-pic">
+                                {% else %}
+                                    <img src="/images/avatarvide.png" alt="Avatar Vide" class="profile-pic">
+                                {% endif %}
+                                <div class="user-info">
+                                    <h2>{{ user.lastname }}, {{ user.firstname }}</h2>
+                                    <p>Classement : {{ user.ranking }}</p>
+                                </div>
+                                <div class="user-details">
+                                    <p>Email : {{ user.email }}</p>
+                                    <p>Téléphone : {{ user.phone }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="pagination">
+                        {{ pagination.display() }}
+                    </div>
+                {% endif %}
             </div>
-        {% endif %}
 
-        <div class="pagination">
-            {{ pagination.display() }}
         </div>
+        <div class="shapedividers_com-9608"></div>
     </div>
-</div>
 {% endblock %}
