@@ -23,7 +23,7 @@ class AppFixtures extends Fixture
 
         $user = new User();
         $user->setUsername('BautAntoine')
-        ->setPassword($this->passwordHasher->hashPassword($user, 'password'))
+        ->setPassword($this->passwordHasher->hashPassword($user, 'passwordAdmin'))
         ->setRoles(["ROLE_ADMIN"])
         ->setFirstname('Antoine')
         ->setLastName('Baut')
@@ -33,7 +33,7 @@ class AppFixtures extends Fixture
         ->setDoubleRanking("70")
         ->setBirthDate(new \DateTime('2001-06-28'))
         ->setPrivate(false)
-        ->setAddressVerified(false);
+        ->setAddressVerified(true);
 
         
         $manager->persist($user);
@@ -48,23 +48,26 @@ class AppFixtures extends Fixture
         }
 
         // Création et persistance des membres
-        for ($i = 1; $i <= 25; $i++) {
+        for ($i = 1; $i <= 500; $i++) {
             $user = new User();
             $ranking = $rankings[array_rand($rankings)];
             $doubleRanking = getDoubleRanking($ranking, $rankings, $doubleRankings);
 
+            $firstName = $faker->firstName();
+            $lastName = $faker->lastName();
+
             $user->setUsername($faker->unique()->userName())
                 ->setPassword($this->passwordHasher->hashPassword($user, 'password'))
                 ->setRoles(["ROLE_USER"])
-                ->setFirstname($faker->firstName())
-                ->setLastName($faker->lastName())
-                ->setEmail($faker->unique()->email())
+                ->setFirstname($firstName)
+                ->setLastName($lastName)
+                ->setEmail(strtolower($lastName . '.' . $firstName . '@lesmashucclois.be'))
                 ->setPhone($faker->phoneNumber())
                 ->setRanking($ranking)
                 ->setDoubleRanking($doubleRanking)
                 ->setBirthDate($faker->dateTimeBetween('-50 years', '-20 years'))
-                ->setPrivate($faker->boolean())
-                ->setAddressVerified($faker->boolean());
+                ->setPrivate(true)
+                ->setAddressVerified(true);
 
             $manager->persist($user);
         }
