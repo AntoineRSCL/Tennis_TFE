@@ -108,7 +108,7 @@
                 <swiper-slide>
                     <h2>Vos prochains matchs</h2>
                     {% if upcomingMatches is empty %}
-                        <h4>Aucune réservation</h4>
+                        <h4>Aucun match à jouer</h4>
                         <a href="{{ path('tournament_index') }}">S'inscrire aux tournois</a>
                     {% else %}
                         {% for item in upcomingMatches %}
