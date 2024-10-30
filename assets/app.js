@@ -8,6 +8,7 @@ import './bootstrap.js';
 import './styles/app.css';
 import './styles/bootstrap.min.css';
 
+import './styles/pages/404.scss';
 import './styles/pages/about.scss';
 import './styles/pages/agenda.scss';
 import './styles/pages/contact.scss';
