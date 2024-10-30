@@ -134,6 +134,15 @@ class AdminTournamentController extends AbstractController
             return $this->redirectToRoute('admin_tournament_index');
         }
 
+        // Vérifier si le nombre d'inscrits a atteint le maximum
+        $maxParticipants = $tournament->getParticipantsMax(); // Assurez-vous que cette méthode existe
+        $currentParticipantsCount = $tournament->getTournamentRegistrations()->count();
+
+        if ($currentParticipantsCount < $maxParticipants) {
+            $this->addFlash('danger', 'Le nombre maximum de participants n\'a pas été atteint.');
+            return $this->redirectToRoute('admin_tournament_index');
+        }
+
         // Générer les matchs pour le premier tour
         $this->generateMatches($tournament, $entityManager);
 
@@ -144,6 +153,7 @@ class AdminTournamentController extends AbstractController
         $this->addFlash('success', 'Le tournoi a démarré avec succès.');
         return $this->redirectToRoute('admin_tournament_index');
     }
+
 
     /**
      * Fonction pour generer le prochain tour d'un tournoi

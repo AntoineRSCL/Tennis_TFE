@@ -77,6 +77,21 @@ class TournamentController extends AbstractController
         $userRanking = $user->getDoubleRanking();
         $tournamentRankingMin = $tournament->getRankingMin();
         $tournamentRankingMax = $tournament->getRankingMax();
+
+
+        $minAge = $tournament->getAgeMin();
+        $maxAge = $tournament->getAgeMax();
+
+        if($minAge || $maxAge){
+            $birthDate = $user->getBirthDate();
+            $today = new \DateTime();
+            $age = $today->diff($birthDate)->y;
+
+            if (($minAge !== null && $age < $minAge) || ($maxAge !== null && $age > $maxAge)) {
+                $this->addFlash('danger', 'Vous n\'avez pas l\'âge requis pour ce tournoi');
+                return $this->redirectToRoute('tournament_index');
+            }
+        }
     
         if (($tournamentRankingMin && $userRanking < $tournamentRankingMin) || ($tournamentRankingMax && $userRanking > $tournamentRankingMax)) {
             $this->addFlash('danger', 'Votre classement ne correspond pas aux critères du tournoi.');

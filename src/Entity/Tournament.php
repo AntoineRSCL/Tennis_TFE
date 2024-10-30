@@ -30,6 +30,12 @@ class Tournament
     #[ORM\Column(length: 5, nullable: true)]
     private ?string $rankingMax = null;
 
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $ageMin = null;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $ageMax = null;
+
     #[ORM\Column(length: 20)]
     private ?string $participantsMax = null;
 
@@ -215,6 +221,32 @@ class Tournament
     {
         $this->image = $image;
 
+        return $this;
+    }
+
+    // Getter pour ageMin
+    public function getAgeMin(): ?int
+    {
+        return $this->ageMin;
+    }
+
+    // Setter pour ageMin
+    public function setAgeMin(?int $ageMin): self
+    {
+        $this->ageMin = $ageMin;
+        return $this;
+    }
+
+    // Getter pour ageMax
+    public function getAgeMax(): ?int
+    {
+        return $this->ageMax;
+    }
+
+    // Setter pour ageMax
+    public function setAgeMax(?int $ageMax): self
+    {
+        $this->ageMax = $ageMax;
         return $this;
     }
 }

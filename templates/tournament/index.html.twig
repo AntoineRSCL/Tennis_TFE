@@ -46,15 +46,38 @@
                                     <h3>{{ tournament.name }}</h3>
                                     <p>Statut : {{ tournament.status }}</p>
                                 </div>
-                                <div class="rankingTournoi">
-                                    {% set rankingMap = {3: 'C30.6',5: 'C30.5',10: 'C30.4',15: 'C30.3',20: 'C30.2',25: 'C30.1',30: 'C30',35: 'C15.5',40: 'C15.4',45: 'C15.3',50: 'C15.2',55: 'C15.1',60: 'C15',65: 'B+4/6',70: 'B+2/6',75: 'B0',80: 'B-2/6',85: 'B-4/6',90: 'B-15',95: 'B-15.1',100: 'B-15.2',105: 'B-15.4',110: 'A.Nat',115: 'A.Int'} %}
-                                    <span class="annonce">Limite de classement</span>
-                                    {% if tournament.rankingMin %}
-                                        <span>{{ rankingMap[tournament.rankingMin] ?? 'Aucune limite de classement' }}  |  {{ rankingMap[tournament.rankingMax] ?? 'Aucune limite de classement' }}</span>
-                                    {% else %}
-                                        <span>Aucune limite</span>
-                                    {% endif %}
-                                </div>
+                                {% if tournament.status != 'Terminé' or tournament.winner %}
+                                    <div class="rankingTournoi">
+                                        {% set rankingMap = {3: 'C30.6',5: 'C30.5',10: 'C30.4',15: 'C30.3',20: 'C30.2',25: 'C30.1',30: 'C30',35: 'C15.5',40: 'C15.4',45: 'C15.3',50: 'C15.2',55: 'C15.1',60: 'C15',65: 'B+4/6',70: 'B+2/6',75: 'B0',80: 'B-2/6',85: 'B-4/6',90: 'B-15',95: 'B-15.1',100: 'B-15.2',105: 'B-15.4',110: 'A.Nat',115: 'A.Int'} %}
+                                        <span class="annonce">Limite de classement / Age</span>
+                                        {% if tournament.rankingMin or tournament.rankingMax%}
+                                            {% if tournament.rankingMin and tournament.rankingMax %}
+                                                <span>{{ rankingMap[tournament.rankingMin] }} - {{ rankingMap[tournament.rankingMax] }}</span>
+                                            {% elseif tournament.rankingMax %}
+                                                <span>Jusqu'à {{ rankingMap[tournament.rankingMax] }}</span>
+                                            {% elseif tournament.rankingMin %}
+                                                <span>À partir de {{ rankingMap[tournament.rankingMin] }}</span>
+                                            {% else %}
+                                                <span>Aucune limite de classement</span>
+                                            {% endif %}
+                                        {% else %}
+                                            <span>Aucune limite de classement</span>
+                                        {% endif %}
+                                        {% if tournament.ageMin or tournament.ageMax %}
+                                            {% if tournament.ageMin and tournament.ageMax %}
+                                                <span>{{ tournament.ageMin }} - {{ tournament.ageMax }} ans</span>
+                                            {% elseif tournament.ageMax %}
+                                                <span>Jusqu'à {{ tournament.ageMax }} ans</span>
+                                            {% elseif tournament.ageMin %}
+                                                <span>À partir de {{ tournament.ageMin }} ans</span>
+                                            {% else %}
+                                                <span>Aucune limite d'âge</span>
+                                            {% endif %}
+                                        {% else %}
+                                            <span>Aucune limite d'age</span>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
                                 <div class="participantTournoi">
                                     {% if tournament.status == 'Inscription' %}
                                         <span class="annonce">Nombre d'inscrits</span>
@@ -91,6 +114,7 @@
             </div>
         {% endfor %}
     </div>
+    <div class="shapedividers_com-9608"></div>
 </div>
 
 {% endblock %}

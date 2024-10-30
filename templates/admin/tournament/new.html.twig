@@ -38,6 +38,20 @@
                 {{ form_errors(form.rankingMax) }}
             </div>
 
+            {# Champ âge minimum #}
+            <div class="form-group">
+                {{ form_label(form.ageMin, 'Âge minimum', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.ageMin, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.ageMin) }}
+            </div>
+
+            {# Champ âge maximum #}
+            <div class="form-group">
+                {{ form_label(form.ageMax, 'Âge maximum', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_widget(form.ageMax, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.ageMax) }}
+            </div>
+
             {# Champ nombre de participants maximum #}
             <div class="form-group">
                 {{ form_label(form.participants_max, 'Nombre de participants maximum', {'label_attr': {'class': 'control-label'}}) }}

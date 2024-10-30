@@ -8,9 +8,10 @@ use App\Form\ApplicationType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class TournamentType extends ApplicationType
 {
@@ -63,6 +64,16 @@ class TournamentType extends ApplicationType
                     16 => 16,
                     32 => 32,
                 ],
+            ])
+            ->add('ageMin', IntegerType::class, [
+                'required' => false,
+                'label' => 'Âge minimum',
+                'required' => false,
+            ])
+            ->add('ageMax', IntegerType::class, [
+                'required' => false,
+                'label' => 'Âge maximum',
+                'required' => false,
             ])
             ->add('image', FileType::class, [
                 'label' => 'Image du tournoi (JPEG, PNG)',
