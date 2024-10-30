@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class CoachType extends AbstractType
 {
@@ -28,14 +29,28 @@ class CoachType extends AbstractType
             ->add('lastname', TextType::class)
             ->add('email', EmailType::class)
             ->add('phone', TextType::class)
-            ->add('ranking', TextType::class)
+            ->add('ranking', ChoiceType::class, [
+                'label' => 'Classement',
+                'choices' => [
+                    'C30.6' => 'C30.6', 'C30.5' => 'C30.5', 'C30.4' => 'C30.4', 
+                    'C30.3' => 'C30.3', 'C30.2' => 'C30.2', 'C30.1' => 'C30.1', 
+                    'C30' => 'C30', 'C15.5' => 'C15.5', 'C15.4' => 'C15.4', 
+                    'C15.3' => 'C15.3', 'C15.2' => 'C15.2', 'C15.1' => 'C15.1', 
+                    'C15' => 'C15', 'B+4/6' => 'B+4/6', 'B+2/6' => 'B+2/6', 
+                    'B0' => 'B0', 'B-2/6' => 'B-2/6', 'B-4/6' => 'B-4/6', 
+                    'B-15' => 'B-15', 'B-15.1' => 'B-15.1', 'B-15.2' => 'B-15.2', 
+                    'B-15.4' => 'B-15.4', 'A.Nat' => 'A.Nat', 'A.Int' => 'A.Int'
+                ],
+                'expanded' => false,
+                'multiple' => false,
+            ])
             ->add('birth_date', DateType::class, [
                 'widget' => 'single_text',
             ])
             ->add('picture', FileType::class, [
                 'label' => 'Image',
                 'required' => false,
-                'mapped' => false, // Ne pas mapper directement le champ 'picture' à l'entité News
+                'mapped' => false,
             ])
             ->add('description', TextareaType::class)
             ->add('jobTitle', TextType::class)
@@ -45,7 +60,7 @@ class CoachType extends AbstractType
                 'multiple' => true,
                 'expanded' => false,
                 'label' => 'Langues',
-                'choices' => $options['languages'], // Utilisez les langues passées
+                'choices' => $options['languages'],
             ]);
     }
 
@@ -53,7 +68,7 @@ class CoachType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => UserCoachDTO::class,
-            'languages' => null, // Ajoutez cette ligne pour définir 'languages'
+            'languages' => null,
         ]);
     }
 }
