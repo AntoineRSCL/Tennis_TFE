@@ -7,7 +7,7 @@
 {% block body %}
     <div class="agenda">
         <div class="imgAgenda">
-            <h1>Évenements</h1>
+            <h1>Événements</h1>
             <img src="/images/event.jpg" alt="Image pour évenements">
             <div class="shapedividers_com-9608"></div>
         </div>
@@ -32,7 +32,7 @@
                         <button class="btnReserveEvent">Réserver</button>
                     {{ form_end(form) }}
                 </div>
-                <a href="{{ path('agenda_show', {slug: agenda.slug}) }}" class='retourEvent'>Retour à l'évenement</a>
+                <a href="{{ path('agenda_show', {slug: agenda.slug}) }}" class='retourEvent'>Retour à l'événement</a>
                 <div class="leftEvent">
                     <div class="imgAffichage">
                         <img src="/uploads/pictures/{{ agenda.picture }}" alt="Image de l'évenement {{ agenda.title }}">

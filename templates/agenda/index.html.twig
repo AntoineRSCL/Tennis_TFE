@@ -5,7 +5,7 @@
 {% block body %}
     <div class="agenda">
         <div class="imgAgenda">
-            <h1>Évenements</h1>
+            <h1>Événements</h1>
             <img src="/images/event.jpg" alt="Image pour évenements">
             <div class="shapedividers_com-9608"></div>
         </div>
@@ -24,7 +24,7 @@
                                     <p>{{ event.description }}</p>
                                     <span>Places disponibles</span>
                                     <span>{{ event.limitNumber - event.agendaReservations|length }} / {{ event.limitNumber }}</span>
-                                    <a href="{{ path('agenda_show', {slug: event.slug}) }}" class="btn btn-primary">Voir l'évenement</a>
+                                    <a href="{{ path('agenda_show', {slug: event.slug}) }}" class="btn btn-primary">Voir l'événement</a>
                                 </div>
                             </div>
                         </div>
