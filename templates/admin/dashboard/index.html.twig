@@ -1,7 +1,142 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}Dashboard - Admin{% endblock %}
+{% block title %}Bienvenue Admin{% endblock %}
 
 {% block body %}
-
+<div class="adminBox">
+    <div class="container-fluid full">
+        <div class="row">
+            <div class="col">
+                <div class="card bg-primary text-white mb-3 text-center">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4">
+                                <i class="fas fa-users fa-3x"></i>
+                            </div>
+                            <div class="col-8">
+                                <div class="card-title">{{ stats.userCount }} Utilisateur(s)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card bg-primary text-white mb-3 text-center">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4">
+                                <i class="fas fa-calendar-day fa-3x"></i>
+                            </div>
+                            <div class="col-8">
+                                <div class="card-title">{{ stats.agendaCount }} Événement(s)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card bg-primary text-white mb-3 text-center">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4">
+                                <i class="fa-solid fa-newspaper fa-3x"></i>
+                            </div>
+                            <div class="col-8">
+                                <div class="card-title">{{ stats.newsCount }} Actualité(s)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card bg-primary text-white mb-3 text-center">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4">
+                                <i class="fas fa-user-tie fa-3x"></i>
+                            </div>
+                            <div class="col-8">
+                                <div class="card-title">{{ stats.coachCount }} Coach(s)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card bg-primary text-white mb-3 text-center">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4">
+                                <i class="fa-solid fa-envelope fa-3x"></i>
+                            </div>
+                            <div class="col-8">
+                                <div class="card-title">{{ stats.contactCount }} Message(s)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card bg-primary text-white mb-3 text-center">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4">
+                                <i class="fa-solid fa-gavel fa-3x"></i>
+                            </div>
+                            <div class="col-8">
+                                <div class="card-title">{{ stats.courtCount }} Terrain(s)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card bg-primary text-white mb-3 text-center">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4">
+                                <i class="fa-solid fa-language fa-3x"></i>
+                            </div>
+                            <div class="col-8">
+                                <div class="card-title">{{ stats.languageCount }} Langue(s)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card bg-primary text-white mb-3 text-center">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4">
+                                <i class="fa-solid fa-handshake fa-3x"></i>
+                            </div>
+                            <div class="col-8">
+                                <div class="card-title">{{ stats.sponsorCount }} Sponsor(s)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card bg-primary text-white mb-3 text-center">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4">
+                                <i class="fa-solid fa-trophy fa-3x"></i>
+                            </div>
+                            <div class="col-8">
+                                <div class="card-title">{{ stats.tournamentCount }} Tournoi(s)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

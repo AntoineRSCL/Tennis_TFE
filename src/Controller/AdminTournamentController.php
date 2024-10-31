@@ -75,7 +75,7 @@ class AdminTournamentController extends AbstractController
     }
 
     /**
-     * Fonction pour geerer les matchs
+     * Fonction pour gérer les matchs
      *
      * @param Tournament $tournament
      * @param EntityManagerInterface $entityManager

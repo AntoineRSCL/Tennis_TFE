@@ -96,3 +96,18 @@ $bebas: "Bebas Neue", sans-serif;
     background-size: 201% calc(2vw + 91px);
     }
 }
+
+.adminBox{
+    width: 100%;
+    min-height: 95vh;
+
+}
+.footerAdmin{
+    width: 100%;
+    height: 40px;
+    @include flex(row);
+    background-color: $white;
+    p{
+        margin: 0;
+    }
+}
