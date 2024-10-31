@@ -17,7 +17,7 @@ class ReservationRepository extends ServiceEntityRepository
         parent::__construct($registry, Reservation::class);
     }
 
-    public function findUpcomingReservationsForUser(User $user) // Corrigez ici
+    public function findUpcomingReservationsForUser(User $user)
     {
         return $this->createQueryBuilder('r')
             ->andWhere('r.player1 = :user OR r.player2 = :user')

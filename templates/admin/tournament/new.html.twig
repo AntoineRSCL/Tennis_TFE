@@ -5,7 +5,9 @@
 {% form_theme form _self %}
 
 {% block body %}
-    <div class="container">
+<div class="adminBox">
+    <div class="container-fluid">
+        <a href="{{ path('admin_tournament_index') }}" class="btn btn-secondary">Retour</a>
         <h1 class="my-2">Créer un tournoi</h1>
         <form method="post" enctype="multipart/form-data">
             {{ form_start(form) }}
@@ -67,4 +69,5 @@
             {{ form_end(form) }}
         </form>
     </div>
+</div>
 {% endblock %}

@@ -3,7 +3,8 @@
 {% block title %}Matchs du Tournoi{% endblock %}
 
 {% block body %}
-    <div class="container">
+<div class="adminBox">
+    <div class="container-fluid">
         <h1 class="my-4">Matchs pour le Tournoi: {{ tournament.name }}</h1>
 
         {# Affichage des messages flash #}
@@ -55,4 +56,5 @@
         {# Bouton retour au tournoi #}
         <a href="{{ path('admin_tournament_index') }}" class="btn btn-secondary">Retour au Tournoi</a>
     </div>
+</div>
 {% endblock %}

@@ -106,6 +106,9 @@ class AdminCoachController extends AbstractController
             // Persister l'entité Coach
             $entityManager->persist($coach);
             $entityManager->flush();
+
+            // Ajout d'un message flash de succès
+            $this->addFlash('success', 'Le coach a été créé avec succès.');
     
             return $this->redirectToRoute('admin_coach_index');
         }
@@ -191,6 +194,8 @@ class AdminCoachController extends AbstractController
             }
 
             $entityManager->flush();
+
+            $this->addFlash('success', 'Le coach a été mis à jour avec succès.');
             return $this->redirectToRoute('admin_coach_index');
         }
 
@@ -208,6 +213,9 @@ class AdminCoachController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $coach->getId(), $request->request->get('_token'))) {
             $entityManager->remove($coach);
             $entityManager->flush();
+            $this->addFlash('success', 'Le coach a été supprimé avec succès.');
+        }else{
+            $this->addFlash('danger', 'Ereur lors de la supression.');
         }
 
         return $this->redirectToRoute('admin_coach_index');

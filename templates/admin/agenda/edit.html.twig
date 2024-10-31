@@ -3,6 +3,7 @@
 {% block title %}Hello AdminAgendaController!{% endblock %}
 
 {% block body %}
+<div class="adminBox">
     <div class="container-fluid">
         <h1 class="my-2">Créer un évenement</h1>
         <form method="post" enctype="multipart/form-data">
@@ -50,10 +51,12 @@
 
             {# Bouton de soumission #}
             <div class="form-group">
-                <button type="submit" class="btn btn-primary">Créer</button>
+                <button type="submit" class="btn btn-primary">Modifier</button>
             </div>
 
             {{ form_end(form) }}
+            <a href=" {{ path('admin_agenda_index') }}" class="btn btn-secondary">Retour</a>
         </form>
     </div>
+</div>
 {% endblock %}

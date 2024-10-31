@@ -3,7 +3,14 @@
 {% block title %}Gestion des Langues{% endblock %}
 
 {% block body %}
+<div class="adminBox">
     <div class="container-fluid">
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger">{{ message }}</div>
+        {% endfor %}
         <h1 class="my-4">Liste des Langues</h1>
         <a href="{{ path('admin_language_new') }}" class="btn btn-secondary my-2">
             <i class="fa-solid fa-circle-plus"></i>
@@ -41,7 +48,7 @@
             </table>
         {% endif %}
     </div>
-
+</div>
     <script>
         document.querySelectorAll('.delete-language').forEach(link => {
             link.addEventListener('click', function(event) {

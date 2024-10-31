@@ -3,6 +3,7 @@
 {% block title %}Hello AdminAgendaController!{% endblock %}
 
 {% block body %}
+<div class="adminBox">
     <div class="container-fluid">
         <h1 class="my-2">Créer un évenement</h1>
         <form method="post" enctype="multipart/form-data">
@@ -49,6 +50,8 @@
             </div>
 
             {{ form_end(form) }}
+            <a href=" {{ path('admin_agenda_index') }}" class="btn btn-secondary">Retour</a>
         </form>
     </div>
+</div>
 {% endblock %}

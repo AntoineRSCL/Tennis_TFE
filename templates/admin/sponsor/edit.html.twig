@@ -3,7 +3,9 @@
 {% block title %}Modifier le Sponsor {% if sponsor.name %}{{ sponsor.name }}{% endif %}{% endblock %}
 
 {% block body %}
+<div class="adminBox">
     <div class="container-fluid">
+        <a href=" {{ path('admin_sponsor_index') }}" class="btn btn-secondary">Retour</a>
         <h1 class="my-4">Modifier le Sponsor {{ sponsor.name }}</h1>
 
         {{ form_start(form) }}
@@ -31,4 +33,5 @@
 
         <a href="{{ path('admin_sponsor_index') }}" class="btn btn-secondary mt-3">Retour à la liste</a>
     </div>
+</div>
 {% endblock %}

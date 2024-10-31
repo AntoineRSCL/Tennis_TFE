@@ -11,13 +11,16 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">Admin</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarText">
           <ul class="navbar-nav me-auto mb-3 mb-lg-0">
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('admin_dashboard') }}"><i class="fas fa-chart-line"></i> Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('admin_user_index') }}"><i class="fa-solid fa-user"></i> Membres</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('admin_coach_index') }}"><i class="fa-solid fa-person-shelter"></i> Coachs</a>
@@ -35,10 +38,10 @@
                     <a class="nav-link" href="{{ path('admin_agenda_index') }}"><i class="fa-solid fa-calendar-day"></i> Agenda</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('admin_language_index') }}"><i class="fa-solid fa-calendar-day"></i> Langues</a>
+                    <a class="nav-link" href="{{ path('admin_language_index') }}"><i class="fa-solid fa-language"></i> Langues</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('admin_sponsor_index') }}"><i class="fa-solid fa-calendar-day"></i> Sponsors</a>
+                    <a class="nav-link" href="{{ path('admin_sponsor_index') }}"><i class="fa-solid fa-user-friends"></i> Sponsors</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('admin_contact_index') }}"><i class="fa-solid fa-envelope"></i> Messages</a>

@@ -16,7 +16,7 @@
                         {{ form_errors(form.player2) }}
                     </div>
                     <div class="reservationTimes">
-                        <p>Heure: <strong>{{ reservation.startTime|date('H:i') }}H - {{ reservation.endTime|date('H:i') }}H</strong></p>
+                        <p>Heure: <strong>{{ reservation.startTime|date_modify('+1 hour')|date('H:i') }}H - {{ reservation.endTime|date_modify('+1 hour')|date('H:i') }}H</strong></p>
                         <p>Terrain: <strong>{{ reservation.court.name }}</strong></p>
                         <a href="{{ path('reservation_index') }}">Retour</a>
                     </div>

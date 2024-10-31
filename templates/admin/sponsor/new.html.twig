@@ -3,7 +3,9 @@
 {% block title %}Créer un Nouveau Sponsor{% endblock %}
 
 {% block body %}
+<div class="adminBox">
     <div class="container-fluid">
+        <a href=" {{ path('admin_sponsor_index') }}" class="btn btn-secondary">Retour</a>
         <h1 class="my-4">Créer un Nouveau Sponsor</h1>
 
         {{ form_start(form) }}
@@ -31,4 +33,5 @@
 
         <a href="{{ path('admin_sponsor_index') }}" class="btn btn-secondary mt-3">Retour à la liste</a>
     </div>
+</div>
 {% endblock %}
