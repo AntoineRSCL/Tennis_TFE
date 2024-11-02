@@ -80,7 +80,7 @@ class ReservationController extends AbstractController
             ->getResult();
 
         // Si l'utilisateur n'a pas le rôle "ROLE_USER" et qu'il a 5 réservations ou plus, on bloque
-        if (!$this->isGranted('ROLE_USER') && count($userReservations) >= 5) {
+        if ($this->isGranted('ROLE_USER') && count($userReservations) >= 5) {
             $this->addFlash('danger', 'Vous avez atteint le nombre maximum de 5 réservations.');
             return $this->redirectToRoute('reservation_index');
         }

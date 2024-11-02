@@ -31,7 +31,7 @@
                                     <p>Classement : {{ user.ranking }}</p>
                                 </div>
                                 <div class="user-details">
-                                    <p>Email : {{ user.email }}</p>
+                                    <p>Email : {{ user.email | replace({' ': ''}) }}</p>
                                     <p>Téléphone : {{ user.phone }}</p>
                                 </div>
                             </div>
