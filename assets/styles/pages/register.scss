@@ -197,7 +197,7 @@
 
     .form-navigation{
         width: 80%;
-        height: 35px;
+        min-height: 35px;
         @include flex(row);
         justify-content: start;
         gap: 20px;
