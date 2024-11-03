@@ -46,7 +46,7 @@
                                     <h3>{{ tournament.name }}</h3>
                                     <p>Statut : {{ tournament.status }}</p>
                                 </div>
-                                {% if tournament.status != 'Terminé' or tournament.winner %}
+                                {% if tournament.status != 'Terminé' %}
                                     <div class="rankingTournoi">
                                         {% set rankingMap = {3: 'C30.6',5: 'C30.5',10: 'C30.4',15: 'C30.3',20: 'C30.2',25: 'C30.1',30: 'C30',35: 'C15.5',40: 'C15.4',45: 'C15.3',50: 'C15.2',55: 'C15.1',60: 'C15',65: 'B+4/6',70: 'B+2/6',75: 'B0',80: 'B-2/6',85: 'B-4/6',90: 'B-15',95: 'B-15.1',100: 'B-15.2',105: 'B-15.4',110: 'A.Nat',115: 'A.Int'} %}
                                         <span class="annonce">Limite de classement / Age</span>
