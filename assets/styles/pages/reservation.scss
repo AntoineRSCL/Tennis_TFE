@@ -22,9 +22,6 @@
             min-height: 75px;
             @include flex(column);
             gap: 5px;
-            @media all and (max-width:450px) {
-                flex-direction: row;
-            }
             
             .dateReservation{
                 width: 100%;
@@ -33,6 +30,9 @@
                 gap: 10px;
                 font-size: 16px;
                 font-weight: bold;
+                @media all and (max-width:450px) {
+                    flex-direction: column;
+                }
                 label{
                     margin: 0;
                     flex: 1;
