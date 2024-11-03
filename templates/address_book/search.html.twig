@@ -1,26 +1,26 @@
-{# templates/address_book/index.html.twig #}
+{# templates/address_book/search.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Carnet d'Adresses{% endblock %}
+{% block title %}Résultats de la Recherche{% endblock %}
 
 {% block body %}
     <div class="myClub">
         <div class="myClubContainer">
             <div class="addressBook">
-                <h1 class="mb-4 text-center">Carnet d'Adresses</h1>
+                <h1 class="mb-4 text-center">Résultats de la Recherche</h1>
 
                 <form method="get" action="{{ path('addressbook_search') }}" class="search-form">
                     <input type="text" name="q" value="{{ app.request.query.get('q') }}" class="form-input" placeholder="Rechercher par nom, prénom">
                     <button class="btn btn-outline-secondary" type="submit">Rechercher</button>
                 </form>
 
-                {% if users is empty %}
+                {% if results is empty %}
                     <div class="alert alert-warning text-center" role="alert">
                         Aucun utilisateur trouvé.
                     </div>
                 {% else %}
                     <div class="user-cards">
-                        {% for user in users %}
+                        {% for user in results %}
                             <div class="user-card">
                                 {% if user.picture %}
                                     <img src="/uploads/pictures/{{ user.picture }}" alt="Image de profil" class="profile-pic">
@@ -37,9 +37,6 @@
                                 </div>
                             </div>
                         {% endfor %}
-                    </div>
-                    <div class="pagination">
-                        {{ pagination.display() }}
                     </div>
                 {% endif %}
             </div>
