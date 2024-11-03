@@ -49,13 +49,16 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function search(string $query): array
     {
         $qb = $this->createQueryBuilder('p')
-        ->where('p.firstname LIKE :query OR p.lastname LIKE :query')
-        ->setParameter('query', '%'.$query.'%')
-        ->orderBy('p.lastname', 'ASC') // Trier par le nom de famille en ordre croissant
-        ->addOrderBy('p.lastname', 'ASC'); // Si vous souhaitez aussi trier par le prénom
+            ->where('p.firstname LIKE :query OR p.lastname LIKE :query')
+            ->andWhere('p.private = :private') // Ajouter la condition pour le champ 'private'
+            ->setParameter('query', '%'.$query.'%')
+            ->setParameter('private', true) // Spécifier que 'private' doit être vrai
+            ->orderBy('p.lastname', 'ASC') // Trier par le nom de famille en ordre croissant
+            ->addOrderBy('p.firstname', 'ASC'); // Si vous souhaitez aussi trier par le prénom
 
         return $qb->getQuery()->getResult();
     }
+
 
     //    /**
     //     * @return User[] Returns an array of User objects
