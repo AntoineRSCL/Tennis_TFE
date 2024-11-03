@@ -134,7 +134,7 @@ class AdminCoachController extends AbstractController
         $dto->setBirthDate($coach->getUser()->getBirthDate());
         $dto->setDescription($coach->getDescription());
         $dto->setJobTitle($coach->getJobTitle());
-        $dto->setLanguages($coach->getLanguages()->toArray()); // Utilisez toArray() pour passer les langues en tableau
+        $dto->setLanguages($coach->getLanguages()->toArray());
 
         $form = $this->createForm(CoachType::class, $dto);
         $form->handleRequest($request);
@@ -143,6 +143,15 @@ class AdminCoachController extends AbstractController
             // Mettre à jour le coach
             $coach->setDescription($dto->getDescription());
             $coach->setJobTitle($dto->getJobTitle());
+
+            // Mettre à jour les informations de l'utilisateur
+            $coach->getUser()->setUsername($dto->getUsername());
+            $coach->getUser()->setFirstname($dto->getFirstname());
+            $coach->getUser()->setLastname($dto->getLastname());
+            $coach->getUser()->setEmail($dto->getEmail());
+            $coach->getUser()->setPhone($dto->getPhone());
+            $coach->getUser()->setRanking($dto->getRanking());
+            $coach->getUser()->setBirthDate($dto->getBirthDate());
 
             // Supprimer les langues existantes
             $coach->removeAllLanguages();
@@ -168,7 +177,7 @@ class AdminCoachController extends AbstractController
                 // Supprimer l'ancienne image
                 $oldPicture = $coach->getUser()->getPicture();
                 if ($oldPicture) {
-                    $oldPicturePath = $this->getParameter('pictures_directory').'/'.$oldPicture;
+                    $oldPicturePath = $this->getParameter('pictures_directory') . '/' . $oldPicture;
                     if (file_exists($oldPicturePath)) {
                         unlink($oldPicturePath);
                     }
@@ -178,8 +187,8 @@ class AdminCoachController extends AbstractController
                 $slugify = new Slugify();
                 $originalFilename = pathinfo($pictureFile->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugify->slugify($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$pictureFile->guessExtension();
-    
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $pictureFile->guessExtension();
+
                 // Déplacer le fichier dans le répertoire approprié
                 try {
                     $pictureFile->move(
@@ -189,7 +198,7 @@ class AdminCoachController extends AbstractController
                 } catch (FileException $e) {
                     // Gérer l'erreur d'upload si nécessaire
                 }
-    
+
                 $coach->getUser()->setPicture($newFilename); // Mettre à jour l'entité User avec le nouveau nom de fichier
             }
 
@@ -203,6 +212,7 @@ class AdminCoachController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
 
     /**
      * Fonction pour supprimer un coach
