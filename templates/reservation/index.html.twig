@@ -46,6 +46,8 @@
                                     {% for reservation in reservations %}
                                         {% if reservation.court.id == court.id and reservation.startTime|date('H') == hour %}
                                             <div class="infoReservation">
+                                                <span class="courtName">{{ reservation.court.name }}</span>
+                                                <span>{{ reservation.startTime|date('H') }}H - {{ reservation.endTime|date('H') }}H</span>
                                                 <strong>{{ reservation.player1.fullName }}</strong>
                                                 <strong>{{ reservation.player2 ? reservation.player2.fullName : 'Aucun' }}</strong>
                                                 {% if is_granted('ROLE_ADMIN') or reservation.player1 == app.user or reservation.player2 == app.user %}

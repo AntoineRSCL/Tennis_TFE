@@ -2,74 +2,83 @@
 
 namespace App\DataFixtures;
 
-use Faker\Factory;
+use App\Entity\Reservation;
 use App\Entity\User;
+use App\Entity\Court; // Assurez-vous d'avoir l'entité Court
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
-    private $passwordHasher;
-
-    public function __construct(UserPasswordHasherInterface $passwordHasher)
-    {
-        $this->passwordHasher = $passwordHasher;
-    }
-
     public function load(ObjectManager $manager): void
     {
-        $faker = Factory::create('fr_BE');
+        // Récupération de tous les utilisateurs et courts existants
+        $users = $manager->getRepository(User::class)->findAll();
+        $courts = $manager->getRepository(Court::class)->findAll(); // Assurez-vous que l'entité Court existe
 
-        $user = new User();
-        $user->setUsername('BautAntoine')
-        ->setPassword($this->passwordHasher->hashPassword($user, 'passwordAdmin'))
-        ->setRoles(["ROLE_ADMIN"])
-        ->setFirstname('Antoine')
-        ->setLastName('Baut')
-        ->setEmail("abaut2001@gmail.com")
-        ->setPhone("+32/470.326.783")
-        ->setRanking("B+2/6")
-        ->setDoubleRanking("70")
-        ->setBirthDate(new \DateTime('2001-06-28'))
-        ->setPrivate(false)
-        ->setAddressVerified(true);
-
-        
-        $manager->persist($user);
-
-        $rankings = ['C30.6', 'C30.5', 'C30.4', 'C30.3', 'C30.2', 'C30.1', 'C30', 'C15.5', 'C15.4', 'C15.3', 'C15.2', 'C15.1', 'C15', 'B+4/6', 'B+2/6', 'B0', 'B-2/6', 'B-4/6', 'B-15', 'B-15.1', 'B-15.2', 'B-15.4', 'A.Nat', 'A.Int'];
-        $doubleRankings = [3, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115];
-
-        // Fonction pour obtenir le classement double à partir du classement
-        function getDoubleRanking($ranking, $rankings, $doubleRankings) {
-            $index = array_search($ranking, $rankings);
-            return $index !== false ? $doubleRankings[$index] : null;
+        // Vérifiez qu'il y a des utilisateurs
+        if (count($users) === 0) {
+            throw new \Exception('Aucun utilisateur trouvé. Veuillez d\'abord créer des utilisateurs.');
         }
 
-        // Création et persistance des membres
-        for ($i = 1; $i <= 500; $i++) {
-            $user = new User();
-            $ranking = $rankings[array_rand($rankings)];
-            $doubleRanking = getDoubleRanking($ranking, $rankings, $doubleRankings);
+        // Vérifiez qu'il y a des courts
+        if (count($courts) === 0) {
+            throw new \Exception('Aucun court trouvé. Veuillez d\'abord créer des courts.');
+        }
 
-            $firstName = $faker->firstName();
-            $lastName = $faker->lastName();
+        $reservationsCount = 0;
+        $maxReservationsPerUser = 4;
+        $totalReservations = 1000; // Nombre total de réservations à créer
+        $startDate = new \DateTime('2024-11-04'); // Date de départ pour les réservations
+        $endDate = new \DateTime('2024-11-11'); // Date de fin pour les réservations
 
-            $user->setUsername($faker->unique()->userName())
-                ->setPassword($this->passwordHasher->hashPassword($user, 'password'))
-                ->setRoles(["ROLE_USER"])
-                ->setFirstname($firstName)
-                ->setLastName($lastName)
-                ->setEmail(strtolower($lastName . '.' . $firstName . '@lesmashucclois.be'))
-                ->setPhone($faker->phoneNumber())
-                ->setRanking($ranking)
-                ->setDoubleRanking($doubleRanking)
-                ->setBirthDate($faker->dateTimeBetween('-50 years', '-20 years'))
-                ->setPrivate(true)
-                ->setAddressVerified(true);
+        // Définir les horaires d'ouverture (par exemple, de 9h00 à 21h00)
+        $openingHour = 8;
+        $closingHour = 23;
 
-            $manager->persist($user);
+        // Tableau pour suivre les réservations déjà créées
+        $existingReservations = [];
+
+        // Boucle à travers chaque utilisateur
+        foreach ($users as $user) {
+            // Boucle à travers chaque date entre le 4 et le 11 novembre
+            for ($currentDate = clone $startDate; $currentDate <= $endDate; $currentDate->modify('+1 day')) {
+                for ($i = 0; $i < $maxReservationsPerUser && $reservationsCount < $totalReservations; $i++) {
+                    // Choisir un court aléatoire
+                    $court = $courts[array_rand($courts)];
+
+                    // Créer une heure de début aléatoire dans les horaires d'ouverture
+                    $hour = rand($openingHour, $closingHour - 1); // -1 pour éviter de dépasser l'heure de fermeture
+                    $startTime = (clone $currentDate)->setTime($hour, 0); // Heure de début aléatoire
+                    $endTime = (clone $startTime)->modify('+1 hour'); // Durée d'une heure
+
+                    // Vérifier si cette combinaison court + heure existe déjà
+                    $reservationKey = $court->getId() . '|' . $startTime->format('Y-m-d H:i:s');
+                    if (!in_array($reservationKey, $existingReservations)) {
+                        // Choisir un autre utilisateur pour player2
+                        $player2 = $user;
+                        while ($player2 === $user) {
+                            $player2 = $users[array_rand($users)];
+                        }
+
+                        $reservation = new Reservation();
+                        $reservation->setStartTime($startTime);
+                        $reservation->setEndTime($endTime);
+                        $reservation->setCourt($court);
+                        $reservation->setPlayer1($user);
+                        $reservation->setPlayer2($player2); // Assurez-vous que player2 n'est pas le même que player1
+
+                        $manager->persist($reservation);
+                        $existingReservations[] = $reservationKey; // Ajouter à la liste des réservations existantes
+                        $reservationsCount++;
+                    }
+                }
+
+                // Sortir de la boucle si le nombre de réservations a été atteint
+                if ($reservationsCount >= $totalReservations) {
+                    break 2; // Sortir de toutes les boucles
+                }
+            }
         }
 
         $manager->flush();
