@@ -11,6 +11,7 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\LessThan;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -66,6 +67,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Assert\NotBlank(message: "La date de naissance est obligatoire")]
+    #[LessThan("today", message: "La date de naissance doit être antérieure à aujourd'hui.")]
     private ?\DateTimeInterface $birth_date = null;
 
     #[ORM\Column(length: 255, nullable: true)]

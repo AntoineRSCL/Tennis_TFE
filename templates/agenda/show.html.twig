@@ -37,7 +37,7 @@
                             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                 {% if userReservationsCount == 0 %}
                                     {# Si l'utilisateur n'a pas de réservation #}
-                                    <a href="{{ path('agenda_reserve', {slug: agenda.slug}) }}" class="btn btn-primary">Réservez ma place</a>
+                                    <a href="{{ path('agenda_reserve', {slug: agenda.slug}) }}" class="btn btn-primary">Réserverr ma place</a>
                                 {% else %}
                                     {# Si l'utilisateur a des réservations #}
                                     <p>Vous avez {{ userReservationsCount }} place{{ userReservationsCount > 1 ? 's' : '' }} réservée{{ userReservationsCount > 1 ? 's' : '' }}.</p>
