@@ -197,18 +197,19 @@
 
     .form-navigation{
         width: 80%;
-        min-height: 35px;
+        min-height: 50px;
         @include flex(row);
         justify-content: start;
         gap: 20px;
         
         button{
             width: 200px;
-            height: 100%;
+            min-height: 50px;
             border-radius: 5px;
             border: none;
             outline: none;
             font-weight: bold;
+            font-size: 14px;
         }
         .btnPrev{
             background-color: $white;
